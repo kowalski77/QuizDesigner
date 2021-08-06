@@ -1,0 +1,7 @@
+﻿<Project>
+
+  <PropertyGroup Label="Package Dependencies">
+    <BlazorizeVersion>0.9.4.1</BlazorizeVersion>
+  </PropertyGroup>
+
+</Project>

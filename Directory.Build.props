@@ -1,0 +1,8 @@
+﻿<Project>
+  <Import Project="dependencies.props" />
+
+  <PropertyGroup Label="Package information">
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>

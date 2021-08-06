@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+<Condition Evaluation="this.isLoading">
+    <Match>
+        <div class="quiz-center">
+            <SpinKit Type="SpinKitType.CircleFade" Size="150px" />
+        </div>
+    </Match>
+    <NotMatch>
+        <Layout Sider="true">
+            <LayoutSider>
+                <LayoutSiderContent>
+                    <NavMenu />
+                </LayoutSiderContent>
+            </LayoutSider>
+            <Layout>
+                <LayoutContent>
+                    <CascadingValue Value="this">
+                        @Body
+                    </CascadingValue>
+                </LayoutContent>
+            </Layout>
+        </Layout>
+    </NotMatch>
+</Condition>
+
+@code
+{
+    private bool isLoading;
+
+    public void ShowLoader(bool value)
+    {
+        this.isLoading = value;
+        this.StateHasChanged();
+    }
+}

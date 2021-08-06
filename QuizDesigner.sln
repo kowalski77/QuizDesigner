@@ -6,8 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.Blazor.Server", "Source\QuizDesigner.Blazor.Server\QuizDesigner.Blazor.Server.csproj", "{E27A62BE-2C70-4991-8F17-C381F7A37E1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE12D656-08F2-45F0-B2CF-7A5A22A427DB}"
+	ProjectSection(SolutionItems) = preProject
+		dependencies.props = dependencies.props
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{C3576A5A-F777-407C-8ECC-879366DDD182}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.Blazor.App", "Source\QuizDesigner.Blazor.App\QuizDesigner.Blazor.App.csproj", "{BB4AB194-2A97-44CB-A146-7CDFF9274B0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +25,17 @@ Global
 		{E27A62BE-2C70-4991-8F17-C381F7A37E1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E27A62BE-2C70-4991-8F17-C381F7A37E1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E27A62BE-2C70-4991-8F17-C381F7A37E1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB4AB194-2A97-44CB-A146-7CDFF9274B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB4AB194-2A97-44CB-A146-7CDFF9274B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB4AB194-2A97-44CB-A146-7CDFF9274B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB4AB194-2A97-44CB-A146-7CDFF9274B0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E27A62BE-2C70-4991-8F17-C381F7A37E1F} = {C3576A5A-F777-407C-8ECC-879366DDD182}
+		{BB4AB194-2A97-44CB-A146-7CDFF9274B0B} = {C3576A5A-F777-407C-8ECC-879366DDD182}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA415DAB-23AE-4E78-A4A7-337D72ED17D3}

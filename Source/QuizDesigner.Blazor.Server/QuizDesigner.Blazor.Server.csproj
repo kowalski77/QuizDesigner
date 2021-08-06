@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuizDesigner.Blazor.App\QuizDesigner.Blazor.App.csproj" />
+  </ItemGroup>
 
 </Project>

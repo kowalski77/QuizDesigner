@@ -13,11 +13,11 @@ namespace QuizDesigner.Blazor.Server.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 
-        private readonly ILogger<ErrorModel> _logger;
+        private readonly ILogger<ErrorModel> logger;
 
         public ErrorModel(ILogger<ErrorModel> logger)
         {
-            this._logger = logger;
+            this.logger = logger;
         }
 
         public void OnGet()

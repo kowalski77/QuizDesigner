@@ -1,0 +1,7 @@
+﻿@typeparam T
+@inherits IterationBase<T>
+
+@foreach (var item in Items)
+{
+    @ChildContent(item)
+}
