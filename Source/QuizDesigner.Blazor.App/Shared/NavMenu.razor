@@ -5,7 +5,7 @@
         </SidebarBrand>
         <SidebarNavigation>
             <SidebarItem>
-                <SidebarLink To="" Title="Home">
+                <SidebarLink To="/" Title="Home">
                     <Icon Name="IconName.Home" Margin="Margin.Is3.FromRight" />Home
                 </SidebarLink>
             </SidebarItem>
@@ -37,9 +37,9 @@
 </Sidebar>
 
 @code{
-    Sidebar sidebar;
-    SidebarSubItem mailSidebarSubItems;
-    SidebarSubItem appsSidebarSubItems;
+    private Sidebar sidebar;
+    private SidebarSubItem mailSidebarSubItems;
+    private SidebarSubItem appsSidebarSubItems;
 
     void ToggleSidebar()
     {

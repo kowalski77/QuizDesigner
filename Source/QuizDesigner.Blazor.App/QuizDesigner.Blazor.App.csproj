@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.8" />
     <PackageReference Include="Blazorise.Bootstrap" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Components" Version="$(BlazorizeVersion)" />
-    <PackageReference Include="Blazorise.DataGrid" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Sidebar" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Snackbar" Version="$(BlazorizeVersion)" />
