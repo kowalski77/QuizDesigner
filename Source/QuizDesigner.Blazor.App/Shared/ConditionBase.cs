@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace QuizDesigner.Blazor.App.Utils
+namespace QuizDesigner.Blazor.App.Shared
 {
     public class ConditionBase : ComponentBase
     {

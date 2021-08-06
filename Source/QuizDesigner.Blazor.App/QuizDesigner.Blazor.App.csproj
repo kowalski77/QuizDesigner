@@ -21,6 +21,11 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Support\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuizDesigner.Services\QuizDesigner.Services.csproj" />
   </ItemGroup>
 
 </Project>

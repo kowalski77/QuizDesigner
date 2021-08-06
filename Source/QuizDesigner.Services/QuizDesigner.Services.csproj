@@ -10,8 +10,4 @@
     <PackageReference Include="Arch.Utils.DomainDriven" Version="$(ArchUtilsVersion)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
-
 </Project>

@@ -1,0 +1,27 @@
+﻿
+<Alert Color="Color.Success" Visible="true" VisibleChanged="OnVisibleChanged">
+    <AlertDescription>
+        @QuestionViewModel.Text
+    </AlertDescription>
+    <AlertMessage>
+        @QuestionViewModel.Tag
+    </AlertMessage>
+    <CloseButton />
+</Alert>
+
+@code
+{
+    [Parameter]
+    public QuestionViewModel QuestionViewModel { get; set; }
+
+    [Parameter]
+    public EventCallback<Guid> OnClosed { get; set; }
+
+    private async Task OnVisibleChanged(bool visible)
+    {
+        if (!visible)
+        {
+            await this.OnClosed.InvokeAsync(this.QuestionViewModel.Id);
+        }
+    }
+}

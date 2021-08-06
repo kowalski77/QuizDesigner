@@ -10,15 +10,15 @@ namespace QuizDesigner.Services.Domain
     {
         private readonly List<Answer> answers = new();
 
-        public Question(string text, string? tag)
+        public Question(string text, string tag)
         {
-            this.Text = text;
-            this.Tag = tag;
+            this.Text = string.IsNullOrEmpty(text) ? throw new ArgumentNullException(nameof(text)) : text;
+            this.Tag = string.IsNullOrEmpty(tag) ? throw new ArgumentNullException(nameof(tag)) : tag;
         }
 
-        public string? Text { get; private set; }
+        public string Text { get; private set; }
 
-        public string? Tag { get; private set; }
+        public string Tag { get; private set; }
 
         public IEnumerable<Answer> Answers => this.answers;
 
