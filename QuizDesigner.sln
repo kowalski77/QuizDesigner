@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{2F4A6DCA-92BA-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{CC49C626-8CAA-4641-8DC1-9FA02496F967}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.Persistence", "Source\QuizDesigner.Persistence\QuizDesigner.Persistence.csproj", "{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3AFAD1C7-5284-46AB-8B44-6F4342BC1501}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AFAD1C7-5284-46AB-8B44-6F4342BC1501}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AFAD1C7-5284-46AB-8B44-6F4342BC1501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{3AFAD1C7-5284-46AB-8B44-6F4342BC1501} = {CC49C626-8CAA-4641-8DC1-9FA02496F967}
 		{2F4A6DCA-92BA-4FDE-BF64-3D4A27DADABB} = {C3576A5A-F777-407C-8ECC-879366DDD182}
 		{CC49C626-8CAA-4641-8DC1-9FA02496F967} = {C3576A5A-F777-407C-8ECC-879366DDD182}
+		{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461} = {CC49C626-8CAA-4641-8DC1-9FA02496F967}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA415DAB-23AE-4E78-A4A7-337D72ED17D3}

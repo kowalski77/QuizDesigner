@@ -2,6 +2,7 @@
 
   <PropertyGroup Label="Package Dependencies">
     <BlazorizeVersion>0.9.4.1</BlazorizeVersion>
+    <ArchUtilsVersion>1.0.9-preview</ArchUtilsVersion>
   </PropertyGroup>
 
 </Project>
