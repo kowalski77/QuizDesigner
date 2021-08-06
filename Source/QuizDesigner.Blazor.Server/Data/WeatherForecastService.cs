@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuizDesigner.Blazor.App.Data
+namespace QuizDesigner.Blazor.Server.Data
 {
     public class WeatherForecastService
     {
