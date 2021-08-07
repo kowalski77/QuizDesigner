@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using QuizDesigner.Persistence.Support;
 using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Persistence
@@ -22,47 +23,41 @@ namespace QuizDesigner.Persistence
 
         public async Task<Result> AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                await using var context = this.contextFactory.CreateDbContext();
+            var result = await Attempt
+                .Handle<DbUpdateException>(this.logger, nameof(this.AddRangeAsync))
+                .Try(async () =>
+                {
+                    await using var context = this.contextFactory.CreateDbContext();
 
-                await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true);
-                await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+                    await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true);
+                    await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+                })
+                .ConfigureAwait(true);
 
-                return Result.Ok();
-            }
-            catch (DbUpdateException e)
-            {
-                this.logger.LogError(e, e.Message);
-
-                return Result.Fail(nameof(this.AddRangeAsync), e.Message);
-            }
+            return result;
         }
 
         public async Task<Result> RemoveAnswersAsync(Guid questionId, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                await using var context = this.contextFactory.CreateDbContext();
-
-                var question = await context.FindAsync<Question>(questionId, cancellationToken).ConfigureAwait(true);
-                await context.Entry(question).Collection(x => x.Answers).LoadAsync(cancellationToken).ConfigureAwait(true);
-
-                foreach (var answer in question.Answers)
+            var result = await Attempt
+                .Handle<DbUpdateException>(this.logger, nameof(this.AddRangeAsync))
+                .Try(async () =>
                 {
-                    context.Remove(answer);
-                }
+                    await using var context = this.contextFactory.CreateDbContext();
 
-                await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+                    var question = await context.FindAsync<Question>(new object[] { questionId }, cancellationToken).ConfigureAwait(true);
+                    await context.Entry(question).Collection(x => x.Answers).LoadAsync(cancellationToken).ConfigureAwait(true);
 
-                return Result.Ok();
-            }
-            catch (DbUpdateException e)
-            {
-                this.logger.LogError(e, e.Message);
+                    foreach (var answer in question.Answers)
+                    {
+                        context.Remove(answer);
+                    }
 
-                return Result.Fail(nameof(this.RemoveAnswersAsync), e.Message);
-            }
+                    await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+                })
+                .ConfigureAwait(true);
+
+            return result;
         }
     }
 }
