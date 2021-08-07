@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using QuizDesigner.Blazor.Server.Support;
+using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
 {
@@ -7,10 +9,13 @@ namespace QuizDesigner.Blazor.Server
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+                .Build()
+                .MigrateDatabase<QuizDesignerContext>()
+                .Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
