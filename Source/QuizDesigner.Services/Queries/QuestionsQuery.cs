@@ -2,27 +2,16 @@
 {
     public sealed class QuestionsQuery
     {
-        public QuestionsQuery(FilterByOptions filterByOptions, SortByOptions sortByOptions,
-            string filterValue, int pageNumber, int pageSize, bool ascendingSort)
-        {
-            this.FilterByOptions = filterByOptions;
-            this.SortByOptions = sortByOptions;
-            this.FilterValue = filterValue;
-            this.PageNumber = pageNumber;
-            this.PageSize = pageSize;
-            this.AscendingSort = ascendingSort;
-        }
+        public FilterByOptions FilterByOptions { get; init; }
 
-        public FilterByOptions FilterByOptions { get; }
+        public SortByOptions SortByOptions { get; init; }
 
-        public SortByOptions SortByOptions { get; }
+        public string FilterValue { get; init; } = string.Empty;
 
-        public string FilterValue { get; }
+        public int PageNumber { get; init; }
 
-        public int PageNumber { get; }
+        public int PageSize { get; init; }
 
-        public int PageSize { get; }
-
-        public bool AscendingSort { get; }
+        public bool AscendingSort { get; init; }
     }
 }

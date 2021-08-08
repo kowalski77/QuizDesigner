@@ -1,8 +1,6 @@
-﻿@*@page "/list-questions"
+﻿@page "/list-questions"
 
 @inherits ListQuestionsBase
-
-@using QuizCreator.Blazor.App.ViewModels
 
 <div class="quiz-div">
     <DataGrid TItem="QuestionViewModel"
@@ -46,4 +44,4 @@
         </EmptyTemplate>
     </DataGrid>
     <AnswersModal @ref="AnswersModal" />
-</div>*@
+</div>

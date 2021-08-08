@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.App.ViewModels;
+using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {
@@ -11,7 +13,7 @@ namespace QuizDesigner.Blazor.App.Components
     {
         protected AnswersModal AnswersModal;
 
-        //[Inject] private IQuestionManager QuestionManager { get; set; }
+        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
 
         protected int TotalQuestions { get; private set; }
 
@@ -19,11 +21,11 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected async Task OnReadData(DataGridReadDataEventArgs<QuestionViewModel> arg)
         {
-            var questionQuery = new QueryData<QuestionViewModel>(arg, GetFieldValue);
-            //var pageViewModel = await this.QuestionManager.GetAllQuestionsAsync(questionQuery).ConfigureAwait(true);
+            var questionsQuery = new QueryData<QuestionViewModel>(arg, GetFieldValue).ToQuestionsQuery();
+            var paginatedModel = (await this.QuestionsProvider.GetQuestionsAsync(questionsQuery).ConfigureAwait(true)).ToPageViewModel();
 
-            //this.QuestionViewModelCollection = pageViewModel.Items.ToArray();
-            //this.TotalQuestions = pageViewModel.Total;
+            this.QuestionViewModelCollection = paginatedModel.Items.ToArray();
+            this.TotalQuestions = paginatedModel.Total;
 
             this.StateHasChanged();
         }

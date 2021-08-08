@@ -23,7 +23,12 @@ namespace QuizDesigner.Blazor.App.Support
 
             while ((line = await reader.ReadLineAsync().ConfigureAwait(true)) != null)
             {
-                yield return new QuestionViewModel(Guid.NewGuid(), line, DefaultTag);
+                yield return new QuestionViewModel
+                {
+                    Id = Guid.NewGuid(),
+                    Tag = DefaultTag,
+                    Text = line
+                };
             }
         }
     }
