@@ -23,37 +23,41 @@ namespace QuizDesigner.Persistence
 
         public async Task<Result> AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default)
         {
-            var result = await Attempt
-                .Handle<DbUpdateException>(this.logger, nameof(this.AddRangeAsync))
-                .Try(async () =>
-                {
-                    await using var context = this.contextFactory.CreateDbContext();
+            await using var dbOperation = DbOperation.With(this.contextFactory.CreateDbContext());
 
-                    await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true);
-                    await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
-                })
+            var result = await dbOperation
+                .Handle<DbUpdateException>()
+                .AddLogging(this.logger)
+                .ExecuteAsync(async (context) => await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true))
                 .ConfigureAwait(true);
 
             return result;
         }
 
-        public async Task<Result> RemoveAnswersAsync(Guid questionId, CancellationToken cancellationToken = default)
+        public async Task<Result> AddAnswersAsync(Guid questionId, IEnumerable<Answer> answerCollection, CancellationToken cancellationToken = default)
         {
-            var result = await Attempt
-                .Handle<DbUpdateException>(this.logger, nameof(this.AddRangeAsync))
-                .Try(async () =>
+            await using var dbOperation = DbOperation.With(this.contextFactory.CreateDbContext());
+
+            var result = await dbOperation
+                .Handle<DbUpdateException>()
+                .AddLogging(this.logger)
+                .ExecuteAsync(async (context) =>
                 {
-                    await using var context = this.contextFactory.CreateDbContext();
-
                     var question = await context.FindAsync<Question>(new object[] { questionId }, cancellationToken).ConfigureAwait(true);
-                    await context.Entry(question).Collection(x => x.Answers).LoadAsync(cancellationToken).ConfigureAwait(true);
+                    if (question is null)
+                    {
+                        return Result.Fail(nameof(questionId), $"Question with id: {questionId} not found");
+                    }
 
+                    await context.Entry(question).Collection(x => x.Answers).LoadAsync(cancellationToken).ConfigureAwait(true);
                     foreach (var answer in question.Answers)
                     {
                         context.Remove(answer);
                     }
 
-                    await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+                    question.AddAnswers(answerCollection);
+
+                    return Result.Ok();
                 })
                 .ConfigureAwait(true);
 

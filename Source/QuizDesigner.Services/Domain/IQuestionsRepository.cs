@@ -10,6 +10,6 @@ namespace QuizDesigner.Services.Domain
     {
         Task<Result> AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default);
 
-        Task<Result> RemoveAnswersAsync(Guid questionId, CancellationToken cancellationToken = default);
+        Task<Result> AddAnswersAsync(Guid questionId, IEnumerable<Answer> answerCollection, CancellationToken cancellationToken = default);
     }
 }

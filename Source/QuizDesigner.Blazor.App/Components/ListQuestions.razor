@@ -1,0 +1,49 @@
+﻿@*@page "/list-questions"
+
+@inherits ListQuestionsBase
+
+@using QuizCreator.Blazor.App.ViewModels
+
+<div class="quiz-div">
+    <DataGrid TItem="QuestionViewModel"
+              Hoverable="true"
+              Data="@QuestionViewModelCollection"
+              ReadData="@OnReadData"
+              TotalItems="@TotalQuestions"
+              ShowPager="true"
+              PageSize="10"
+              Filterable="true"
+              FilterMethod="DataGridFilterMethod.Contains"
+              Editable="true"
+              EditMode="DataGridEditMode.Inline">
+        <ChildContent>
+            <DataGridCommandColumn TItem="QuestionViewModel" />
+            <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Text)" Caption="Text" Editable="true">
+                <DisplayTemplate>
+                    <Condition Evaluation="context.HasAnswers">
+                        <Match>
+                            @context.Text
+                        </Match>
+                        <NotMatch>
+                            <Tooltip Text="This question has no answers.">
+                                <Text TextColor="TextColor.Danger">
+                                    @context.Text
+                                </Text>
+                            </Tooltip>
+                        </NotMatch>
+                    </Condition>
+                </DisplayTemplate>
+            </DataGridColumn>
+            <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Tag)" Caption="Tag" Editable="true" />
+            <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Id)" Editable="false" Filterable="false">
+                <DisplayTemplate>
+                    <Button Color="Color.Info" Clicked="()=> this.OnAnswersButtonClickedAsync(context.Id)">Answers</Button>
+                </DisplayTemplate>
+            </DataGridColumn>
+        </ChildContent>
+        <EmptyTemplate>
+            No questions are found!
+        </EmptyTemplate>
+    </DataGrid>
+    <AnswersModal @ref="AnswersModal" />
+</div>*@

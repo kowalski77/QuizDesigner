@@ -1,0 +1,54 @@
+﻿@inherits AnswerModalBase
+
+<Modal @ref="ModalRef">
+    <ModalContent Centered="true" Size="ModalSize.ExtraLarge">
+        <ModalHeader>
+            <ModalTitle>Add answers</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Validations @ref="Validations" Mode="ValidationMode.Manual">
+                <Field ColumnSize="ColumnSize.Is12">
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <TextEdit Placeholder="Answer one ..." @bind-Text="@AnswerViewModelCollection[0].Text">
+                            <Feedback>
+                                <ValidationError>Enter answer one</ValidationError>
+                            </Feedback>
+                        </TextEdit>
+                    </Validation>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12">
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <TextEdit Placeholder="Answer two ..." @bind-Text="@AnswerViewModelCollection[1].Text">
+                            <Feedback>
+                                <ValidationError>Enter answer two</ValidationError>
+                            </Feedback>
+                        </TextEdit>
+                    </Validation>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12">
+                    <TextEdit Placeholder="Answer three (optional) ..." @bind-Text="@AnswerViewModelCollection[2].Text" />
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12">
+                    <TextEdit Placeholder="Answer four (optional) ..." @bind-Text="@AnswerViewModelCollection[3].Text" />
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12">
+                    <p>Select the correct answer: </p>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12">
+                    <Validation Validator="ValidateSelectOption">
+                        <Select TValue="int" @bind-SelectedValue="@CorrectAnswer">
+                            <SelectItem Value="0">1</SelectItem>
+                            <SelectItem Value="1">2</SelectItem>
+                            <SelectItem Value="2">3</SelectItem>
+                            <SelectItem Value="3">4</SelectItem>
+                        </Select>
+                    </Validation>
+                </Field>
+            </Validations>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="@SaveAsync">Save</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

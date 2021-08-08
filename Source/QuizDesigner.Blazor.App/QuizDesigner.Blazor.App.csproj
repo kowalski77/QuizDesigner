@@ -17,6 +17,7 @@
     <PackageReference Include="Blazorise.Sidebar" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Snackbar" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.SpinKit" Version="$(BlazorizeVersion)" />
+    <PackageReference Include="Blazorise.DataGrid" Version="$(BlazorizeVersion)" />
   </ItemGroup>
 
   <ItemGroup>

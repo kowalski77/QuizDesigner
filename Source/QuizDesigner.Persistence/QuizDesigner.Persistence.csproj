@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Properties\" />
+    <Folder Include="Support\" />
   </ItemGroup>
 
 </Project>
