@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using QuizDesigner.Services;
 using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Persistence.Configurations

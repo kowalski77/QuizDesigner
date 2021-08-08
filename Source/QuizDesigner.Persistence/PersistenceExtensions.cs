@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using QuizDesigner.Services.Domain;
+using QuizDesigner.Services;
 
 namespace QuizDesigner.Persistence
 {

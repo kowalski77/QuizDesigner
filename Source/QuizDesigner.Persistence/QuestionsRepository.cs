@@ -6,6 +6,7 @@ using Arch.Utils.Functional.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using QuizDesigner.Persistence.Support;
+using QuizDesigner.Services;
 using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Persistence

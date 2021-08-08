@@ -67,7 +67,9 @@ namespace QuizDesigner.Persistence.Support
         {
             try
             {
-                await this.context.SaveChangesAsync().ConfigureAwait(true);
+                var entries = await this.context.SaveChangesAsync().ConfigureAwait(true);
+
+                this.logger?.LogDebug($"{nameof(this.context.SaveChangesAsync)} success with: {entries} entries written to database");
 
                 return Result.Ok();
             }

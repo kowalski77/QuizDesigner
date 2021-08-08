@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using QuizDesigner.Blazor.App.Shared;
 using QuizDesigner.Blazor.App.Support;
 using QuizDesigner.Blazor.App.ViewModels;
-using QuizDesigner.Services.Domain;
+using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {
