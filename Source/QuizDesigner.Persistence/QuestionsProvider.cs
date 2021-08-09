@@ -23,7 +23,7 @@ namespace QuizDesigner.Persistence
             if (questionsQuery == null) throw new ArgumentNullException(nameof(questionsQuery));
 
             await using var context = this.contextFactory.CreateDbContext();
-            SetContextQueryOptions(context);
+            SetChangeTrackerOptions(context);
 
             var questions = context.Questions!
                 .Map()
@@ -39,7 +39,7 @@ namespace QuizDesigner.Persistence
         public async Task<Maybe<QuestionDto>> GetQuestionAsync(Guid id, CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
-            SetContextQueryOptions(context);
+            SetChangeTrackerOptions(context);
 
             var question = await context.Questions!.Include(x => x.Answers)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
@@ -65,7 +65,7 @@ namespace QuizDesigner.Persistence
             return questionDto;
         }
 
-        private static void SetContextQueryOptions(DbContext context)
+        private static void SetChangeTrackerOptions(DbContext context)
         {
             context.ChangeTracker.AutoDetectChangesEnabled = false;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
