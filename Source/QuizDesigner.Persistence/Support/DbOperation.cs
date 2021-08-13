@@ -60,7 +60,7 @@ namespace QuizDesigner.Persistence.Support
 
         public async ValueTask DisposeAsync()
         {
-            await this.context.SaveChangesAsync().ConfigureAwait(true);
+            await this.context.DisposeAsync().ConfigureAwait(true);
         }
 
         private async Task<Result> TrySaveChangesAsync()
