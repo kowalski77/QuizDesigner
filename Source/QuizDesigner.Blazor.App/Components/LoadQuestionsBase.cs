@@ -13,10 +13,11 @@ namespace QuizDesigner.Blazor.App.Components
 {
     public class LoadQuestionsBase : ComponentBase
     {
-        protected readonly Collection<QuestionViewModel> QuestionViewModelCollection = new();
-        protected string TotalQuestions = "0 questions";
+        protected Collection<QuestionViewModel> QuestionViewModelCollection { get; } = new();
 
         protected bool AreQuestionsAvailable { get; private set; }
+
+        protected string TotalQuestions { get; private set; } = "0 questions";
 
         [CascadingParameter] protected MainLayout MainLayout { get; set; }
 
