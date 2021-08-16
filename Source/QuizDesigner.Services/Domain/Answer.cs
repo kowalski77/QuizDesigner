@@ -8,14 +8,18 @@ namespace QuizDesigner.Services.Domain
         {
         }
 
-        public Answer(string text, bool isCorrect)
+        public Answer(string text)
         {
             this.Text = text;
-            this.IsCorrect = isCorrect;
         }
 
         public string? Text { get; private set; }
 
         public bool IsCorrect { get; private set; }
+
+        public void SetAsCorrect(bool isCorrect)
+        {
+            this.IsCorrect = isCorrect;
+        }
     }
 }

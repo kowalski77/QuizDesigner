@@ -50,10 +50,9 @@ namespace QuizDesigner.Blazor.App.Components
             this.StateHasChanged();
         }
 
-        protected Task OnAnswersButtonClickedAsync(Guid questionId)
+        protected async Task OnAnswersButtonClickedAsync(Guid questionId)
         {
-            this.AnswersModal.ShowModal(questionId);
-            return Task.CompletedTask;
+            await this.AnswersModal.ShowModalAsync(questionId).ConfigureAwait(true);
         }
 
         private static int GetFieldValue(string searchValue)

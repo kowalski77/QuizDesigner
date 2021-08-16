@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 using Blazorise;
@@ -15,19 +15,19 @@ using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Blazor.App.Components
 {
-    public class AnswerModalBase : ComponentBase, IDisposable
+    public class AnswerModalBase : ComponentBase
     {
-        private readonly CancellationTokenSource tokenSource = new();
-
         [CascadingParameter] private MainLayout MainLayout { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
 
         [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
 
-        protected Collection<AnswerViewModel> AnswerViewModelCollection { get; } =
-            new BindingList<AnswerViewModel> 
-            { 
+        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
+
+        protected Collection<AnswerViewModel> AnswerViewModelCollection { get; private set; } =
+            new BindingList<AnswerViewModel>
+            {
                 new(), new(), new(), new()
             };
 
@@ -39,28 +39,22 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected Validations Validations { get; set; }
 
-        public void ShowModal(Guid id)
+        public async Task ShowModalAsync(Guid id)
         {
             this.questionId = id;
 
-            this.ResetValues();
-            this.ModalRef.Show();
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
+            var answerViewModelCollection = await this.GetAnswersIfAny(id).ConfigureAwait(true);
+            if (answerViewModelCollection.Any())
             {
-                return;
+                this.AnswerViewModelCollection = new BindingList<AnswerViewModel>(answerViewModelCollection);
+                this.CorrectAnswer = answerViewModelCollection.FindIndex(x => x.IsCorrect);
             }
-            this.tokenSource?.Cancel();
-            this.tokenSource?.Dispose();
+            else
+            {
+                this.ResetValues();
+            }
+
+            this.ModalRef.Show();
         }
 
         protected void ValidateSelectOption(ValidatorEventArgs e)
@@ -88,14 +82,45 @@ namespace QuizDesigner.Blazor.App.Components
             }
         }
 
+        private async Task<List<AnswerViewModel>> GetAnswersIfAny(Guid id)
+        {
+            var question = await this.QuestionsProvider.GetQuestionAsync(id).ConfigureAwait(true);
+            if (!question.TryGetValue(out var questionDto))
+            {
+                await this.NotificationService
+                    .Error($"Cannot retrieve question with id: {this.questionId}", "Storage system error").ConfigureAwait(true);
+            }
+
+            var answerViewModelCollection = questionDto.AnswerCollection.Select(x =>
+                new AnswerViewModel
+                {
+                    Text = x.Text,
+                    IsCorrect = x.IsCorrect
+                }).ToList();
+
+            if (answerViewModelCollection.Count >= 4)
+            {
+                return answerViewModelCollection;
+            }
+
+            for (var i = answerViewModelCollection.Count; i < 4; i++)
+            {
+                answerViewModelCollection.Add(new AnswerViewModel());
+            }
+
+            return answerViewModelCollection;
+        }
+
         private async Task SaveAnswersAsync()
         {
             this.MainLayout.ShowLoader(true);
 
             var notEmptyAnswers = this.AnswerViewModelCollection.Where(x => !string.IsNullOrEmpty(x.Text)).ToList();
 
-            var answerCollection = notEmptyAnswers.Select(x => new Answer(x.Text, x.IsCorrect));
-            var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection, this.tokenSource.Token).ConfigureAwait(true);
+            var answerCollection = notEmptyAnswers.Select(x => new Answer(x.Text)).ToList();
+            answerCollection[this.CorrectAnswer].SetAsCorrect(true);
+
+            var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection).ConfigureAwait(true);
 
             await this.ShowFeedback(result).ConfigureAwait(true);
 

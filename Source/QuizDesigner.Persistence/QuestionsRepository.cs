@@ -18,13 +18,14 @@ namespace QuizDesigner.Persistence
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public Task<Result> AddAsync(Question question)
+        public async Task<Result> AddAsync(Question question)
         {
-            using var context = this.contextFactory.CreateDbContext();
+            await using var context = this.contextFactory.CreateDbContext();
 
             context.Add(question);
+            await context.SaveChangesAsync().ConfigureAwait(true);
 
-            return Task.FromResult(Result.Ok());
+            return Result.Ok();
         }
 
         public async Task<Result> AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default)
@@ -32,6 +33,7 @@ namespace QuizDesigner.Persistence
             await using var context = this.contextFactory.CreateDbContext();
 
             await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
             
             return Result.Ok();
         }
@@ -53,6 +55,7 @@ namespace QuizDesigner.Persistence
             }
 
             question.AddAnswers(answerCollection);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
             return Result.Ok();
         }
