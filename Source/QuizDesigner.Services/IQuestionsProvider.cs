@@ -8,7 +8,7 @@ namespace QuizDesigner.Services
 {
     public interface IQuestionsProvider
     {
-        Task<PaginatedModel<QuestionDto>> GetQuestionsAsync(QuestionsQuery questionsQuery);
+        Task<IPaginatedModel<QuestionDto>> GetQuestionsAsync(QuestionsQuery questionsQuery, CancellationToken cancellationToken = default);
 
         Task<Maybe<QuestionDto>> GetQuestionAsync(Guid id, CancellationToken cancellationToken = default);
     }

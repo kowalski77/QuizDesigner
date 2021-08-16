@@ -22,7 +22,7 @@ namespace QuizDesigner.Blazor.App.Services
             };
         }
 
-        public static PageViewModel<QuestionViewModel> ToPageViewModel(this PaginatedModel<QuestionDto> paginatedModel)
+        public static PageViewModel<QuestionViewModel> ToPageViewModel(this IPaginatedModel<QuestionDto> paginatedModel)
         {
             if (paginatedModel == null) throw new ArgumentNullException(nameof(paginatedModel));
 

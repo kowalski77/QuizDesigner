@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
@@ -11,8 +12,10 @@ using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {
-    public class LoadQuestionsBase : ComponentBase
+    public class LoadQuestionsBase : ComponentBase, IDisposable
     {
+        private readonly CancellationTokenSource tokenSource = new();
+
         protected Collection<QuestionViewModel> QuestionViewModelCollection { get; } = new();
 
         protected bool AreQuestionsAvailable { get; private set; }
@@ -25,6 +28,22 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+            this.tokenSource?.Cancel();
+            this.tokenSource?.Dispose();
+        }
+
         protected void RemoveQuestion(Guid questionId)
         {
             var questionToRemove = this.QuestionViewModelCollection.First(x => x.Id == questionId);
@@ -36,7 +55,7 @@ namespace QuizDesigner.Blazor.App.Components
         {
             this.MainLayout.ShowLoader(true);
 
-            var result = await this.QuestionsRepository.AddRangeAsync(this.QuestionViewModelCollection.ToQuestionCollection()).ConfigureAwait(true);
+            var result = await this.QuestionsRepository.AddRangeAsync(this.QuestionViewModelCollection.ToQuestionCollection(), this.tokenSource.Token).ConfigureAwait(true);
             if (result.Success)
             {
                 this.QuestionViewModelCollection.Clear();

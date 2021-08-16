@@ -18,7 +18,7 @@ namespace QuizDesigner.Persistence
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public async Task<PaginatedModel<QuestionDto>> GetQuestionsAsync(QuestionsQuery questionsQuery)
+        public async Task<IPaginatedModel<QuestionDto>> GetQuestionsAsync(QuestionsQuery questionsQuery, CancellationToken cancellationToken = default)
         {
             if (questionsQuery == null) throw new ArgumentNullException(nameof(questionsQuery));
 
@@ -31,7 +31,7 @@ namespace QuizDesigner.Persistence
                 .FilterQuestionsBy(questionsQuery.FilterByOptions, questionsQuery.FilterValue);
 
             var paginatedModel = new PaginatedModel<QuestionDto>(questions, questionsQuery.PageNumber, questionsQuery.PageSize);
-            paginatedModel.Page();
+            await paginatedModel.PageAsync(cancellationToken).ConfigureAwait(true);
 
             return paginatedModel;
         }

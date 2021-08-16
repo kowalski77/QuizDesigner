@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using QuizDesigner.Services.Queries;
 
-namespace QuizDesigner.Services.Queries
+namespace QuizDesigner.Persistence
 {
-    public sealed class PaginatedModel<T>
+    public sealed class PaginatedModel<T> : IPaginatedModel<T> 
         where T : class
     {
         private readonly IQueryable<T> query;
@@ -28,7 +32,7 @@ namespace QuizDesigner.Services.Queries
 
         public int Total { get; }
 
-        public void Page()
+        public async Task PageAsync(CancellationToken cancellationToken = default)
         {
             if (this.pageSize == 0)
             {
@@ -38,11 +42,16 @@ namespace QuizDesigner.Services.Queries
             var pageNumZeroStart = this.pageNumber - 1;
             if (pageNumZeroStart > 0)
             {
-                this.Items = this.query.Skip(pageNumZeroStart * this.pageSize).Take(this.pageSize).ToList();
+                this.Items = await this.query.Skip(pageNumZeroStart * this.pageSize).Take(this.pageSize)
+                    .ToListAsync(cancellationToken)
+                    .ConfigureAwait(true);
+
                 return;
             }
 
-            this.Items = this.query.Take(this.pageSize).ToList();
+            this.Items = await this.query.Take(this.pageSize)
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(true);
         }
     }
 }

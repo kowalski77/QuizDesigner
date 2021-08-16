@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 using Blazorise;
@@ -14,8 +15,10 @@ using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Blazor.App.Components
 {
-    public class AnswerModalBase : ComponentBase
+    public class AnswerModalBase : ComponentBase, IDisposable
     {
+        private readonly CancellationTokenSource tokenSource = new();
+
         [CascadingParameter] private MainLayout MainLayout { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
@@ -42,6 +45,22 @@ namespace QuizDesigner.Blazor.App.Components
 
             this.ResetValues();
             this.ModalRef.Show();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+            this.tokenSource?.Cancel();
+            this.tokenSource?.Dispose();
         }
 
         protected void ValidateSelectOption(ValidatorEventArgs e)
@@ -76,7 +95,7 @@ namespace QuizDesigner.Blazor.App.Components
             var notEmptyAnswers = this.AnswerViewModelCollection.Where(x => !string.IsNullOrEmpty(x.Text)).ToList();
 
             var answerCollection = notEmptyAnswers.Select(x => new Answer(x.Text, x.IsCorrect));
-            var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection).ConfigureAwait(true);
+            var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.ShowFeedback(result).ConfigureAwait(true);
 

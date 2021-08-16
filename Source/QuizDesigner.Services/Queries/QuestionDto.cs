@@ -13,11 +13,4 @@ namespace QuizDesigner.Services.Queries
 
         public IEnumerable<AnswerDto> AnswerCollection { get; init; } = new List<AnswerDto>();
     }
-
-    public class AnswerDto
-    {
-        public string? Text { get; init; }
-
-        public bool IsCorrect { get; init; }
-    }
 }
