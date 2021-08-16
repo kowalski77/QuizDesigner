@@ -9,6 +9,8 @@ namespace QuizDesigner.Services
 {
     public interface IQuestionsRepository
     {
+        Task<Result> AddAsync(Question question);
+
         Task<Result> AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default);
 
         Task<Result> AddAnswersAsync(Guid questionId, IEnumerable<Answer> answerCollection, CancellationToken cancellationToken = default);
