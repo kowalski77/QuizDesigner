@@ -13,9 +13,10 @@
               Filterable="true"
               FilterMethod="DataGridFilterMethod.Contains"
               Editable="true"
-              EditMode="DataGridEditMode.Inline">
+              EditMode="DataGridEditMode.Inline"
+              RowInserted="this.OnRowInserted">
         <ChildContent>
-            <DataGridCommandColumn TItem="QuestionViewModel" />
+            <DataGridCommandColumn TItem="QuestionViewModel"/>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Text)" Caption="Text" Editable="true">
                 <DisplayTemplate>
                     <Condition Evaluation="context.HasAnswers">
@@ -35,7 +36,11 @@
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Tag)" Caption="Tag" Editable="true" />
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Id)" Editable="false" Filterable="false">
                 <DisplayTemplate>
-                    <Button Color="Color.Info" Clicked="()=> this.OnAnswersButtonClickedAsync(context.Id)">Answers</Button>
+                    <Condition Evaluation="context.Id == Guid.Empty">
+                        <NotMatch>
+                            <Button Color="Color.Info" Clicked="() => this.OnAnswersButtonClickedAsync(context.Id)">Answers</Button>
+                        </NotMatch>
+                    </Condition>
                 </DisplayTemplate>
             </DataGridColumn>
         </ChildContent>

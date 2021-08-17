@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Arch.Utils.Functional.Results;
+using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.App.ViewModels;
 using QuizDesigner.Services;
+using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Blazor.App.Components
 {
@@ -18,6 +22,10 @@ namespace QuizDesigner.Blazor.App.Components
         protected AnswersModal AnswersModal { get; set; }
 
         [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
+
+        [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
+
+        [Inject] private INotificationService NotificationService { get; set; }
 
         protected int TotalQuestions { get; private set; }
 
@@ -39,6 +47,19 @@ namespace QuizDesigner.Blazor.App.Components
             this.tokenSource?.Dispose();
         }
 
+        protected async Task OnRowInserted(SavedRowItem<QuestionViewModel, Dictionary<string, object>> row)
+        {
+            if (row == null) throw new ArgumentNullException(nameof(row));
+
+            var question = new Question(row.Item.Text, row.Item.Tag);
+            var result = await this.QuestionsRepository.AddAsync(question).ConfigureAwait(true);
+            await this.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+            if (result.Success)
+            {
+                this.StateHasChanged();
+            }
+        }
+
         protected async Task OnReadData(DataGridReadDataEventArgs<QuestionViewModel> arg)
         {
             var questionsQuery = new QueryData<QuestionViewModel>(arg, GetFieldValue).ToQuestionsQuery();
@@ -53,6 +74,19 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnAnswersButtonClickedAsync(Guid questionId)
         {
             await this.AnswersModal.ShowModalAsync(questionId).ConfigureAwait(true);
+        }
+
+        private async Task ShowSaveQuestionFeedback(Result result)
+        {
+            if (result.Success)
+            {
+                await this.NotificationService.Success("Question successfully saved!").ConfigureAwait(true);
+            }
+            else
+            {
+                await this.NotificationService.Error("An error occurred while saving the question", result.Error)
+                    .ConfigureAwait(true);
+            }
         }
 
         private static int GetFieldValue(string searchValue)
