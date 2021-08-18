@@ -45,16 +45,13 @@ namespace QuizDesigner.Blazor.App.Components
         public async Task ShowModalAsync(Guid id)
         {
             this.questionId = id;
+            this.ResetValues();
 
             var answerViewModelCollection = await this.GetAnswersIfAny(id).ConfigureAwait(true);
             if (answerViewModelCollection.Any())
             {
                 this.AnswerViewModelCollection = new BindingList<AnswerViewModel>(answerViewModelCollection);
                 this.CorrectAnswer = answerViewModelCollection.FindIndex(x => x.IsCorrect);
-            }
-            else
-            {
-                this.ResetValues();
             }
 
             this.ModalRef.Show();
