@@ -25,6 +25,9 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
 
+        [Parameter]
+        public EventCallback<QuestionViewModel> OnAnswersSet { get; set; }
+
         protected Collection<AnswerViewModel> AnswerViewModelCollection { get; private set; } =
             new BindingList<AnswerViewModel>
             {
@@ -121,10 +124,24 @@ namespace QuizDesigner.Blazor.App.Components
             answerCollection[this.CorrectAnswer].SetAsCorrect(true);
 
             var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection).ConfigureAwait(true);
-
             await this.ShowFeedback(result).ConfigureAwait(true);
 
+            if (result.Success)
+            {
+                await this.InvokeOnAnswersSet().ConfigureAwait(true);
+            }
+
             this.MainLayout.ShowLoader(false);
+        }
+
+        private async Task InvokeOnAnswersSet()
+        {
+            var questionViewModel = new QuestionViewModel
+            {
+                Id = this.questionId,
+                AnswerViewModelCollection = this.AnswerViewModelCollection
+            };
+            await this.OnAnswersSet.InvokeAsync(questionViewModel).ConfigureAwait(true);
         }
 
         private async Task ShowFeedback(Result result)

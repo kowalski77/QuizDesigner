@@ -47,6 +47,12 @@ namespace QuizDesigner.Blazor.App.Components
             this.tokenSource?.Dispose();
         }
 
+        protected void RefreshQuestion(QuestionViewModel updatedQuestionViewModel)
+        {
+            var question = this.QuestionViewModelCollection.First(x => x.Id == updatedQuestionViewModel.Id);
+            question.AnswerViewModelCollection = updatedQuestionViewModel?.AnswerViewModelCollection;
+        }
+
         protected async Task OnRowInserted(SavedRowItem<QuestionViewModel, Dictionary<string, object>> row)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
