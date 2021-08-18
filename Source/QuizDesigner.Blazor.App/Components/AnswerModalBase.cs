@@ -80,7 +80,14 @@ namespace QuizDesigner.Blazor.App.Components
             var isValid = this.Validations.ValidateAll();
             if (isValid)
             {
-                await this.SaveAnswersAsync().ConfigureAwait(true);
+                this.MainLayout.ShowLoader(true);
+                var success = await this.SaveAnswersAsync().ConfigureAwait(true);
+                if (success)
+                {
+                    await this.InvokeOnAnswersSet().ConfigureAwait(true);
+                }
+                
+                this.MainLayout.ShowLoader(false);
                 this.ModalRef.Hide();
             }
         }
@@ -114,10 +121,8 @@ namespace QuizDesigner.Blazor.App.Components
             return answerViewModelCollection;
         }
 
-        private async Task SaveAnswersAsync()
+        private async Task<bool> SaveAnswersAsync()
         {
-            this.MainLayout.ShowLoader(true);
-
             var notEmptyAnswers = this.AnswerViewModelCollection.Where(x => !string.IsNullOrEmpty(x.Text)).ToList();
 
             var answerCollection = notEmptyAnswers.Select(x => new Answer(x.Text)).ToList();
@@ -126,12 +131,7 @@ namespace QuizDesigner.Blazor.App.Components
             var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection).ConfigureAwait(true);
             await this.ShowFeedback(result).ConfigureAwait(true);
 
-            if (result.Success)
-            {
-                await this.InvokeOnAnswersSet().ConfigureAwait(true);
-            }
-
-            this.MainLayout.ShowLoader(false);
+            return result.Success;
         }
 
         private async Task InvokeOnAnswersSet()
