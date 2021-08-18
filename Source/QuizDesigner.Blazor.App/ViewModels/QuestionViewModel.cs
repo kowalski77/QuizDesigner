@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace QuizDesigner.Blazor.App.ViewModels
@@ -8,8 +9,10 @@ namespace QuizDesigner.Blazor.App.ViewModels
     {
         public Guid Id { get; init; }
 
+        [Required]
         public string Text { get; init; }
 
+        [Required]
         public string Tag { get; init; }
 
 
