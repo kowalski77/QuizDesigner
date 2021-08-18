@@ -3,7 +3,12 @@
     margin: 5%;
 }
 
-.quiz-center {
+.quiz-blank{
+    height: 100vh;
+    background-color: white;
+}
+
+.quiz-spinner {
     position: absolute;
     left: 50%;
     top: 50%;
