@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Components;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.App.ViewModels;
 using QuizDesigner.Services;
-using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Blazor.App.Components
 {
@@ -58,12 +57,17 @@ namespace QuizDesigner.Blazor.App.Components
             if (row == null) throw new ArgumentNullException(nameof(row));
 
             var question = new Question(row.Item.Text, row.Item.Tag);
-            var result = await this.QuestionsRepository.AddAsync(question).ConfigureAwait(true);
+            var result = await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
             await this.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
-            if (result.Success)
-            {
-                this.StateHasChanged();
-            }
+        }
+
+        protected async Task OnRowUpdated(SavedRowItem<QuestionViewModel, Dictionary<string, object>> row)
+        {
+            if (row == null) throw new ArgumentNullException(nameof(row));
+
+            var questionUpdated = new QuestionUpdatedDto(row.Item.Id, row.Item.Text, row.Item.Tag);
+            var result = await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
+            await this.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
         }
 
         protected async Task OnReadData(DataGridReadDataEventArgs<QuestionViewModel> arg)

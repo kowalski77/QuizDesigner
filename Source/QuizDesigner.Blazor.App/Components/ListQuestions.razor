@@ -15,7 +15,8 @@
               FilterMethod="DataGridFilterMethod.Contains"
               Editable="true"
               EditMode="DataGridEditMode.Inline"
-              RowInserted="this.OnRowInserted">
+              RowInserted="this.OnRowInserted"
+              RowUpdated="this.OnRowUpdated">
         <ChildContent>
             <DataGridCommandColumn TItem="QuestionViewModel"/>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Text)" Caption="Text" Editable="true">

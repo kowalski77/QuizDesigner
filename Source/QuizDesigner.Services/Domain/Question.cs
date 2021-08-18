@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Arch.Utils.DomainDriven;
 
-namespace QuizDesigner.Services.Domain
+namespace QuizDesigner.Services
 {
     public class Question : Entity, IAggregateRoot
     {
@@ -25,6 +25,16 @@ namespace QuizDesigner.Services.Domain
         public void AddAnswers(IEnumerable<Answer> answerCollection)
         {
             this.Answers = new List<Answer>(answerCollection);
+        }
+
+        public void SetText(string text)
+        {
+            this.Text = string.IsNullOrEmpty(text) ? throw new ArgumentNullException(nameof(text)) : text;
+        }
+
+        public void SetTag(string tag)
+        {
+            this.Tag = string.IsNullOrEmpty(tag) ? throw new ArgumentNullException(nameof(tag)) : tag;
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 using Microsoft.EntityFrameworkCore;
 using QuizDesigner.Services;
-using QuizDesigner.Services.Domain;
 
 namespace QuizDesigner.Persistence
 {
@@ -18,12 +17,12 @@ namespace QuizDesigner.Persistence
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public async Task<Result> AddAsync(Question question)
+        public async Task<Result> AddAsync(Question question, CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
 
             context.Add(question);
-            await context.SaveChangesAsync().ConfigureAwait(true);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
             return Result.Ok();
         }
@@ -55,6 +54,24 @@ namespace QuizDesigner.Persistence
             }
 
             question.AddAnswers(answerCollection);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+            return Result.Ok();
+        }
+
+        public async Task<Result> UpdateAsync(QuestionUpdatedDto questionUpdated, CancellationToken cancellationToken = default)
+        {
+            if (questionUpdated == null) throw new ArgumentNullException(nameof(questionUpdated));
+
+            await using var context = this.contextFactory.CreateDbContext();
+            var question = await context.FindAsync<Question>(new object[] { questionUpdated.Id }, cancellationToken).ConfigureAwait(true);
+            if (question is null)
+            {
+                return Result.Fail(nameof(questionUpdated), $"Question with id: {questionUpdated.Id} not found");
+            }
+
+            question.SetText(questionUpdated.Text);
+            question.SetTag(questionUpdated.Tag);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
             return Result.Ok();

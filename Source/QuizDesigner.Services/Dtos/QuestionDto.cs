@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuizDesigner.Services.Queries
+namespace QuizDesigner.Services
 {
     public class QuestionDto
     {

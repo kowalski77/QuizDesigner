@@ -1,6 +1,6 @@
 ﻿using Arch.Utils.DomainDriven;
 
-namespace QuizDesigner.Services.Domain
+namespace QuizDesigner.Services
 {
     public class Answer : Entity
     {

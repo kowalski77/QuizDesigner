@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuizDesigner.Services.Domain;
+using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.ViewModels
 {
