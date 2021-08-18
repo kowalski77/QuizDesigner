@@ -21,8 +21,6 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected AnswersModal AnswersModal { get; set; }
 
-        protected Validations Validations { get; set; }
-
         [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
 
         [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
