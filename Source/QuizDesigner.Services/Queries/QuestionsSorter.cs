@@ -11,11 +11,12 @@ namespace QuizDesigner.Services.Queries
         {
             return (options, ascending) switch
             {
-                (SortByOptions.ByTag, true) => query.OrderBy(x=> x.Tag),
-                (SortByOptions.ByTag, false) => query.OrderByDescending(x=> x.Tag),
-                (SortByOptions.ByText, true) => query.OrderBy(x=> x.Text),
-                (SortByOptions.ByText, false) => query.OrderByDescending(x=> x.Text),
-                _ => query
+                (SortByOptions.ByTag, true) => query.OrderBy(x => x.Tag),
+                (SortByOptions.ByTag, false) => query.OrderByDescending(x => x.Tag),
+                (SortByOptions.ByText, true) => query.OrderBy(x => x.Text),
+                (SortByOptions.ByText, false) => query.OrderByDescending(x => x.Text),
+                (SortByOptions.ByCreation, true) => query.OrderBy(x => x.CreatedOn),
+                _ => query.OrderByDescending(x => x.CreatedOn)
             };
         }
     }

@@ -10,7 +10,7 @@ using QuizDesigner.Persistence;
 namespace QuizDesigner.Persistence.Migrations
 {
     [DbContext(typeof(QuizDesignerContext))]
-    [Migration("20210806182718_Initial")]
+    [Migration("20210817110643_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,9 @@ namespace QuizDesigner.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("bit");

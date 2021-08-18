@@ -11,6 +11,8 @@ namespace QuizDesigner.Services.Queries
 
         public string? Tag { get; init; }
 
+        public DateTime? CreatedOn { get; init; }
+
         public IEnumerable<AnswerDto> AnswerCollection { get; init; } = new List<AnswerDto>();
     }
 }

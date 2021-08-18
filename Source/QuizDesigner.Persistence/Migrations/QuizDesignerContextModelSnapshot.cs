@@ -51,6 +51,9 @@ namespace QuizDesigner.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("bit");
 

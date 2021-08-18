@@ -7,8 +7,6 @@ namespace QuizDesigner.Persistence.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            if (migrationBuilder == null) throw new ArgumentNullException(nameof(migrationBuilder));
-
             migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
@@ -16,6 +14,7 @@ namespace QuizDesigner.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SoftDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -52,8 +51,6 @@ namespace QuizDesigner.Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            if (migrationBuilder == null) throw new ArgumentNullException(nameof(migrationBuilder));
-
             migrationBuilder.DropTable(
                 name: "Answer");
 

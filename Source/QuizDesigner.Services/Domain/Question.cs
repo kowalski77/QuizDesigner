@@ -10,12 +10,15 @@ namespace QuizDesigner.Services.Domain
         {
             this.Text = string.IsNullOrEmpty(text) ? throw new ArgumentNullException(nameof(text)) : text;
             this.Tag = string.IsNullOrEmpty(tag) ? throw new ArgumentNullException(nameof(tag)) : tag;
+            this.CreatedOn = DateTime.UtcNow;
             this.Answers = new List<Answer>();
         }
 
         public string Text { get; private set; }
 
         public string Tag { get; private set; }
+
+        public DateTime CreatedOn { get; private set; }
 
         public ICollection<Answer> Answers { get; private set; }
 

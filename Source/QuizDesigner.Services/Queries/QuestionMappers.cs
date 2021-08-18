@@ -12,6 +12,7 @@ namespace QuizDesigner.Services.Queries
                 Id = x.Id,
                 Text = x.Text, 
                 Tag = x.Tag,
+                CreatedOn = x.CreatedOn,
                 AnswerCollection = x.Answers.Select(y => new AnswerDto
                 {
                     Text = y.Text,

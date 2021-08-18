@@ -6,23 +6,22 @@
             <SpinKit Type="SpinKitType.CircleFade" Size="150px" />
         </div>
     </Match>
-    <NotMatch>
-        <Layout Sider="true">
-            <LayoutSider>
-                <LayoutSiderContent>
-                    <NavMenu />
-                </LayoutSiderContent>
-            </LayoutSider>
-            <Layout>
-                <LayoutContent>
-                    <CascadingValue Value="this">
-                        @Body
-                    </CascadingValue>
-                </LayoutContent>
-            </Layout>
-        </Layout>
-    </NotMatch>
 </Condition>
+
+<Layout Sider="true">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <NavMenu />
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutContent>
+            <CascadingValue Value="this">
+                @Body
+            </CascadingValue>
+        </LayoutContent>
+    </Layout>
+</Layout>
 
 @code
 {
