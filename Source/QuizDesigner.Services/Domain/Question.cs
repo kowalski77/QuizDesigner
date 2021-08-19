@@ -36,5 +36,10 @@ namespace QuizDesigner.Services
         {
             this.Tag = string.IsNullOrEmpty(tag) ? throw new ArgumentNullException(nameof(tag)) : tag;
         }
+
+        public void Remove()
+        {
+            this.SoftDeleted = true;
+        }
     }
 }

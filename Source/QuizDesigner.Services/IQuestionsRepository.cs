@@ -15,5 +15,7 @@ namespace QuizDesigner.Services
         Task<Result> AddAnswersAsync(Guid questionId, IEnumerable<Answer> answerCollection, CancellationToken cancellationToken = default);
 
         Task<Result> UpdateAsync(QuestionUpdatedDto questionUpdated, CancellationToken cancellationToken = default);
+
+        Task<Result> RemoveAsync(Guid questionId, CancellationToken cancellationToken = default);
     }
 }

@@ -16,7 +16,8 @@
               Editable="true"
               EditMode="DataGridEditMode.Inline"
               RowInserted="this.OnRowInserted"
-              RowUpdated="this.OnRowUpdated">
+              RowUpdated="this.OnRowUpdated"
+              RowRemoved="this.OnRowRemoved">
         <ChildContent>
             <DataGridCommandColumn TItem="QuestionViewModel"/>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Text)" Caption="Text" Editable="true">

@@ -76,5 +76,21 @@ namespace QuizDesigner.Persistence
 
             return Result.Ok();
         }
+
+        public async Task<Result> RemoveAsync(Guid questionId, CancellationToken cancellationToken = default)
+        {
+            await using var context = this.contextFactory.CreateDbContext();
+            var question = await context.FindAsync<Question>(new object[] { questionId }, cancellationToken).ConfigureAwait(true);
+
+            if (question is null)
+            {
+                return Result.Fail(nameof(questionId), $"Question with id: {questionId} not found");
+            }
+
+            question.Remove();
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+            return Result.Ok();
+        }
     }
 }

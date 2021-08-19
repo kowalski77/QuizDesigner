@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Arch.Utils.Functional.Results;
 using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using QuizDesigner.Blazor.App.Services;
+using QuizDesigner.Blazor.App.Support;
 using QuizDesigner.Blazor.App.ViewModels;
 using QuizDesigner.Services;
 
@@ -58,7 +58,8 @@ namespace QuizDesigner.Blazor.App.Components
 
             var question = new Question(row.Item.Text, row.Item.Tag);
             var result = await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
-            await this.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+
+            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
         }
 
         protected async Task OnRowUpdated(SavedRowItem<QuestionViewModel, Dictionary<string, object>> row)
@@ -67,7 +68,17 @@ namespace QuizDesigner.Blazor.App.Components
 
             var questionUpdated = new QuestionUpdatedDto(row.Item.Id, row.Item.Text, row.Item.Tag);
             var result = await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
-            await this.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+
+            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+        }
+
+        protected async Task OnRowRemoved(QuestionViewModel questionViewModel)
+        {
+            if (questionViewModel == null) throw new ArgumentNullException(nameof(questionViewModel));
+
+            var result = await this.QuestionsRepository.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
+
+            await this.NotificationService.ShowRemoveQuestionFeedback(result).ConfigureAwait(true);
         }
 
         protected async Task OnReadData(DataGridReadDataEventArgs<QuestionViewModel> arg)
@@ -84,19 +95,6 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnAnswersButtonClickedAsync(Guid questionId)
         {
             await this.AnswersModal.ShowModalAsync(questionId).ConfigureAwait(true);
-        }
-
-        private async Task ShowSaveQuestionFeedback(Result result)
-        {
-            if (result.Success)
-            {
-                await this.NotificationService.Success("Question successfully saved!").ConfigureAwait(true);
-            }
-            else
-            {
-                await this.NotificationService.Error("An error occurred while saving the question", result.Error)
-                    .ConfigureAwait(true);
-            }
         }
 
         private static int GetFieldValue(string searchValue)

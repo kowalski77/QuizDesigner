@@ -13,6 +13,7 @@ namespace QuizDesigner.Persistence.Configurations
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Text).IsRequired();
+            builder.HasQueryFilter(x => !x.SoftDeleted);
         }
     }
 }
