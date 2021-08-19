@@ -9,7 +9,7 @@ using QuizDesigner.Services.Queries;
 
 namespace QuizDesigner.Persistence
 {
-    public class QuestionsProvider : IQuestionsProvider
+    public sealed class QuestionsProvider : IQuestionsProvider
     {
         private readonly IDbContextFactory<QuizDesignerContext> contextFactory;
 
