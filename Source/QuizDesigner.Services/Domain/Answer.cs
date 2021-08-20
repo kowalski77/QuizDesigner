@@ -4,10 +4,6 @@ namespace QuizDesigner.Services
 {
     public class Answer : Entity
     {
-        protected Answer()
-        {
-        }
-
         public Answer(string text)
         {
             this.Text = text;

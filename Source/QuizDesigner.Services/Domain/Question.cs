@@ -14,9 +14,9 @@ namespace QuizDesigner.Services
             this.Answers = new List<Answer>();
         }
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
-        public string Tag { get; private set; }
+        public string Tag { get; set; }
 
         public DateTime CreatedOn { get; private set; }
 
@@ -25,16 +25,6 @@ namespace QuizDesigner.Services
         public void AddAnswers(IEnumerable<Answer> answerCollection)
         {
             this.Answers = new List<Answer>(answerCollection);
-        }
-
-        public void SetText(string text)
-        {
-            this.Text = string.IsNullOrEmpty(text) ? throw new ArgumentNullException(nameof(text)) : text;
-        }
-
-        public void SetTag(string tag)
-        {
-            this.Tag = string.IsNullOrEmpty(tag) ? throw new ArgumentNullException(nameof(tag)) : tag;
         }
 
         public void Remove()

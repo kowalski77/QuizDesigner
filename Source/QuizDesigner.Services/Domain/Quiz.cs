@@ -6,22 +6,16 @@ namespace QuizDesigner.Services
 {
     public class Quiz : Entity, IAggregateRoot
     {
-        public Quiz(string name, string examName, 
-            DateTime createdOn, ICollection<Question> questions)
+        public Quiz(string name, string examName, ICollection<Question> questions)
         {
             this.Name = name;
             this.ExamName = examName;
-            this.CreatedOn = createdOn;
             this.Questions = questions;
+            this.CreatedOn = DateTime.UtcNow;
             this.Draft = false;
         }
 
-        public string Name { get; private set; }
-
-        public void SetName(string newName)
-        {
-            this.Name = newName;
-        }
+        public string Name { get; set; }
 
         public string ExamName { get; set; }
 

@@ -70,8 +70,8 @@ namespace QuizDesigner.Persistence
                 return Result.Fail(nameof(questionUpdated), $"Question with id: {questionUpdated.Id} not found");
             }
 
-            question.SetText(questionUpdated.Text);
-            question.SetTag(questionUpdated.Tag);
+            question.Text = questionUpdated.Text;
+            question.Tag = questionUpdated.Tag;
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
             return Result.Ok();
