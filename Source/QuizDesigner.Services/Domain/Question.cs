@@ -6,21 +6,15 @@ namespace QuizDesigner.Services
 {
     public class Question : Entity, IAggregateRoot
     {
-        public Question(string text, string tag)
-        {
-            this.Text = string.IsNullOrEmpty(text) ? throw new ArgumentNullException(nameof(text)) : text;
-            this.Tag = string.IsNullOrEmpty(tag) ? throw new ArgumentNullException(nameof(tag)) : tag;
-            this.CreatedOn = DateTime.UtcNow;
-            this.Answers = new List<Answer>();
-        }
+        public string Text { get; set; } = string.Empty;
 
-        public string Text { get; set; }
+        public string Tag { get; set; } = string.Empty;
 
-        public string Tag { get; set; }
+        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        public DateTime CreatedOn { get; private set; }
+        public ICollection<Answer> Answers { get; private set; } = new List<Answer>();
 
-        public ICollection<Answer> Answers { get; private set; }
+        public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
 
         public void AddAnswers(IEnumerable<Answer> answerCollection)
         {

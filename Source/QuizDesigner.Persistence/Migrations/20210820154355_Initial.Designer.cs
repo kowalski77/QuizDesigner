@@ -10,7 +10,7 @@ using QuizDesigner.Persistence;
 namespace QuizDesigner.Persistence.Migrations
 {
     [DbContext(typeof(QuizDesignerContext))]
-    [Migration("20210817110643_Initial")]
+    [Migration("20210820154355_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,22 @@ namespace QuizDesigner.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("QuizDesigner.Services.Domain.Answer", b =>
+            modelBuilder.Entity("QuestionQuiz", b =>
+                {
+                    b.Property<Guid>("QuestionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuizzesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("QuestionsId", "QuizzesId");
+
+                    b.HasIndex("QuizzesId");
+
+                    b.ToTable("QuestionQuiz");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Services.Answer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,7 +62,7 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("Answer");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Domain.Question", b =>
+            modelBuilder.Entity("QuizDesigner.Services.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,14 +87,57 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Domain.Answer", b =>
+            modelBuilder.Entity("QuizDesigner.Services.Quiz", b =>
                 {
-                    b.HasOne("QuizDesigner.Services.Domain.Question", null)
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Draft")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ExamName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Quizzes");
+                });
+
+            modelBuilder.Entity("QuestionQuiz", b =>
+                {
+                    b.HasOne("QuizDesigner.Services.Question", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuizDesigner.Services.Quiz", null)
+                        .WithMany()
+                        .HasForeignKey("QuizzesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QuizDesigner.Services.Answer", b =>
+                {
+                    b.HasOne("QuizDesigner.Services.Question", null)
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Domain.Question", b =>
+            modelBuilder.Entity("QuizDesigner.Services.Question", b =>
                 {
                     b.Navigation("Answers");
                 });

@@ -13,6 +13,8 @@ namespace QuizDesigner.Persistence
 
         public DbSet<Question>? Questions { get; set; }
 
+        public DbSet<Quiz>? Quizzes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (modelBuilder == null) throw new ArgumentNullException(nameof(modelBuilder));
