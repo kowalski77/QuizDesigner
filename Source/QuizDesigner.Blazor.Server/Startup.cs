@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuizDesigner.Blazor.ComponentsLibrary;
 using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
@@ -33,6 +34,8 @@ namespace QuizDesigner.Blazor.Server
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddScoped<ExampleJsInterop>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
