@@ -11,8 +11,10 @@ namespace QuizDesigner.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString)
         {
             services.AddEntityFramework(connectionString);
+
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IQuestionsProvider, QuestionsProvider>();
+            services.AddSingleton<IDesignerService, DesignerService>();
 
             return services;
         }

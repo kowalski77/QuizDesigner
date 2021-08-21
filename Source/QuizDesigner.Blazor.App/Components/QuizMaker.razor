@@ -1,5 +1,14 @@
 ﻿@page "/quiz-maker"
 
+@inherits QuizMakerBase
+
 <p>Try JS Interop</p>
 
-<Component1 />
+<SelectList
+    TItem="string"
+    TValue ="string"
+    Data="@this.TagCollection"
+    TextField="@(s => s)"
+    ValueField="@(s => s)"
+    SelectedValue="@this.SelectedListValue"
+    DefaultItemText="Select a Tag..."/>

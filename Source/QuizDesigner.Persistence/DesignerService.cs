@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using QuizDesigner.Persistence.Support;
 using QuizDesigner.Services;
 
 namespace QuizDesigner.Persistence
@@ -20,8 +21,10 @@ namespace QuizDesigner.Persistence
         public async Task<IReadOnlyList<string>> GetTags(CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
+            context.ActiveReadOnlyMode();
 
             var tags = await context.Questions!.Select(x => x.Tag)
+                .Distinct()
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(true);
 
@@ -31,6 +34,7 @@ namespace QuizDesigner.Persistence
         public async Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
+            context.ActiveReadOnlyMode();
 
             var questions = await context.Questions!.Select(x => new KeyValuePair<Guid, string>(x.Id, x.Text))
                 .ToListAsync(cancellationToken)

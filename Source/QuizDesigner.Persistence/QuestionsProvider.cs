@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Monads;
 using Microsoft.EntityFrameworkCore;
+using QuizDesigner.Persistence.Support;
 using QuizDesigner.Services;
 using QuizDesigner.Services.Queries;
 
@@ -23,7 +24,7 @@ namespace QuizDesigner.Persistence
             if (questionsQuery == null) throw new ArgumentNullException(nameof(questionsQuery));
 
             await using var context = this.contextFactory.CreateDbContext();
-            SetChangeTrackerOptions(context);
+            context.ActiveReadOnlyMode();
 
             var questions = context.Questions!
                 .Map()
@@ -39,7 +40,7 @@ namespace QuizDesigner.Persistence
         public async Task<Maybe<QuestionDto>> GetQuestionAsync(Guid id, CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
-            SetChangeTrackerOptions(context);
+            context.ActiveReadOnlyMode();
 
             var question = await context.Questions!.Include(x => x.Answers)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
@@ -63,12 +64,6 @@ namespace QuizDesigner.Persistence
             };
 
             return questionDto;
-        }
-
-        private static void SetChangeTrackerOptions(DbContext context)
-        {
-            context.ChangeTracker.AutoDetectChangesEnabled = false;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
     }
 }
