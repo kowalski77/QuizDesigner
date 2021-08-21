@@ -4,11 +4,23 @@
 
 <p>Try JS Interop</p>
 
-<SelectList
-    TItem="string"
-    TValue ="string"
-    Data="@this.TagCollection"
-    TextField="@(s => s)"
-    ValueField="@(s => s)"
-    SelectedValue="@this.SelectedListValue"
-    DefaultItemText="Select a Tag..."/>
+<div class="quiz-div">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is4">
+            <SelectList TItem="string"
+                        TValue="string"
+                        Data="@this.TagCollection"
+                        TextField="@(s => s)"
+                        ValueField="@(s => s)"
+                        SelectedValue="@this.SelectedListValue"
+                        DefaultItemText="Select a Tag..." />
+        </Column>
+    </Row>
+    <div style="margin-top: 30px;">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is5">First Container</Column>
+            <Column ColumnSize="ColumnSize.Is5">Second Container</Column>
+            <Column ColumnSize="ColumnSize.Is2">Actions</Column>
+        </Row>
+    </div>
+</div>
