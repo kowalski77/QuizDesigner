@@ -9,6 +9,6 @@ namespace QuizDesigner.Services
     {
         Task<IReadOnlyList<string>> GetTags(CancellationToken cancellationToken = default);
 
-        Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(string tag, CancellationToken cancellationToken = default);
     }
 }

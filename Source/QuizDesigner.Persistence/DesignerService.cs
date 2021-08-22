@@ -31,12 +31,14 @@ namespace QuizDesigner.Persistence
             return tags;
         }
 
-        public async Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(string tag, CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
             context.ActiveReadOnlyMode();
 
-            var questions = await context.Questions!.Select(x => new KeyValuePair<Guid, string>(x.Id, x.Text))
+            var questions = await context.Questions!
+                .Where(x=>x.Tag == tag)
+                .Select(x => new KeyValuePair<Guid, string>(x.Id, x.Text))
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(true);
 

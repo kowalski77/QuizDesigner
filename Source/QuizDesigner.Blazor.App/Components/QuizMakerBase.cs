@@ -15,8 +15,6 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected IEnumerable<string> TagCollection { get; private set; }
 
-        protected string SelectedListValue { get; set; } = string.Empty;
-
         public void Dispose()
         {
             this.Dispose(true);
@@ -26,6 +24,11 @@ namespace QuizDesigner.Blazor.App.Components
         protected override async Task OnInitializedAsync()
         {
             this.TagCollection = await this.DesignerService.GetTags().ConfigureAwait(true);
+        }
+
+        protected async Task OnSelectedValueChanged(string tag)
+        {
+            var questions = await this.DesignerService.GetQuestionsAsync(tag, this.tokenSource.Token).ConfigureAwait(true);
         }
 
         protected virtual void Dispose(bool disposing)
