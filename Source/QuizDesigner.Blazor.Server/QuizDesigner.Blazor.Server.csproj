@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(NetCoreVersion)"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(NetCoreVersion)" />
   </ItemGroup>
 
 </Project>
