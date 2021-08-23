@@ -30,16 +30,6 @@ namespace QuizDesigner.Blazor.App.Components
 
         public void Dispose()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
             this.tokenSource?.Cancel();
             this.tokenSource?.Dispose();
         }

@@ -24,6 +24,9 @@
             questionsByTag.forEach(question => {
                 createDivQuestion(question);
             });
+        },
+        clearQuestions: function() {
+            questions = [];
         }
     };
 
