@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
@@ -12,6 +13,8 @@ namespace QuizDesigner.Blazor.App.Components
         private readonly CancellationTokenSource tokenSource = new();
 
         [Inject] private IDesignerService DesignerService { get; set; }
+
+        [Inject] private IJSRuntime JsRuntime { get; set; }
 
         protected IEnumerable<string> TagCollection { get; private set; }
 
@@ -26,9 +29,23 @@ namespace QuizDesigner.Blazor.App.Components
             this.TagCollection = await this.DesignerService.GetTags().ConfigureAwait(true);
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.initialize").ConfigureAwait(true);
+            }
+        }
+
         protected async Task OnSelectedValueChanged(string tag)
         {
-            var questions = await this.DesignerService.GetQuestionsAsync(tag, this.tokenSource.Token).ConfigureAwait(true);
+            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.removeInnerDivs").ConfigureAwait(true);
+
+            var questionKeyValueCollection = await this.DesignerService.GetQuestionsAsync(tag, this.tokenSource.Token).ConfigureAwait(true);
+            foreach (var (key, value) in questionKeyValueCollection)
+            {
+                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.appendDivWithQuestion", key.ToString(), value).ConfigureAwait(true);
+            }
         }
 
         protected virtual void Dispose(bool disposing)
