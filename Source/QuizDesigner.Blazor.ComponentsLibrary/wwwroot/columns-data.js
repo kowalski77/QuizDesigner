@@ -9,12 +9,7 @@
         initialize: function () {
             dragula([document.getElementById(leftDivId), document.getElementById(rightDivId)])
                 .on('drop', function (el, container) {
-                    const question = questions.find(x => x.id === el.id);
-                    if (container.id === rightDivId) {
-                        question.dropped = true;
-                    } else {
-                        question.dropped = false;
-                    }
+                    setQuestionAsDropped(el.id, container);
                 });
         },
         addQuestion: function (id, text, tag) {
@@ -25,11 +20,10 @@
         },
         showQuestions: function (tag) {
             clearDivContent();
-            for (let i = 0; i < questions.length; i++) {
-                if (questions[i].tag === tag && !questions[i].dropped) {
-                    createDivQuestion(questions[i]);
-                }
-            }
+            const questionsByTag = questions.filter(x => x.tag === tag && !x.dropped);
+            questionsByTag.forEach(question => {
+                createDivQuestion(question);
+            });
         }
     };
 
@@ -44,5 +38,14 @@
         element.classList.add(innerDivClass);
         const div = document.getElementById(leftDivId);
         div.appendChild(element);
+    }
+
+    function setQuestionAsDropped(questionId, container) {
+        const question = questions.find(x => x.id === questionId);
+        if (container.id === rightDivId) {
+            question.dropped = true;
+        } else {
+            question.dropped = false;
+        }
     }
 })();
