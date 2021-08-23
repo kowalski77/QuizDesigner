@@ -32,14 +32,3 @@
     padding: 2%;
     min-height: 50px;
 }
-
-.div-inner-close {
-    padding: 2px 5px;
-    background: #ccc;
-}
-
-.div-inner-close:hover {
-    padding: 2px 5px;
-    background: #ccc;
-    color: #fff;
-}
