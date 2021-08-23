@@ -39,14 +39,12 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected async Task OnSelectedValueChanged(string tag)
         {
-            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.removeInnerDivs").ConfigureAwait(true);
-
             var questionKeyValueCollection = await this.DesignerService.GetQuestionsAsync(tag, this.tokenSource.Token).ConfigureAwait(true);
             foreach (var (key, value) in questionKeyValueCollection)
             {
-                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", key.ToString(), value).ConfigureAwait(true);
+                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", key.ToString(), value, tag).ConfigureAwait(true);
             }
-            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestions").ConfigureAwait(true);
+            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestions", tag).ConfigureAwait(true);
         }
 
         protected virtual void Dispose(bool disposing)
