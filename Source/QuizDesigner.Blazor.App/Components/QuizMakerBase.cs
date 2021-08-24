@@ -41,6 +41,11 @@ namespace QuizDesigner.Blazor.App.Components
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestions", tag).ConfigureAwait(true);
         }
 
+        protected async Task OnResetAsync()
+        {
+            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.reset").ConfigureAwait(true);
+        }
+
         public void Dispose()
         {
             this.Dispose(true);

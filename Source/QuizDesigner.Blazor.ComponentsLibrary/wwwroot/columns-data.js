@@ -2,6 +2,7 @@
     const leftDivId = "left";
     const rightDivId = "right";
     const innerDivClass = "quiz-data-div-inner";
+    const selectId = "selectTag";
     var questions = [];
 
     // Global export
@@ -20,17 +21,19 @@
             }
         },
         showQuestions: function (tag) {
-            clearDivContent();
+            document.getElementById(leftDivId).innerHTML = '';
             const questionsByTag = questions.filter(x => x.tag === tag && !x.dropped);
             questionsByTag.forEach(question => {
                 createDivQuestion(question);
             });
+        },
+        reset() {
+            questions = [];
+            document.getElementById(leftDivId).innerHTML = '';
+            document.getElementById(rightDivId).innerHTML = '';
+            document.getElementById(selectId).selectedIndex = "0";
         }
     };
-
-    function clearDivContent() {
-        document.getElementById(leftDivId).innerHTML = '';
-    }
 
     function createDivQuestion(question) {
         const element = document.createElement("div");

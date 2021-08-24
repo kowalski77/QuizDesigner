@@ -6,6 +6,7 @@
     <Row>
         <Column ColumnSize="ColumnSize.Is5">
             <SelectList TItem="string"
+                        ElementId="selectTag"
                         TValue="string"
                         Data="@this.TagCollection"
                         TextField="@(s => s)"
@@ -35,7 +36,7 @@
             <Column ColumnSize="ColumnSize.Is2">
                 <div id="actions" class="quiz-data-div">
                     <Button Color="Color.Success" Block="true">Save</Button>
-                    <Button Color="Color.Info" Block="true">Reset</Button>
+                    <Button Color="Color.Info" Block="true" Clicked="OnResetAsync">Reset</Button>
                 </div>
             </Column>
         </Row>
