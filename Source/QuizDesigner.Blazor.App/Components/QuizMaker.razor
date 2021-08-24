@@ -13,6 +13,16 @@
                         SelectedValueChanged="this.OnSelectedValueChanged"
                         DefaultItemText="Select a Tag..." />
         </Column>
+        <Column ColumnSize="ColumnSize.Is3">
+            <Field>
+                <TextEdit Placeholder="Name" />
+            </Field>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is2">
+            <Field>
+                <TextEdit Placeholder="Exam name" />
+            </Field>
+        </Column>
     </Row>
     <div style="margin-top: 30px;">
         <Row>
@@ -22,11 +32,12 @@
             <Column ColumnSize="ColumnSize.Is5">
                 <div id="right" class="quiz-data-div"></div>
             </Column>
-            <Column ColumnSize="ColumnSize.Is2">                
+            <Column ColumnSize="ColumnSize.Is2">
                 <div id="actions" class="quiz-data-div">
-                    Actions
+                    <Button Color="Color.Success" Block="true">Save</Button>
+                    <Button Color="Color.Info" Block="true">Reset</Button>
                 </div>
-                </Column>
+            </Column>
         </Row>
     </div>
 </div>
