@@ -30,12 +30,6 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected Collection<QuestionViewModel> QuestionViewModelCollection { get; private set; }
 
-        public void Dispose()
-        {
-            this.tokenSource?.Cancel();
-            this.tokenSource?.Dispose();
-        }
-
         protected void RefreshQuestion(QuestionViewModel updatedQuestionViewModel)
         {
             var question = this.QuestionViewModelCollection.First(x => x.Id == updatedQuestionViewModel.Id);
@@ -100,6 +94,19 @@ namespace QuizDesigner.Blazor.App.Components
                 "Tag" => 2,
                 _ => 0
             };
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
+            this.tokenSource?.Cancel();
+            this.tokenSource?.Dispose();
         }
     }
 }

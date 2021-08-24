@@ -8,7 +8,7 @@ using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {
-    public class QuizMakerBase : ComponentBase, IAsyncDisposable
+    public class QuizMakerBase : ComponentBase, IDisposable
     {
         private readonly CancellationTokenSource tokenSource = new();
 
@@ -41,12 +41,17 @@ namespace QuizDesigner.Blazor.App.Components
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestions", tag).ConfigureAwait(true);
         }
 
-        public async ValueTask DisposeAsync()
+        public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
             this.tokenSource?.Cancel();
             this.tokenSource?.Dispose();
-
-            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.clearQuestions").ConfigureAwait(true);
         }
     }
 }

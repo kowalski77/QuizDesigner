@@ -28,12 +28,6 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
 
-        public void Dispose()
-        {
-            this.tokenSource?.Cancel();
-            this.tokenSource?.Dispose();
-        }
-
         protected void RemoveQuestion(Guid questionId)
         {
             var questionToRemove = this.QuestionViewModelCollection.First(x => x.Id == questionId);
@@ -90,6 +84,19 @@ namespace QuizDesigner.Blazor.App.Components
         {
             this.TotalQuestions = $"{this.QuestionViewModelCollection.Count} questions";
             this.AreQuestionsAvailable = this.QuestionViewModelCollection.Count > 0;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
+            this.tokenSource?.Cancel();
+            this.tokenSource?.Dispose();
         }
     }
 }

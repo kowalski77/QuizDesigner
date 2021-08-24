@@ -7,6 +7,7 @@
     // Global export
     window.blazorColumnData = {
         initialize: function () {
+            questions = [];
             dragula([document.getElementById(leftDivId), document.getElementById(rightDivId)])
                 .on('drop', function (el, container) {
                     setQuestionAsDropped(el.id, container);
@@ -24,9 +25,6 @@
             questionsByTag.forEach(question => {
                 createDivQuestion(question);
             });
-        },
-        clearQuestions: function() {
-            questions = [];
         }
     };
 
