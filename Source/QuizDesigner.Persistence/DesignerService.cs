@@ -37,7 +37,7 @@ namespace QuizDesigner.Persistence
             context.ActiveReadOnlyMode();
 
             var questions = await context.Questions!
-                .Where(x=>x.Tag == tag)
+                .Where(x=>x.Tag == tag && x.Answers.Any())
                 .Select(x => new KeyValuePair<Guid, string>(x.Id, x.Text))
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(true);
