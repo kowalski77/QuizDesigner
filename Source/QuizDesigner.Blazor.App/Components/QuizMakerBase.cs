@@ -57,6 +57,7 @@ namespace QuizDesigner.Blazor.App.Components
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.reset").ConfigureAwait(true);
             this.QuizName = string.Empty;
             this.ExamName = string.Empty;
+            this.Validations.ClearAll();
         }
 
         protected async Task OnSaveAsync()
