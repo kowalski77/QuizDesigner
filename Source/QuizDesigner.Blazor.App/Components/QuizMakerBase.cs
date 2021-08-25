@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using QuizDesigner.Blazor.App.ViewModels;
 using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
@@ -16,7 +19,11 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
+        [Inject] private INotificationService NotificationService { get; set; }
+
         protected IEnumerable<string> TagCollection { get; private set; }
+
+        protected Validations Validations { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,6 +51,21 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnResetAsync()
         {
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.reset").ConfigureAwait(true);
+        }
+
+        protected async Task OnSaveAsync()
+        {
+            var isValid = this.Validations.ValidateAll();
+            if (!isValid)
+            {
+                return;
+            }
+
+            var result = await this.JsRuntime.InvokeAsync<List<string>>("blazorColumnData.getSelectedQuestions").ConfigureAwait(true);
+            if (!result.Any())
+            {
+                await this.NotificationService.Error("Please, drop questions to the right box to save the quiz", "Quiz empty").ConfigureAwait(true);
+            }
         }
 
         public void Dispose()

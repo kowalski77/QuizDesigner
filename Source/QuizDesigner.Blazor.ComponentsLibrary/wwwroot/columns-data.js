@@ -27,6 +27,9 @@
                 createDivQuestion(question);
             });
         },
+        getSelectedQuestions: function () {
+            return questions.filter(x => x.dropped).map(y => y.id);
+        },
         reset() {
             questions = [];
             document.getElementById(leftDivId).innerHTML = '';
