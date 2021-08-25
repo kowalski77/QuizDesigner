@@ -76,6 +76,18 @@ namespace QuizDesigner.Blazor.App.Components
             await this.SaveDraftAsync().ConfigureAwait(true);
         }
 
+        protected async Task OnSaveAsync()
+        {
+            var result = await this.DesignerService.SaveQuizAsync(this.draftQuizId, this.tokenSource.Token).ConfigureAwait(true);
+
+            await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
+
+            if (result.Success)
+            {
+                await this.OnResetAsync().ConfigureAwait(true);
+            }
+        }
+
         private async Task SaveDraftAsync()
         {
             var questionIdCollection = await this.JsRuntime.InvokeAsync<List<string>>("blazorColumnData.getSelectedQuestions").ConfigureAwait(true);
@@ -88,7 +100,7 @@ namespace QuizDesigner.Blazor.App.Components
             var draftQuiz = new CreateQuizDto(this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse));
             var result = await this.DesignerService.CreateDraftQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveDraftQuizAsync(result).ConfigureAwait(true);
+            await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
 
             if (result.Success)
             {

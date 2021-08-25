@@ -39,14 +39,14 @@ namespace QuizDesigner.Blazor.App.Support
             }
         }
 
-        public static async Task ShowSaveDraftQuizAsync(this INotificationService notificationService, Result result)
+        public static async Task ShowSaveQuizFeedbackAsync(this INotificationService notificationService, Result result)
         {
             if (notificationService == null) throw new ArgumentNullException(nameof(notificationService));
             if (result == null) throw new ArgumentNullException(nameof(result));
 
             if (result.Success)
             {
-                await notificationService.Success("Quiz draft successfully saved!").ConfigureAwait(true);
+                await notificationService.Success("Quiz successfully saved!").ConfigureAwait(true);
             }
             else
             {

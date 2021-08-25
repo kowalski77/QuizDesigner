@@ -70,5 +70,21 @@ namespace QuizDesigner.Persistence
 
             return Result.Ok(quizEntry.Entity.Id);
         }
+
+        public async Task<Result> SaveQuizAsync(Guid quizId, CancellationToken cancellationToken = default)
+        {
+            await using var context = this.contextFactory.CreateDbContext();
+
+            var quiz = await context.FindAsync<Quiz>(new object[] { quizId }, cancellationToken).ConfigureAwait(true);
+            if (quiz == null)
+            {
+                return Result.Fail(nameof(quizId), $"Quiz with id: {quizId} not found in database");
+            }
+
+            quiz.Draft = false;
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+            return Result.Ok();
+        }
     }
 }

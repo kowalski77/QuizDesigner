@@ -14,6 +14,7 @@ namespace QuizDesigner.Services
 
         public ICollection<Answer> Answers { get; private set; } = new List<Answer>();
 
+        //TODO: this is not used, how to hide it in a many to many relationship?
         public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
 
         public void AddAnswers(IEnumerable<Answer> answerCollection)
