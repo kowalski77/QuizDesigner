@@ -16,6 +16,11 @@
     padding: 10px;
 }
 
+.quiz-disable {
+    pointer-events: none;
+    cursor: no-drop;
+}
+
 /*TODO: Move to components library*/
 
 .quiz-data-div {

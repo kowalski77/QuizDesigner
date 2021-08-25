@@ -46,7 +46,7 @@ namespace QuizDesigner.Persistence
             return questions;
         }
 
-        public async Task<Result> CreateDraftQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid>> CreateDraftQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
         {
             if (createQuizDto == null) throw new ArgumentNullException(nameof(createQuizDto));
 
@@ -65,10 +65,10 @@ namespace QuizDesigner.Persistence
                 quiz.Questions.Add(question);
             }
 
-            context.Add(quiz);
+            var quizEntry = context.Add(quiz);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
-            return Result.Ok();
+            return Result.Ok(quizEntry.Entity.Id);
         }
     }
 }

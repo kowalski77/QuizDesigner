@@ -15,6 +15,8 @@ namespace QuizDesigner.Blazor.App.Components
     {
         private readonly CancellationTokenSource tokenSource = new();
 
+        private Guid draftQuizId;
+
         [Inject] private IDesignerService DesignerService { get; set; }
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
@@ -29,7 +31,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected string ExamName { get; set; }
 
-        protected bool IsDraft { get; set; } = true;
+        protected bool IsDraft { get; private set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
@@ -87,7 +89,12 @@ namespace QuizDesigner.Blazor.App.Components
             var result = await this.DesignerService.CreateDraftQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.ShowSaveDraftQuizAsync(result).ConfigureAwait(true);
-            this.IsDraft = !result.Success;
+
+            if (result.Success)
+            {
+                this.IsDraft = false;
+                this.draftQuizId = result.Value;
+            }
         }
 
         public void Dispose()
