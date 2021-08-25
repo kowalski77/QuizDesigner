@@ -49,7 +49,14 @@
             </Column>
             <Column ColumnSize="ColumnSize.Is2">
                 <div id="actions" class="quiz-data-div">
-                    <Button Color="Color.Success" Block="true" Clicked="OnSaveAsync">Save</Button>
+                    <Condition Evaluation="this.IsDraft">
+                        <Match>
+                            <Button Color="Color.Warning" Block="true" Clicked="OnSaveDraftAsync">Draft</Button>
+                        </Match>
+                        <NotMatch>
+                            <Button Color="Color.Success" Block="true" Clicked="OnSaveDraftAsync">Save</Button>
+                        </NotMatch>
+                    </Condition>
                     <Button Color="Color.Info" Block="true" Clicked="OnResetAsync">Reset</Button>
                 </div>
             </Column>

@@ -26,8 +26,10 @@ namespace QuizDesigner.Blazor.App.Components
         protected Validations Validations { get; set; }
 
         protected string QuizName { get; set; }
-        
+
         protected string ExamName { get; set; }
+
+        protected bool IsDraft { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
@@ -58,9 +60,10 @@ namespace QuizDesigner.Blazor.App.Components
             this.QuizName = string.Empty;
             this.ExamName = string.Empty;
             this.Validations.ClearAll();
+            this.IsDraft = true;
         }
 
-        protected async Task OnSaveAsync()
+        protected async Task OnSaveDraftAsync()
         {
             var isValid = this.Validations.ValidateAll();
             if (!isValid)
@@ -84,10 +87,7 @@ namespace QuizDesigner.Blazor.App.Components
             var result = await this.DesignerService.CreateDraftQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.ShowSaveDraftQuizAsync(result).ConfigureAwait(true);
-            if (result.Success)
-            {
-                await this.OnResetAsync().ConfigureAwait(true);
-            }
+            this.IsDraft = !result.Success;
         }
 
         public void Dispose()
