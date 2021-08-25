@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Arch.Utils.Functional.Results;
 using Microsoft.EntityFrameworkCore;
 using QuizDesigner.Persistence.Support;
 using QuizDesigner.Services;
@@ -37,12 +38,37 @@ namespace QuizDesigner.Persistence
             context.ActiveReadOnlyMode();
 
             var questions = await context.Questions!
-                .Where(x=>x.Tag == tag && x.Answers.Any())
+                .Where(x => x.Tag == tag && x.Answers.Any())
                 .Select(x => new KeyValuePair<Guid, string>(x.Id, x.Text))
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(true);
 
             return questions;
+        }
+
+        public async Task<Result> CreateDraftQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
+        {
+            if (createQuizDto == null) throw new ArgumentNullException(nameof(createQuizDto));
+
+            await using var context = this.contextFactory.CreateDbContext();
+
+            var quiz = new Quiz
+            {
+                Name = createQuizDto.Name,
+                ExamName = createQuizDto.ExamName,
+                Draft = true
+            };
+
+            foreach (var id in createQuizDto.QuestionIdCollection)
+            {
+                var question = await context.Questions!.FirstAsync(x => x.Id == id, cancellationToken).ConfigureAwait(true);
+                quiz.Questions.Add(question);
+            }
+
+            context.Add(quiz);
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+            return Result.Ok();
         }
     }
 }

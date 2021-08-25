@@ -59,7 +59,7 @@ namespace QuizDesigner.Persistence
             return Result.Ok();
         }
 
-        public async Task<Result> UpdateAsync(QuestionUpdatedDto questionUpdated, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateAsync(UpdateQuestionDto questionUpdated, CancellationToken cancellationToken = default)
         {
             if (questionUpdated == null) throw new ArgumentNullException(nameof(questionUpdated));
 

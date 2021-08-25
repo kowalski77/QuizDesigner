@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using QuizDesigner.Blazor.App.ViewModels;
+using QuizDesigner.Blazor.App.Support;
 using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
@@ -24,6 +24,10 @@ namespace QuizDesigner.Blazor.App.Components
         protected IEnumerable<string> TagCollection { get; private set; }
 
         protected Validations Validations { get; set; }
+
+        protected string QuizName { get; set; }
+        
+        protected string ExamName { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -51,6 +55,8 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnResetAsync()
         {
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.reset").ConfigureAwait(true);
+            this.QuizName = string.Empty;
+            this.ExamName = string.Empty;
         }
 
         protected async Task OnSaveAsync()
@@ -61,10 +67,25 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            var result = await this.JsRuntime.InvokeAsync<List<string>>("blazorColumnData.getSelectedQuestions").ConfigureAwait(true);
-            if (!result.Any())
+            await this.SaveDraftAsync().ConfigureAwait(true);
+        }
+
+        private async Task SaveDraftAsync()
+        {
+            var questionIdCollection = await this.JsRuntime.InvokeAsync<List<string>>("blazorColumnData.getSelectedQuestions").ConfigureAwait(true);
+            if (!questionIdCollection.Any())
             {
                 await this.NotificationService.Error("Please, drop questions to the right box to save the quiz", "Quiz empty").ConfigureAwait(true);
+                return;
+            }
+
+            var draftQuiz = new CreateQuizDto(this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse));
+            var result = await this.DesignerService.CreateDraftQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
+
+            await this.NotificationService.ShowSaveDraftQuizAsync(result).ConfigureAwait(true);
+            if (result.Success)
+            {
+                await this.OnResetAsync().ConfigureAwait(true);
             }
         }
 

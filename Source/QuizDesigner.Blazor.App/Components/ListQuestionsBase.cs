@@ -55,7 +55,7 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var questionUpdated = new QuestionUpdatedDto(row.Item.Id, row.Item.Text, row.Item.Tag);
+            var questionUpdated = new UpdateQuestionDto(row.Item.Id, row.Item.Text, row.Item.Tag);
             var result = await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);

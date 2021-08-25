@@ -18,7 +18,7 @@
             <Column ColumnSize="ColumnSize.Is3">
                 <Field>
                     <Validation Validator="@ValidationRule.IsNotEmpty">
-                        <TextEdit Placeholder="Name">
+                        <TextEdit Placeholder="Name" @bind-text="this.QuizName">
                             <Feedback>
                                 <ValidationError>Enter a name for the quiz</ValidationError>
                             </Feedback>
@@ -29,7 +29,7 @@
             <Column ColumnSize="ColumnSize.Is2">
                 <Field>
                     <Validation Validator="@ValidationRule.IsNotEmpty">
-                        <TextEdit Placeholder="Exam Name">
+                        <TextEdit Placeholder="Exam Name" @bind-Text="this.ExamName">
                             <Feedback>
                                 <ValidationError>Enter the exam name</ValidationError>
                             </Feedback>
