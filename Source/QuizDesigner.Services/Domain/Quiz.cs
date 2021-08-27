@@ -27,15 +27,12 @@ namespace QuizDesigner.Services
 
         public IEnumerable<QuizQuestion> QuizQuestionCollection => this.quizQuestionCollection;
 
-        public void SetName(string name)
+        public void Update(string name, string examName)
         {
             if(string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            this.Name = name;
-        }
-
-        public void SetExamName(string examName)
-        {
             if(string.IsNullOrEmpty(examName)) throw new ArgumentNullException(nameof(examName));
+
+            this.Name = name;
             this.ExamName = examName;
         }
 
@@ -51,6 +48,14 @@ namespace QuizDesigner.Services
                     QuestionId = id
                 });
             }
+        }
+
+        public void UpdateQuestions(IEnumerable<Guid> questionIdCollection)
+        {
+            if (questionIdCollection == null) throw new ArgumentNullException(nameof(questionIdCollection));
+
+            this.quizQuestionCollection.Clear();
+            this.AddQuestions(questionIdCollection);
         }
 
         public void Publish()

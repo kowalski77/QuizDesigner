@@ -61,8 +61,7 @@ namespace QuizDesigner.Persistence
             return Result.Ok(quizEntry.Entity.Id);
         }
 
-        // TODO: change this implementation
-        public async Task<Result<Guid>> UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {
             if (updateQuizDto == null) throw new ArgumentNullException(nameof(updateQuizDto));
 
@@ -74,24 +73,14 @@ namespace QuizDesigner.Persistence
                 return Result.Fail<Guid>(nameof(updateQuizDto.QuizId), $"Quiz with id: {updateQuizDto.QuizId} not found");
             }
 
-            context.Remove(quiz);
+            quiz.Update(updateQuizDto.Name, updateQuizDto.ExamName);
 
-            //var updatedQuiz = new Quiz
-            //{
-            //    Name = updateQuizDto.Name,
-            //    ExamName = updateQuizDto.ExamName
-            //};
+            await context.Entry(quiz).Collection(x => x.QuizQuestionCollection).LoadAsync(cancellationToken).ConfigureAwait(true);
+            quiz.UpdateQuestions(updateQuizDto.QuestionIdCollection);
 
-            foreach (var id in updateQuizDto.QuestionIdCollection)
-            {
-                //var question = await context.Questions!.FirstAsync(x => x.Id == id, cancellationToken).ConfigureAwait(true);
-                //updatedQuiz.Questions.Add(question);
-            }
-
-            var quizEntry = context.Add(quiz);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
-            return Result.Ok(quizEntry.Entity.Id);
+            return Result.Ok();
         }
     }
 }

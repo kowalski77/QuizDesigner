@@ -132,10 +132,6 @@ namespace QuizDesigner.Blazor.App.Components
                 .ConfigureAwait(true);
 
             await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
-            if (result.Success)
-            {
-                this.quizId = result.Value;
-            }
         }
 
         public void Dispose()
