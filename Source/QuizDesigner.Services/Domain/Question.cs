@@ -1,30 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using Arch.Utils.DomainDriven;
 
 namespace QuizDesigner.Services
 {
-    public class Question : Entity, IAggregateRoot
+    public class Question : Base
     {
-        public string Text { get; set; } = string.Empty;
+        private readonly List<Answer> answerCollection = new();
 
-        public string Tag { get; set; } = string.Empty;
+        public Question(string text, string tag)
+        {
+            if(string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
+            if(string.IsNullOrEmpty(tag)) throw new ArgumentNullException(nameof(tag));
+
+            this.Text = text;
+            this.Tag = tag;
+        }
+
+        public string Text { get; private set; }
+
+        public string Tag { get; private set; }
 
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        public ICollection<Answer> Answers { get; private set; } = new List<Answer>();
+        public IEnumerable<Answer> Answers => this.answerCollection;
 
-        //TODO: this is not used, how to hide it in a many to many relationship?
-        public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
-
-        public void AddAnswers(IEnumerable<Answer> answerCollection)
+        public void SetText(string text)
         {
-            this.Answers = new List<Answer>(answerCollection);
+            if(string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
+            this.Text = text;
         }
 
-        public void Remove()
+        public void SetTag(string tag)
         {
-            this.SoftDeleted = true;
+            if(string.IsNullOrEmpty(tag)) throw new ArgumentNullException(nameof(tag));
+            this.Tag = tag;
+        }
+
+        public void AddAnswers(IEnumerable<Answer> answers)
+        {
+            if (answers == null) throw new ArgumentNullException(nameof(answers));
+
+            this.answerCollection.AddRange(answers);
         }
     }
 }

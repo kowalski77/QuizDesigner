@@ -70,8 +70,9 @@ namespace QuizDesigner.Persistence
                 return Result.Fail(nameof(questionUpdated), $"Question with id: {questionUpdated.Id} not found");
             }
 
-            question.Text = questionUpdated.Text;
-            question.Tag = questionUpdated.Tag;
+            question.SetText(questionUpdated.Text);
+            question.SetTag(questionUpdated.Tag);
+
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
             return Result.Ok();
@@ -87,7 +88,7 @@ namespace QuizDesigner.Persistence
                 return Result.Fail(nameof(questionId), $"Question with id: {questionId} not found");
             }
 
-            question.Remove();
+            question.SoftDeleted = true;
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
             return Result.Ok();

@@ -60,24 +60,24 @@ namespace QuizDesigner.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuestionQuiz",
+                name: "QuizQuestion",
                 columns: table => new
                 {
-                    QuestionsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    QuizzesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuestionQuiz", x => new { x.QuestionsId, x.QuizzesId });
+                    table.PrimaryKey("PK_QuizQuestion", x => new { x.QuizId, x.QuestionId });
                     table.ForeignKey(
-                        name: "FK_QuestionQuiz_Questions_QuestionsId",
-                        column: x => x.QuestionsId,
+                        name: "FK_QuizQuestion_Questions_QuestionId",
+                        column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_QuestionQuiz_Quizzes_QuizzesId",
-                        column: x => x.QuizzesId,
+                        name: "FK_QuizQuestion_Quizzes_QuizId",
+                        column: x => x.QuizId,
                         principalTable: "Quizzes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -89,9 +89,9 @@ namespace QuizDesigner.Persistence.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuestionQuiz_QuizzesId",
-                table: "QuestionQuiz",
-                column: "QuizzesId");
+                name: "IX_QuizQuestion_QuestionId",
+                table: "QuizQuestion",
+                column: "QuestionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -100,7 +100,7 @@ namespace QuizDesigner.Persistence.Migrations
                 name: "Answer");
 
             migrationBuilder.DropTable(
-                name: "QuestionQuiz");
+                name: "QuizQuestion");
 
             migrationBuilder.DropTable(
                 name: "Questions");

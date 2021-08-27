@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arch.Utils.DomainDriven" Version="$(ArchUtilsVersion)" />
+    <PackageReference Include="Arch.Utils.Functional" Version="$(ArchUtilsVersion)" />
   </ItemGroup>
 
 </Project>

@@ -19,21 +19,6 @@ namespace QuizDesigner.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("QuestionQuiz", b =>
-                {
-                    b.Property<Guid>("QuestionsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("QuizzesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("QuestionsId", "QuizzesId");
-
-                    b.HasIndex("QuizzesId");
-
-                    b.ToTable("QuestionQuiz");
-                });
-
             modelBuilder.Entity("QuizDesigner.Services.Answer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,19 +98,19 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("QuestionQuiz", b =>
+            modelBuilder.Entity("QuizDesigner.Services.QuizQuestion", b =>
                 {
-                    b.HasOne("QuizDesigner.Services.Question", null)
-                        .WithMany()
-                        .HasForeignKey("QuestionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("QuizDesigner.Services.Quiz", null)
-                        .WithMany()
-                        .HasForeignKey("QuizzesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("QuizId", "QuestionId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuizQuestion");
                 });
 
             modelBuilder.Entity("QuizDesigner.Services.Answer", b =>
@@ -135,9 +120,33 @@ namespace QuizDesigner.Persistence.Migrations
                         .HasForeignKey("QuestionId");
                 });
 
+            modelBuilder.Entity("QuizDesigner.Services.QuizQuestion", b =>
+                {
+                    b.HasOne("QuizDesigner.Services.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuizDesigner.Services.Quiz", "Quiz")
+                        .WithMany("QuizQuestionCollection")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Quiz");
+                });
+
             modelBuilder.Entity("QuizDesigner.Services.Question", b =>
                 {
                     b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Services.Quiz", b =>
+                {
+                    b.Navigation("QuizQuestionCollection");
                 });
 #pragma warning restore 612, 618
         }

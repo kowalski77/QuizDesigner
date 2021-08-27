@@ -1,24 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using Arch.Utils.DomainDriven;
 
 namespace QuizDesigner.Services
 {
-    public class Quiz : Entity, IAggregateRoot
+    public class Quiz : Base
     {
-        public string Name { get; set; } = string.Empty;
+        private readonly List<QuizQuestion> quizQuestionCollection = new();
 
-        public string ExamName { get; set; } = string.Empty;
+        public Quiz(string name, string examName)
+        {
+            if(string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            if(string.IsNullOrEmpty(examName)) throw new ArgumentNullException(nameof(examName));
+
+            this.Id = Guid.NewGuid();
+            this.Name = name;
+            this.ExamName = examName;
+        }
+
+        public string Name { get; private set; }
+
+        public string ExamName { get; private set; }
 
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        public bool IsPublished { get; set; }
+        public bool IsPublished { get; private set; }
 
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
+        public IEnumerable<QuizQuestion> QuizQuestionCollection => this.quizQuestionCollection;
 
-        public void Remove()
+        public void SetName(string name)
         {
-            this.SoftDeleted = true;
+            if(string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            this.Name = name;
+        }
+
+        public void SetExamName(string examName)
+        {
+            if(string.IsNullOrEmpty(examName)) throw new ArgumentNullException(nameof(examName));
+            this.ExamName = examName;
+        }
+
+        public void AddQuestions(IEnumerable<Guid> questionIdCollection)
+        {
+            if (questionIdCollection == null) throw new ArgumentNullException(nameof(questionIdCollection));
+
+            foreach (var id in questionIdCollection)
+            {
+                this.quizQuestionCollection.Add(new QuizQuestion
+                {
+                    QuizId = this.Id,
+                    QuestionId = id
+                });
+            }
+        }
+
+        public void Publish()
+        {
+            this.IsPublished = true;
         }
     }
 }

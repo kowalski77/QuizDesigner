@@ -18,11 +18,7 @@ namespace QuizDesigner.Blazor.App.ViewModels
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            return new Question
-            {
-                Text = source.Text,
-                Tag = source.Tag
-            };
+            return new Question(source.Text, source.Tag);
         }
     }
 }

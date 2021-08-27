@@ -52,17 +52,8 @@ namespace QuizDesigner.Persistence
 
             await using var context = this.contextFactory.CreateDbContext();
 
-            var quiz = new Quiz
-            {
-                Name = createQuizDto.Name,
-                ExamName = createQuizDto.ExamName
-            };
-
-            foreach (var id in createQuizDto.QuestionIdCollection)
-            {
-                var question = await context.Questions!.FirstAsync(x => x.Id == id, cancellationToken).ConfigureAwait(true);
-                quiz.Questions.Add(question);
-            }
+            var quiz = new Quiz(createQuizDto.Name, createQuizDto.ExamName);
+            quiz.AddQuestions(createQuizDto.QuestionIdCollection);
 
             var quizEntry = context.Add(quiz);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
@@ -85,16 +76,16 @@ namespace QuizDesigner.Persistence
 
             context.Remove(quiz);
 
-            var updatedQuiz = new Quiz
-            {
-                Name = updateQuizDto.Name,
-                ExamName = updateQuizDto.ExamName
-            };
+            //var updatedQuiz = new Quiz
+            //{
+            //    Name = updateQuizDto.Name,
+            //    ExamName = updateQuizDto.ExamName
+            //};
 
             foreach (var id in updateQuizDto.QuestionIdCollection)
             {
-                var question = await context.Questions!.FirstAsync(x => x.Id == id, cancellationToken).ConfigureAwait(true);
-                updatedQuiz.Questions.Add(question);
+                //var question = await context.Questions!.FirstAsync(x => x.Id == id, cancellationToken).ConfigureAwait(true);
+                //updatedQuiz.Questions.Add(question);
             }
 
             var quizEntry = context.Add(quiz);
