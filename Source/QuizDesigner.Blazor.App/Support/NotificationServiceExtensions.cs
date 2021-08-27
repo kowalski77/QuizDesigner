@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 using Blazorise;
@@ -53,6 +55,13 @@ namespace QuizDesigner.Blazor.App.Support
                 await notificationService.Error("An error occurred while saving the quiz", result.Error)
                     .ConfigureAwait(true);
             }
+        }
+
+        public static async Task ShowNoSelectedQuestionsError(this INotificationService notificationService)
+        {
+            if (notificationService == null) throw new ArgumentNullException(nameof(notificationService));
+
+            await notificationService.Error("Please, drop questions to the right box to save the quiz", "Quiz empty").ConfigureAwait(true);
         }
     }
 }

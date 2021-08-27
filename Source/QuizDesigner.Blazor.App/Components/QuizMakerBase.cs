@@ -15,7 +15,7 @@ namespace QuizDesigner.Blazor.App.Components
     {
         private readonly CancellationTokenSource tokenSource = new();
 
-        private Guid draftQuizId;
+        private Guid quizId;
 
         [Inject] private IDesignerService DesignerService { get; set; }
 
@@ -31,7 +31,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected string ExamName { get; set; }
 
-        protected bool IsDraft { get; private set; } = true;
+        protected bool IsSaved { get; private set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -59,13 +59,14 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnResetAsync()
         {
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.reset").ConfigureAwait(true);
+            this.quizId = Guid.Empty;
             this.QuizName = string.Empty;
             this.ExamName = string.Empty;
+            this.IsSaved = false;
             this.Validations.ClearAll();
-            this.IsDraft = true;
         }
 
-        protected async Task OnSaveDraftAsync()
+        protected async Task OnSaveQuizAsync()
         {
             var isValid = this.Validations.ValidateAll();
             if (!isValid)
@@ -73,39 +74,67 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            await this.SaveDraftAsync().ConfigureAwait(true);
-        }
-
-        protected async Task OnSaveAsync()
-        {
-            var result = await this.DesignerService.SaveQuizAsync(this.draftQuizId, this.tokenSource.Token).ConfigureAwait(true);
-
-            await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
-
-            if (result.Success)
+            if (this.quizId == Guid.Empty)
             {
-                await this.OnResetAsync().ConfigureAwait(true);
+                await this.SaveQuizAsync().ConfigureAwait(true);
+            }
+            else
+            {
+                await this.UpdateQuizAsync().ConfigureAwait(true);
             }
         }
 
-        private async Task SaveDraftAsync()
+        protected async Task OnPublishAsync()
+        {
+            //var result = await this.DesignerService.SaveQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
+
+            //await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
+
+            //if (result.Success)
+            //{
+            //    await this.OnResetAsync().ConfigureAwait(true);
+            //}
+        }
+
+        private async Task SaveQuizAsync()
         {
             var questionIdCollection = await this.JsRuntime.InvokeAsync<List<string>>("blazorColumnData.getSelectedQuestions").ConfigureAwait(true);
             if (!questionIdCollection.Any())
             {
-                await this.NotificationService.Error("Please, drop questions to the right box to save the quiz", "Quiz empty").ConfigureAwait(true);
+                await this.NotificationService.ShowNoSelectedQuestionsError().ConfigureAwait(true);
                 return;
             }
 
             var draftQuiz = new CreateQuizDto(this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse));
-            var result = await this.DesignerService.CreateDraftQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
+            var result = await this.DesignerService.CreateQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
 
             if (result.Success)
             {
-                this.IsDraft = false;
-                this.draftQuizId = result.Value;
+                this.IsSaved = true;
+                this.quizId = result.Value;
+            }
+        }
+
+        private async Task UpdateQuizAsync()
+        {
+            var questionIdCollection = await this.JsRuntime.InvokeAsync<List<string>>("blazorColumnData.getSelectedQuestions").ConfigureAwait(true);
+            if (!questionIdCollection.Any())
+            {
+                await this.NotificationService.ShowNoSelectedQuestionsError().ConfigureAwait(true);
+                return;
+            }
+
+            var result = await this.DesignerService.UpdateQuizAsync(
+                new UpdateQuizDto(this.quizId, this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse)), 
+                this.tokenSource.Token)
+                .ConfigureAwait(true);
+
+            await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
+            if (result.Success)
+            {
+                this.quizId = result.Value;
             }
         }
 

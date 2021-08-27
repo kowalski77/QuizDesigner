@@ -94,12 +94,12 @@ namespace QuizDesigner.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Draft")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ExamName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

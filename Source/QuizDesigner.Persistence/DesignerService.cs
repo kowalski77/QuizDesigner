@@ -46,7 +46,7 @@ namespace QuizDesigner.Persistence
             return questions;
         }
 
-        public async Task<Result<Guid>> CreateDraftQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid>> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
         {
             if (createQuizDto == null) throw new ArgumentNullException(nameof(createQuizDto));
 
@@ -55,8 +55,7 @@ namespace QuizDesigner.Persistence
             var quiz = new Quiz
             {
                 Name = createQuizDto.Name,
-                ExamName = createQuizDto.ExamName,
-                Draft = true
+                ExamName = createQuizDto.ExamName
             };
 
             foreach (var id in createQuizDto.QuestionIdCollection)
@@ -71,20 +70,37 @@ namespace QuizDesigner.Persistence
             return Result.Ok(quizEntry.Entity.Id);
         }
 
-        public async Task<Result> SaveQuizAsync(Guid quizId, CancellationToken cancellationToken = default)
+        // TODO: change this implementation
+        public async Task<Result<Guid>> UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {
+            if (updateQuizDto == null) throw new ArgumentNullException(nameof(updateQuizDto));
+
             await using var context = this.contextFactory.CreateDbContext();
 
-            var quiz = await context.FindAsync<Quiz>(new object[] { quizId }, cancellationToken).ConfigureAwait(true);
-            if (quiz == null)
+            var quiz = await context.FindAsync<Quiz>(new object[] { updateQuizDto.QuizId }, cancellationToken).ConfigureAwait(true);
+            if (quiz is null)
             {
-                return Result.Fail(nameof(quizId), $"Quiz with id: {quizId} not found in database");
+                return Result.Fail<Guid>(nameof(updateQuizDto.QuizId), $"Quiz with id: {updateQuizDto.QuizId} not found");
             }
 
-            quiz.Draft = false;
+            context.Remove(quiz);
+
+            var updatedQuiz = new Quiz
+            {
+                Name = updateQuizDto.Name,
+                ExamName = updateQuizDto.ExamName
+            };
+
+            foreach (var id in updateQuizDto.QuestionIdCollection)
+            {
+                var question = await context.Questions!.FirstAsync(x => x.Id == id, cancellationToken).ConfigureAwait(true);
+                updatedQuiz.Questions.Add(question);
+            }
+
+            var quizEntry = context.Add(quiz);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
 
-            return Result.Ok();
+            return Result.Ok(quizEntry.Entity.Id);
         }
     }
 }

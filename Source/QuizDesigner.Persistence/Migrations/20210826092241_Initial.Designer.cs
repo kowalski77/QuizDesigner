@@ -10,7 +10,7 @@ using QuizDesigner.Persistence;
 namespace QuizDesigner.Persistence.Migrations
 {
     [DbContext(typeof(QuizDesignerContext))]
-    [Migration("20210820154355_Initial")]
+    [Migration("20210826092241_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,12 +96,12 @@ namespace QuizDesigner.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Draft")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ExamName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

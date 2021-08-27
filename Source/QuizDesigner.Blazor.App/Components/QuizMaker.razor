@@ -3,8 +3,7 @@
 @inherits QuizMakerBase
 
 <div class="quiz-div">
-    <div class="@(!this.IsDraft? "quiz-disable":string.Empty )">
-        <Row>
+    <Row>
             <Column ColumnSize="ColumnSize.Is5">
                 <SelectList TItem="string"
                             ElementId="selectTag"
@@ -40,24 +39,21 @@
                 </Column>
             </Validations>
         </Row>
-    </div>
-    <div style="margin-top: 30px;">
+        <div style="margin-top: 30px;">
         <Row>
-            <Column ColumnSize="ColumnSize.Is5" Class="@(!this.IsDraft? "quiz-disable":string.Empty )">
+            <Column ColumnSize="ColumnSize.Is5">
                 <div id="left" class="quiz-data-div"></div>
             </Column>
-            <Column ColumnSize="ColumnSize.Is5" Class="@(!this.IsDraft? "quiz-disable":string.Empty )">
+            <Column ColumnSize="ColumnSize.Is5">
                 <div id="right" class="quiz-data-div"></div>
             </Column>
             <Column ColumnSize="ColumnSize.Is2">
                 <div id="actions" class="quiz-data-div">
-                    <Condition Evaluation="this.IsDraft">
+                    <Button Color="Color.Success" Block="true" Clicked="OnSaveQuizAsync">Save</Button>
+                    <Condition Evaluation="this.IsSaved">
                         <Match>
-                            <Button Color="Color.Warning" Block="true" Clicked="OnSaveDraftAsync">Draft</Button>
+                            <Button Color="Color.Warning" Block="true" Clicked="OnPublishAsync">Publish</Button>
                         </Match>
-                        <NotMatch>
-                            <Button Color="Color.Success" Block="true" Clicked="OnSaveAsync">Save</Button>
-                        </NotMatch>
                     </Condition>
                     <Button Color="Color.Info" Block="true" Clicked="OnResetAsync">Reset</Button>
                 </div>

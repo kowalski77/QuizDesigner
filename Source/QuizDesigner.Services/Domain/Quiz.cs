@@ -12,7 +12,7 @@ namespace QuizDesigner.Services
 
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        public bool Draft { get; set; } = true;
+        public bool IsPublished { get; set; }
 
         public ICollection<Question> Questions { get; set; } = new List<Question>();
 

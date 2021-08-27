@@ -12,8 +12,8 @@ namespace QuizDesigner.Services
 
         Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(string tag, CancellationToken cancellationToken = default);
 
-        Task<Result<Guid>> CreateDraftQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
 
-        Task<Result> SaveQuizAsync(Guid quizId, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default);
     }
 }
