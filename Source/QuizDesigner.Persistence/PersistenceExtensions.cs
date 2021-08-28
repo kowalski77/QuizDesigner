@@ -14,7 +14,7 @@ namespace QuizDesigner.Persistence
 
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IQuestionsProvider, QuestionsProvider>();
-            services.AddSingleton<IDesignerService, DesignerService>();
+            services.AddScoped<IDesignerService, DesignerService>();
 
             return services;
         }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizDesigner.Blazor.ComponentsLibrary;
 using QuizDesigner.Persistence;
+using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.Server
 {
@@ -33,6 +34,7 @@ namespace QuizDesigner.Blazor.Server
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddServices();
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddScoped<ExampleJsInterop>();

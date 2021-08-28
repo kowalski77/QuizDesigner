@@ -58,7 +58,7 @@ namespace QuizDesigner.Services
             this.AddQuestions(questionIdCollection);
         }
 
-        public void Publish()
+        public void SetAsPublished()
         {
             this.IsPublished = true;
         }

@@ -86,14 +86,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected async Task OnPublishAsync()
         {
-            //var result = await this.DesignerService.SaveQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
-
-            //await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
-
-            //if (result.Success)
-            //{
-            //    await this.OnResetAsync().ConfigureAwait(true);
-            //}
+            await this.DesignerService.PublishQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
         }
 
         private async Task SaveQuizAsync()
@@ -108,13 +101,10 @@ namespace QuizDesigner.Blazor.App.Components
             var draftQuiz = new CreateQuizDto(this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse));
             var result = await this.DesignerService.CreateQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
+            await this.NotificationService.Success("Quiz successfully saved!").ConfigureAwait(true);
 
-            if (result.Success)
-            {
-                this.IsSaved = true;
-                this.quizId = result.Value;
-            }
+            this.IsSaved = true;
+            this.quizId = result;
         }
 
         private async Task UpdateQuizAsync()
@@ -126,12 +116,12 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            var result = await this.DesignerService.UpdateQuizAsync(
+            await this.DesignerService.UpdateQuizAsync(
                 new UpdateQuizDto(this.quizId, this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse)), 
                 this.tokenSource.Token)
                 .ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveQuizFeedbackAsync(result).ConfigureAwait(true);
+            await this.NotificationService.Success("Quiz successfully updated!").ConfigureAwait(true);
         }
 
         public void Dispose()
