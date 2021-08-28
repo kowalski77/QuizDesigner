@@ -6,7 +6,7 @@ using Arch.Utils.Functional.Results;
 
 namespace QuizDesigner.Application
 {
-    public interface IQuestionsService
+    public interface IQuestionsDataService
     {
         Task<Result> AddAsync(Question question, CancellationToken cancellationToken = default);
 

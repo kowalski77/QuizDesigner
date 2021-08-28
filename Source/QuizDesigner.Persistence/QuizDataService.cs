@@ -9,7 +9,7 @@ using QuizDesigner.Application;
 
 namespace QuizDesigner.Persistence
 {
-    public sealed class QuizDataService : IQuizService
+    public sealed class QuizDataService : IQuizDataService
     {
         private readonly IDbContextFactory<QuizDesignerContext> contextFactory;
         private readonly IPublishEndpoint publishEndpoint;

@@ -17,9 +17,9 @@ namespace QuizDesigner.Blazor.App.Components
 
         private Guid quizId;
 
-        [Inject] private IQuizService DesignerService { get; set; }
+        [Inject] private IQuizDataService DesignerService { get; set; }
 
-        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
+        [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
 

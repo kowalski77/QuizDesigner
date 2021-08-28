@@ -26,7 +26,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private INotificationService NotificationService { get; set; }
 
-        [Inject] private IQuestionsService QuestionsRepository { get; set; }
+        [Inject] private IQuestionsDataService QuestionsRepository { get; set; }
 
         protected void RemoveQuestion(Guid questionId)
         {

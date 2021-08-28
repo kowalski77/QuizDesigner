@@ -12,9 +12,9 @@ namespace QuizDesigner.Persistence
         {
             services.AddEntityFramework(connectionString);
 
-            services.AddSingleton<IQuestionsService, QuestionsDataService>();
-            services.AddSingleton<IQuestionsProvider, QuestionsProvider>();
-            services.AddScoped<IQuizService, QuizDataService>();
+            services.AddSingleton<IQuestionsDataService, QuestionsDataService>();
+            services.AddSingleton<IQuestionsDataProvider, QuestionsDataProvider>();
+            services.AddScoped<IQuizDataService, QuizDataService>();
 
             return services;
         }

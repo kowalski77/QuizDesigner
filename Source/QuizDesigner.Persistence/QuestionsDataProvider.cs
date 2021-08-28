@@ -11,11 +11,11 @@ using QuizDesigner.Persistence.Support;
 
 namespace QuizDesigner.Persistence
 {
-    public sealed class QuestionsProvider : IQuestionsProvider
+    public sealed class QuestionsDataProvider : IQuestionsDataProvider
     {
         private readonly IDbContextFactory<QuizDesignerContext> contextFactory;
 
-        public QuestionsProvider(IDbContextFactory<QuizDesignerContext> contextFactory)
+        public QuestionsDataProvider(IDbContextFactory<QuizDesignerContext> contextFactory)
         {
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace QuizDesigner.Application
 {
-    public interface IQuizService
+    public interface IQuizDataService
     {
         Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
 

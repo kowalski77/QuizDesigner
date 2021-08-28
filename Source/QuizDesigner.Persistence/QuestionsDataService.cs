@@ -8,7 +8,7 @@ using QuizDesigner.Application;
 
 namespace QuizDesigner.Persistence
 {
-    public sealed class QuestionsDataService : IQuestionsService
+    public sealed class QuestionsDataService : IQuestionsDataService
     {
         private readonly IDbContextFactory<QuizDesignerContext> contextFactory;
 

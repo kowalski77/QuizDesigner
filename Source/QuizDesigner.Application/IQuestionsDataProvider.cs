@@ -7,7 +7,7 @@ using QuizDesigner.Application.Queries;
 
 namespace QuizDesigner.Application
 {
-    public interface IQuestionsProvider
+    public interface IQuestionsDataProvider
     {
         Task<IPaginatedModel<QuestionDto>> GetQuestionsAsync(QuestionsQuery questionsQuery, CancellationToken cancellationToken = default);
 

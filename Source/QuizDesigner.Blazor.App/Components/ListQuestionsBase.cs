@@ -20,9 +20,9 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected AnswersModal AnswersModal { get; set; }
 
-        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
+        [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
-        [Inject] private IQuestionsService QuestionsRepository { get; set; }
+        [Inject] private IQuestionsDataService QuestionsRepository { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
 
