@@ -73,9 +73,9 @@ namespace QuizDesigner.Persistence
                 return Result.Fail<Guid>(nameof(updateQuizDto.QuizId), $"Quiz with id: {updateQuizDto.QuizId} not found");
             }
 
-            quiz.Update(updateQuizDto.Name, updateQuizDto.ExamName);
-
             await context.Entry(quiz).Collection(x => x.QuizQuestionCollection).LoadAsync(cancellationToken).ConfigureAwait(true);
+
+            quiz.Update(updateQuizDto.Name, updateQuizDto.ExamName);
             quiz.UpdateQuestions(updateQuizDto.QuestionIdCollection);
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
