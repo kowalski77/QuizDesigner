@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QuizDesigner.Services
 {
@@ -40,14 +41,12 @@ namespace QuizDesigner.Services
         {
             if (questionIdCollection == null) throw new ArgumentNullException(nameof(questionIdCollection));
 
-            foreach (var id in questionIdCollection)
-            {
-                this.quizQuestionCollection.Add(new QuizQuestion
-                {
-                    QuizId = this.Id,
+            this.quizQuestionCollection.AddRange(questionIdCollection.Select(id => 
+                new QuizQuestion 
+                { 
+                    QuizId = this.Id, 
                     QuestionId = id
-                });
-            }
+                }));
         }
 
         public void UpdateQuestions(IEnumerable<Guid> questionIdCollection)
