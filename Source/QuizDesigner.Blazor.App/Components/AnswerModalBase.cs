@@ -20,7 +20,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private INotificationService NotificationService { get; set; }
 
-        [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
+        [Inject] private IQuestionsService QuestionsRepository { get; set; }
 
         [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
 

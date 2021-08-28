@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,48 +6,20 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using QuizCreatedEvents;
 using QuizDesigner.Application;
-using QuizDesigner.Persistence.Support;
 
 namespace QuizDesigner.Persistence
 {
-    public sealed class DesignerService : IDesignerService
+    public sealed class QuizDataService : IQuizService
     {
         private readonly IDbContextFactory<QuizDesignerContext> contextFactory;
         private readonly IPublishEndpoint publishEndpoint;
 
-        public DesignerService(
+        public QuizDataService(
             IDbContextFactory<QuizDesignerContext> contextFactory,
             IPublishEndpoint publishEndpoint)
         {
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
             this.publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
-        }
-
-        public async Task<IReadOnlyList<string>> GetTags(CancellationToken cancellationToken = default)
-        {
-            await using var context = this.contextFactory.CreateDbContext();
-            context.ActiveReadOnlyMode();
-
-            var tags = await context.Questions!.Select(x => x.Tag)
-                .Distinct()
-                .ToListAsync(cancellationToken)
-                .ConfigureAwait(true);
-
-            return tags;
-        }
-
-        public async Task<IReadOnlyList<KeyValuePair<Guid, string>>> GetQuestionsAsync(string tag, CancellationToken cancellationToken = default)
-        {
-            await using var context = this.contextFactory.CreateDbContext();
-            context.ActiveReadOnlyMode();
-
-            var questions = await context.Questions!
-                .Where(x => x.Tag == tag && x.Answers.Any())
-                .Select(x => new KeyValuePair<Guid, string>(x.Id, x.Text))
-                .ToListAsync(cancellationToken)
-                .ConfigureAwait(true);
-
-            return questions;
         }
 
         public async Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)

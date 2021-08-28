@@ -8,11 +8,11 @@ using QuizDesigner.Application;
 
 namespace QuizDesigner.Persistence
 {
-    public sealed class QuestionsRepository : IQuestionsRepository
+    public sealed class QuestionsDataService : IQuestionsService
     {
         private readonly IDbContextFactory<QuizDesignerContext> contextFactory;
 
-        public QuestionsRepository(IDbContextFactory<QuizDesignerContext> contextFactory)
+        public QuestionsDataService(IDbContextFactory<QuizDesignerContext> contextFactory)
         {
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }

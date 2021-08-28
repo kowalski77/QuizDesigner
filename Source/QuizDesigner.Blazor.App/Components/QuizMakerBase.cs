@@ -17,7 +17,9 @@ namespace QuizDesigner.Blazor.App.Components
 
         private Guid quizId;
 
-        [Inject] private IDesignerService DesignerService { get; set; }
+        [Inject] private IQuizService DesignerService { get; set; }
+
+        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
@@ -35,7 +37,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected override async Task OnInitializedAsync()
         {
-            this.TagCollection = await this.DesignerService.GetTags().ConfigureAwait(true);
+            this.TagCollection = await this.QuestionsProvider.GetTags().ConfigureAwait(true);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -48,7 +50,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected async Task OnSelectedValueChanged(string tag)
         {
-            var questionKeyValueCollection = await this.DesignerService.GetQuestionsAsync(tag, this.tokenSource.Token).ConfigureAwait(true);
+            var questionKeyValueCollection = await this.QuestionsProvider.GetQuestionsAsync(tag, this.tokenSource.Token).ConfigureAwait(true);
             foreach (var (key, value) in questionKeyValueCollection)
             {
                 await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", key.ToString(), value, tag).ConfigureAwait(true);
