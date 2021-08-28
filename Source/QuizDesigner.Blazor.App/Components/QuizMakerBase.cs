@@ -87,6 +87,8 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnPublishAsync()
         {
             await this.DesignerService.PublishQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
+            await this.NotificationService.Success("Quiz successfully published!").ConfigureAwait(true);
+            await this.OnResetAsync().ConfigureAwait(true);
         }
 
         private async Task SaveQuizAsync()
