@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuizDesigner.Services\QuizDesigner.Services.csproj" />
+    <ProjectReference Include="..\QuizDesigner.Application\QuizDesigner.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

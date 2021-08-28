@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 using Microsoft.EntityFrameworkCore;
-using QuizDesigner.Services;
+using QuizDesigner.Application;
 
 namespace QuizDesigner.Persistence
 {

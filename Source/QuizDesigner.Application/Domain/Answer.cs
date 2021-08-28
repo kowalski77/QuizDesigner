@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuizDesigner.Services
+namespace QuizDesigner.Application
 {
     public class Answer : Base
     {

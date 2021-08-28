@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using QuizDesigner.Application;
 using QuizDesigner.Blazor.App.Support;
-using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {

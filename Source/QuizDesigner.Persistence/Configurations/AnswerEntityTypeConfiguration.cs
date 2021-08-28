@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using QuizDesigner.Services;
+using QuizDesigner.Application;
 
 namespace QuizDesigner.Persistence.Configurations
 {

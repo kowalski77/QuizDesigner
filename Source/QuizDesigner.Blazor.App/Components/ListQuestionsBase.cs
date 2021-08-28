@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
+using QuizDesigner.Application;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.App.Support;
 using QuizDesigner.Blazor.App.ViewModels;
-using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {

@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Monads;
 using Microsoft.EntityFrameworkCore;
+using QuizDesigner.Application;
+using QuizDesigner.Application.Queries;
 using QuizDesigner.Persistence.Support;
-using QuizDesigner.Services;
-using QuizDesigner.Services.Queries;
 
 namespace QuizDesigner.Persistence
 {

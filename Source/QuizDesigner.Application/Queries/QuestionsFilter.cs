@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace QuizDesigner.Services.Queries
+namespace QuizDesigner.Application.Queries
 {
     public static class QuestionsFilter
     {

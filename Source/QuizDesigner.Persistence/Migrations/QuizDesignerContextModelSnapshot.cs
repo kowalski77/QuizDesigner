@@ -19,7 +19,7 @@ namespace QuizDesigner.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("QuizDesigner.Services.Answer", b =>
+            modelBuilder.Entity("QuizDesigner.Application.Answer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("Answer");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Question", b =>
+            modelBuilder.Entity("QuizDesigner.Application.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +70,7 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Quiz", b =>
+            modelBuilder.Entity("QuizDesigner.Application.Quiz", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,7 +98,7 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.QuizQuestion", b =>
+            modelBuilder.Entity("QuizDesigner.Application.QuizQuestion", b =>
                 {
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uniqueidentifier");
@@ -113,22 +113,22 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("QuizQuestion");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Answer", b =>
+            modelBuilder.Entity("QuizDesigner.Application.Answer", b =>
                 {
-                    b.HasOne("QuizDesigner.Services.Question", null)
+                    b.HasOne("QuizDesigner.Application.Question", null)
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.QuizQuestion", b =>
+            modelBuilder.Entity("QuizDesigner.Application.QuizQuestion", b =>
                 {
-                    b.HasOne("QuizDesigner.Services.Question", "Question")
+                    b.HasOne("QuizDesigner.Application.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuizDesigner.Services.Quiz", "Quiz")
+                    b.HasOne("QuizDesigner.Application.Quiz", "Quiz")
                         .WithMany("QuizQuestionCollection")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -139,12 +139,12 @@ namespace QuizDesigner.Persistence.Migrations
                     b.Navigation("Quiz");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Question", b =>
+            modelBuilder.Entity("QuizDesigner.Application.Question", b =>
                 {
                     b.Navigation("Answers");
                 });
 
-            modelBuilder.Entity("QuizDesigner.Services.Quiz", b =>
+            modelBuilder.Entity("QuizDesigner.Application.Quiz", b =>
                 {
                     b.Navigation("QuizQuestionCollection");
                 });

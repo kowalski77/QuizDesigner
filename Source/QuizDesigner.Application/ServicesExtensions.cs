@@ -1,11 +1,11 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace QuizDesigner.Services
+namespace QuizDesigner.Application
 {
     public static class ServicesExtensions
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddMassTransit(x =>
             {

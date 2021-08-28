@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QuizDesigner.Services.Queries
+namespace QuizDesigner.Application.Queries
 {
     public interface IPaginatedModel<out T> where T : class
     {

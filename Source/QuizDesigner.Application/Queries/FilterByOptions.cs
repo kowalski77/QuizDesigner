@@ -1,4 +1,4 @@
-﻿namespace QuizDesigner.Services.Queries
+﻿namespace QuizDesigner.Application.Queries
 {
     public enum FilterByOptions
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using QuizDesigner.Application;
+using QuizDesigner.Application.Queries;
 using QuizDesigner.Blazor.App.ViewModels;
-using QuizDesigner.Services;
-using QuizDesigner.Services.Queries;
 
 namespace QuizDesigner.Blazor.App.Services
 {

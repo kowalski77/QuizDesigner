@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QuizDesigner.Services
+namespace QuizDesigner.Application
 {
     public class Quiz : Base
     {

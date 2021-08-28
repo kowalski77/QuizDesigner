@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Results;
 
-namespace QuizDesigner.Services
+namespace QuizDesigner.Application
 {
     public interface IQuestionsRepository
     {

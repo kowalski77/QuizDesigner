@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using QuizCreatedEvents;
+using QuizDesigner.Application;
 using QuizDesigner.Persistence.Support;
-using QuizDesigner.Services;
 
 namespace QuizDesigner.Persistence
 {

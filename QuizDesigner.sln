@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{C3576A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.Blazor.App", "Source\QuizDesigner.Blazor.App\QuizDesigner.Blazor.App.csproj", "{BB4AB194-2A97-44CB-A146-7CDFF9274B0B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.Services", "Source\QuizDesigner.Services\QuizDesigner.Services.csproj", "{3AFAD1C7-5284-46AB-8B44-6F4342BC1501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.Application", "Source\QuizDesigner.Application\QuizDesigner.Application.csproj", "{3AFAD1C7-5284-46AB-8B44-6F4342BC1501}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{2F4A6DCA-92BA-4FDE-BF64-3D4A27DADABB}"
 EndProject

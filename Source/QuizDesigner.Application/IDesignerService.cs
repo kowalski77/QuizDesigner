@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace QuizDesigner.Services
+namespace QuizDesigner.Application
 {
     public interface IDesignerService
     {

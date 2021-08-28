@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Monads;
-using QuizDesigner.Services.Queries;
+using QuizDesigner.Application.Queries;
 
-namespace QuizDesigner.Services
+namespace QuizDesigner.Application
 {
     public interface IQuestionsProvider
     {
