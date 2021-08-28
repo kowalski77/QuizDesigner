@@ -36,8 +36,6 @@ namespace QuizDesigner.Blazor.Server
             services.AddServerSideBlazor();
             services.AddServices();
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
-
-            services.AddScoped<ExampleJsInterop>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
