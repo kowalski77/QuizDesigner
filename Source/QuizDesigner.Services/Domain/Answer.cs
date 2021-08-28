@@ -18,11 +18,5 @@ namespace QuizDesigner.Services
         {
             this.IsCorrect = isCorrect;
         }
-
-        public void SetText(string text)
-        {
-            if(string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
-            this.Text = text;
-        }
     }
 }

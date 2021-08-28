@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace QuizDesigner.Services.Queries
 {
@@ -9,7 +7,5 @@ namespace QuizDesigner.Services.Queries
         IReadOnlyList<T> Items { get; }
 
         int Total { get; }
-
-        Task PageAsync(CancellationToken cancellationToken = default);
     }
 }

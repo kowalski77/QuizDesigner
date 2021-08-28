@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
-namespace QuizDesigner.Blazor.App.Shared
+namespace QuizDesigner.Blazor.App.Utils
 {
     public class IterationBase<T> : ComponentBase
     {
