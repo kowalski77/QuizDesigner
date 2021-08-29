@@ -9,5 +9,7 @@ namespace QuizDesigner.Application
         Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
 
         Task UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default);
+
+        Task PublishQuizAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

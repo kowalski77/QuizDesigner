@@ -15,6 +15,7 @@ namespace QuizDesigner.Persistence
             services.AddScoped<IQuestionsDataService, QuestionsDataService>();
             services.AddScoped<IQuestionsDataProvider, QuestionsDataProvider>();
             services.AddScoped<IQuizDataService, QuizDataService>();
+            services.AddScoped<IQuizDataProvider, QuizDataProvider>();
 
             return services;
         }

@@ -8,10 +8,8 @@ namespace QuizDesigner.Application
     {
         Task<Guid> CreateAsync(Quiz quiz, CancellationToken cancellationToken = default);
 
-        Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default);
+        Task UpdateWithQuestionsAsync(Quiz quiz, CancellationToken cancellationToken = default);
 
-        Task UpdateAsync(Quiz quiz, CancellationToken cancellationToken = default);
-
-        Task PublishQuizAsync(Guid quizId, CancellationToken cancellationToken = default);
+        Task Update(Quiz quiz, CancellationToken cancellationToken = default);
     }
 }
