@@ -52,10 +52,17 @@ namespace QuizDesigner.Persistence
 
             await using var context = this.contextFactory.CreateDbContext();
 
-            context.Attach(quiz);
-            context.Entry(quiz).Property(x => x.Name).IsModified = true;
-            context.Entry(quiz).Property(x => x.ExamName).IsModified = true;
-            context.Entry(quiz).Property(x => x.IsPublished).IsModified = true;
+            var currentQuiz = await context.Quizzes!
+                .Include(x => x.QuizQuestionCollection)
+                .FirstAsync(x => x.Id == quiz.Id, cancellationToken)
+                .ConfigureAwait(true);
+
+            foreach (var quizQuestion in currentQuiz.QuizQuestionCollection)
+            {
+                context.Remove(quizQuestion);
+            }
+
+            currentQuiz.AddQuestions(quiz.QuizQuestionCollection.Select(x=>x.QuestionId));
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
