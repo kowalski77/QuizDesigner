@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using QuizCreatedEvents;
 using QuizDesigner.Application;
 
@@ -24,13 +22,12 @@ namespace QuizDesigner.Persistence
             this.publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
+        // TODO: move to data provider
         public async Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();
 
             var quiz = await context.Quizzes!
-                .Include(x => x.QuizQuestionCollection)
-                .ThenInclude(x => x.Question)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
                 .ConfigureAwait(true);
 
@@ -55,7 +52,10 @@ namespace QuizDesigner.Persistence
 
             await using var context = this.contextFactory.CreateDbContext();
 
-            context.Attach(quiz).State = EntityState.Modified;
+            context.Attach(quiz);
+            context.Entry(quiz).Property(x => x.Name).IsModified = true;
+            context.Entry(quiz).Property(x => x.ExamName).IsModified = true;
+            context.Entry(quiz).Property(x => x.IsPublished).IsModified = true;
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
