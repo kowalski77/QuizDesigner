@@ -12,8 +12,8 @@ namespace QuizDesigner.Persistence
         {
             services.AddEntityFramework(connectionString);
 
-            services.AddSingleton<IQuestionsDataService, QuestionsDataService>();
-            services.AddSingleton<IQuestionsDataProvider, QuestionsDataProvider>();
+            services.AddScoped<IQuestionsDataService, QuestionsDataService>();
+            services.AddScoped<IQuestionsDataProvider, QuestionsDataProvider>();
             services.AddScoped<IQuizDataService, QuizDataService>();
 
             return services;

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using QuizCreatedEvents;
 using QuizDesigner.Application;
 
@@ -22,14 +24,24 @@ namespace QuizDesigner.Persistence
             this.publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
         }
 
-        public async Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
+        public async Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            if (createQuizDto == null) throw new ArgumentNullException(nameof(createQuizDto));
-
             await using var context = this.contextFactory.CreateDbContext();
 
-            var quiz = new Quiz(createQuizDto.Name, createQuizDto.ExamName);
-            quiz.AddQuestions(createQuizDto.QuestionIdCollection);
+            var quiz = await context.Quizzes!
+                .Include(x => x.QuizQuestionCollection)
+                .ThenInclude(x => x.Question)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+                .ConfigureAwait(true);
+
+            return quiz;
+        }
+
+        public async Task<Guid> CreateAsync(Quiz quiz, CancellationToken cancellationToken = default)
+        {
+            if (quiz == null) throw new ArgumentNullException(nameof(quiz));
+
+            await using var context = this.contextFactory.CreateDbContext();
 
             var quizEntry = context.Add(quiz);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
@@ -37,18 +49,13 @@ namespace QuizDesigner.Persistence
             return quizEntry.Entity.Id;
         }
 
-        public async Task UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Quiz quiz, CancellationToken cancellationToken = default)
         {
-            if (updateQuizDto == null) throw new ArgumentNullException(nameof(updateQuizDto));
+            if (quiz == null) throw new ArgumentNullException(nameof(quiz));
 
             await using var context = this.contextFactory.CreateDbContext();
 
-            var quiz = await context.FindAsync<Quiz>(new object[] { updateQuizDto.QuizId }, cancellationToken).ConfigureAwait(true);
-
-            await context.Entry(quiz).Collection(x => x.QuizQuestionCollection).LoadAsync(cancellationToken).ConfigureAwait(true);
-
-            quiz.Update(updateQuizDto.Name, updateQuizDto.ExamName);
-            quiz.UpdateQuestions(updateQuizDto.QuestionIdCollection);
+            context.Attach(quiz).State = EntityState.Modified;
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }

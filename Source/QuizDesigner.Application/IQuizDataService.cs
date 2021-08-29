@@ -6,9 +6,11 @@ namespace QuizDesigner.Application
 {
     public interface IQuizDataService
     {
-        Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
+        Task<Guid> CreateAsync(Quiz quiz, CancellationToken cancellationToken = default);
 
-        Task UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default);
+        Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default);
+
+        Task UpdateAsync(Quiz quiz, CancellationToken cancellationToken = default);
 
         Task PublishQuizAsync(Guid quizId, CancellationToken cancellationToken = default);
     }

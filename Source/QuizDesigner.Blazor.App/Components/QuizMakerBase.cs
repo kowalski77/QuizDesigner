@@ -17,7 +17,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         private Guid quizId;
 
-        [Inject] private IQuizDataService DesignerService { get; set; }
+        [Inject] private IQuizService QuizService { get; set; }
 
         [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
@@ -88,7 +88,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected async Task OnPublishAsync()
         {
-            await this.DesignerService.PublishQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
+            //await this.QuizService.PublishQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
             await this.NotificationService.Success("Quiz successfully published!").ConfigureAwait(true);
             await this.OnResetAsync().ConfigureAwait(true);
         }
@@ -103,7 +103,7 @@ namespace QuizDesigner.Blazor.App.Components
             }
 
             var draftQuiz = new CreateQuizDto(this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse));
-            var result = await this.DesignerService.CreateQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
+            var result = await this.QuizService.CreateQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.Success("Quiz successfully saved!").ConfigureAwait(true);
 
@@ -120,7 +120,7 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            await this.DesignerService.UpdateQuizAsync(
+            await this.QuizService.UpdateQuizAsync(
                 new UpdateQuizDto(this.quizId, this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse)), 
                 this.tokenSource.Token)
                 .ConfigureAwait(true);
