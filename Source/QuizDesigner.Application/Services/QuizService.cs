@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MassTransit;
 using QuizCreatedEvents;
 
-namespace QuizDesigner.Application
+namespace QuizDesigner.Application.Services
 {
     public class QuizService : IQuizService
     {

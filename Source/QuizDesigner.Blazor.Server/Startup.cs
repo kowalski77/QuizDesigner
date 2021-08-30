@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizDesigner.Application;
-using QuizDesigner.Blazor.ComponentsLibrary;
 using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
