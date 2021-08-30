@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using QuizCreatedEvents;
+using RabbitMQ.Client.Exceptions;
 
 namespace QuizDesigner.Application.Services.Outbox
 {
@@ -20,13 +21,14 @@ namespace QuizDesigner.Application.Services.Outbox
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task PublishIntegrationEventAsync(IIntegrationEvent integrationEvent, CancellationToken cancellationToken = default)
+        public async Task PublishIntegrationEventAsync<T>(T integrationEvent, CancellationToken cancellationToken = default)
+            where T : IIntegrationEvent
         {
             try
             {
                 await this.publishEndpoint.Publish(integrationEvent, cancellationToken).ConfigureAwait(true);
             }
-            catch (Exception e)
+            catch (BrokerUnreachableException e)
             {
                 var outboxMessage = OutboxSerializer.Serialize(integrationEvent);
                 outboxMessage.Set(EventState.PublishedFailed);
@@ -65,7 +67,7 @@ namespace QuizDesigner.Application.Services.Outbox
                 outboxMessage.Set(EventState.Published);
                 await this.outboxDataService.UpdateMessageAsync(outboxMessage, cancellationToken).ConfigureAwait(true);
             }
-            catch (Exception e)
+            catch (BrokerUnreachableException e)
             {
                 this.logger.LogError(e, $"Error publishing message, id: {outboxMessage.Id}");
             }

@@ -6,7 +6,8 @@ namespace QuizDesigner.Application.Services.Outbox
 {
     public interface IOutboxService
     {
-        Task PublishIntegrationEventAsync(IIntegrationEvent integrationEvent, CancellationToken cancellationToken = default);
+        Task PublishIntegrationEventAsync<T>(T integrationEvent, CancellationToken cancellationToken = default)
+            where T : IIntegrationEvent;
 
         Task PublishPendingIntegrationEventsAsync(CancellationToken cancellationToken = default);
     }
