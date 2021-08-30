@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MassTransit;
-using QuizCreatedEvents;
+using QuizDesigner.Application.IntegrationEvents;
+using QuizDesigner.Application.Services.Outbox;
 
 namespace QuizDesigner.Application.Services
 {
@@ -11,16 +11,16 @@ namespace QuizDesigner.Application.Services
     {
         private readonly IQuizDataService quizDataService;
         private readonly IQuizDataProvider quizDataProvider;
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly IOutboxService outboxService;
 
         public QuizService(
             IQuizDataService quizDataService, 
-            IQuizDataProvider quizDataProvider,
-            IPublishEndpoint publishEndpoint)
+            IQuizDataProvider quizDataProvider, 
+            IOutboxService outboxService)
         {
             this.quizDataService = quizDataService ?? throw new ArgumentNullException(nameof(quizDataService));
             this.quizDataProvider = quizDataProvider ?? throw new ArgumentNullException(nameof(quizDataProvider));
-            this.publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            this.outboxService = outboxService ?? throw new ArgumentNullException(nameof(outboxService));
         }
 
         public async Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
@@ -47,8 +47,7 @@ namespace QuizDesigner.Application.Services
 
         public async Task PublishQuizAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var quiz = await this.quizDataProvider.GetQuizWithQuestionsAndAnswersAsync(id, cancellationToken)
-                .ConfigureAwait(true);
+            var quiz = await this.quizDataProvider.GetQuizWithQuestionsAndAnswersAsync(id, cancellationToken).ConfigureAwait(true);
 
             await this.PublishQuizCreatedIntegrationEventAsync(quiz, cancellationToken).ConfigureAwait(true);
 
@@ -63,9 +62,9 @@ namespace QuizDesigner.Application.Services
                 new ExamQuestion(x.Question!.Text, x.Question.Answers.Select(y =>
                     new ExamAnswer(y.Text, y.IsCorrect))));
 
-            var quizCreated = new QuizCreated(quiz.Name, quiz.ExamName, questions);
+            var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Name, quiz.ExamName, questions);
 
-            await this.publishEndpoint.Publish(quizCreated, cancellationToken).ConfigureAwait(true);
+            await this.outboxService.PublishIntegrationEventAsync(quizCreated, cancellationToken).ConfigureAwait(true);
         }
     }
 }

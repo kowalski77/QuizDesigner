@@ -7,7 +7,7 @@ namespace QuizDesigner.Persistence
 {
     public sealed class QuizDesignerContext : DbContext
     {
-        public QuizDesignerContext(DbContextOptions options) : base(options)
+        public QuizDesignerContext(DbContextOptions<QuizDesignerContext> options) : base(options)
         {
         }
 
