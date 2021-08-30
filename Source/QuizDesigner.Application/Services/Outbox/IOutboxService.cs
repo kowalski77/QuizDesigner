@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using QuizDesigner.Application.IntegrationEvents;
+using QuizCreatedEvents;
 
 namespace QuizDesigner.Application.Services.Outbox
 {

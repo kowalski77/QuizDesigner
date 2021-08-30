@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.Json;
-using QuizDesigner.Application.IntegrationEvents;
+using QuizCreatedEvents;
 
 namespace QuizDesigner.Application.Services.Outbox
 {

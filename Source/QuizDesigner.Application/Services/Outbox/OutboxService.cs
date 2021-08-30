@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using QuizDesigner.Application.IntegrationEvents;
+using QuizCreatedEvents;
 
 namespace QuizDesigner.Application.Services.Outbox
 {

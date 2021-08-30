@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using QuizDesigner.Application.IntegrationEvents;
+using QuizCreatedEvents;
 using QuizDesigner.Application.Services.Outbox;
 
 namespace QuizDesigner.Application.Services
