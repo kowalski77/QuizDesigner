@@ -28,7 +28,7 @@ namespace QuizDesigner.Persistence
             return quizEntry.Entity.Id;
         }
 
-        public async Task UpdateWithQuestionsAsync(Quiz quiz, CancellationToken cancellationToken = default)
+        public async Task UpdateQuestionsAsync(Quiz quiz, CancellationToken cancellationToken = default)
         {
             if (quiz == null) throw new ArgumentNullException(nameof(quiz));
 
@@ -57,6 +57,8 @@ namespace QuizDesigner.Persistence
 
             context.Attach(quiz);
             context.Entry(quiz).Property(x => x.IsPublished).IsModified = true;
+            context.Entry(quiz).Property(x => x.Name).IsModified = true;
+            context.Entry(quiz).Property(x => x.ExamName).IsModified = true;
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }

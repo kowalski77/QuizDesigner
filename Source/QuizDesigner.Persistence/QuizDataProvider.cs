@@ -36,6 +36,7 @@ namespace QuizDesigner.Persistence
                 .Include(x => x.QuizQuestionCollection)
                 .ThenInclude(x => x.Question)
                 .ThenInclude(x => x!.Answers)
+                .AsSingleQuery()
                 .FirstAsync(x => x.Id == id, cancellationToken)
                 .ConfigureAwait(true);
 

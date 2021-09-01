@@ -25,8 +25,11 @@ namespace QuizDesigner.Application.Services.Outbox
             where T : IIntegrationEvent
         {
             try
-            {
-                await this.publishEndpoint.Publish(integrationEvent, cancellationToken).ConfigureAwait(true);
+            {                
+                this.logger.LogInformation("Publishing integration event: " + DateTime.UtcNow);
+                await Task.Delay(5000, cancellationToken).ConfigureAwait(true);
+                this.logger.LogInformation("Integration Event Published " + DateTime.UtcNow);
+                //await this.publishEndpoint.Publish(integrationEvent, cancellationToken).ConfigureAwait(true);
             }
             catch (BrokerUnreachableException e)
             {
@@ -35,7 +38,13 @@ namespace QuizDesigner.Application.Services.Outbox
 
                 await this.outboxDataService.SaveMessageAsync(outboxMessage, cancellationToken).ConfigureAwait(true);
 
-                this.logger.LogError(e, $"Error publishing message {integrationEvent.Id}, created new outbox message id: {outboxMessage.Id}");
+                this.logger.LogError(e,
+                    $"Error publishing message {integrationEvent.Id}, created new outbox message id: {outboxMessage.Id}");
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"Manage the exception {e}");
+                throw;
             }
         }
 

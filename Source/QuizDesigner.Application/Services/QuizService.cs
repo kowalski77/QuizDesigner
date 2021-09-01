@@ -14,8 +14,8 @@ namespace QuizDesigner.Application.Services
         private readonly IOutboxService outboxService;
 
         public QuizService(
-            IQuizDataService quizDataService, 
-            IQuizDataProvider quizDataProvider, 
+            IQuizDataService quizDataService,
+            IQuizDataProvider quizDataProvider,
             IOutboxService outboxService)
         {
             this.quizDataService = quizDataService ?? throw new ArgumentNullException(nameof(quizDataService));
@@ -33,6 +33,7 @@ namespace QuizDesigner.Application.Services
             return await this.quizDataService.CreateAsync(quiz, cancellationToken).ConfigureAwait(true);
         }
 
+        // TODO: Result with success or not, maybe UNIQUE constraint with Quiz Name.
         public async Task UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {
             if (updateQuizDto == null) throw new ArgumentNullException(nameof(updateQuizDto));
@@ -42,21 +43,21 @@ namespace QuizDesigner.Application.Services
             quiz.Update(updateQuizDto.Name, updateQuizDto.ExamName);
             quiz.UpdateQuestions(updateQuizDto.QuestionIdCollection);
 
-            await this.quizDataService.UpdateWithQuestionsAsync(quiz, cancellationToken).ConfigureAwait(true);
+            await this.quizDataService.Update(quiz, cancellationToken).ConfigureAwait(true);
+            await this.quizDataService.UpdateQuestionsAsync(quiz, cancellationToken).ConfigureAwait(true);
         }
 
         public async Task PublishQuizAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var quiz = await this.quizDataProvider.GetQuizWithQuestionsAndAnswersAsync(id, cancellationToken).ConfigureAwait(true);
 
-            await this.PublishQuizCreatedIntegrationEventAsync(quiz, cancellationToken).ConfigureAwait(true);
-
             quiz.SetAsPublished();
-
             await this.quizDataService.Update(quiz, cancellationToken).ConfigureAwait(true);
+
+            await this.PublishQuizCreatedIntegrationEventAsync(quiz).ConfigureAwait(true);
         }
 
-        private async Task PublishQuizCreatedIntegrationEventAsync(Quiz quiz, CancellationToken cancellationToken)
+        private async Task PublishQuizCreatedIntegrationEventAsync(Quiz quiz)
         {
             var questions = quiz.QuizQuestionCollection.Select(x =>
                 new ExamQuestion(x.Question!.Text, x.Question.Answers.Select(y =>
@@ -64,7 +65,7 @@ namespace QuizDesigner.Application.Services
 
             var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Name, quiz.ExamName, questions);
 
-            await this.outboxService.PublishIntegrationEventAsync(quizCreated, cancellationToken).ConfigureAwait(true);
+            await this.outboxService.PublishIntegrationEventAsync(quizCreated, CancellationToken.None).ConfigureAwait(true);
         }
     }
 }
