@@ -25,11 +25,8 @@ namespace QuizDesigner.Application.Services.Outbox
             where T : IIntegrationEvent
         {
             try
-            {                
-                this.logger.LogInformation("Publishing integration event: " + DateTime.UtcNow);
-                await Task.Delay(5000, cancellationToken).ConfigureAwait(true);
-                this.logger.LogInformation("Integration Event Published " + DateTime.UtcNow);
-                //await this.publishEndpoint.Publish(integrationEvent, cancellationToken).ConfigureAwait(true);
+            {
+                await this.publishEndpoint.Publish(integrationEvent, cancellationToken).ConfigureAwait(true);
             }
             catch (BrokerUnreachableException e)
             {
