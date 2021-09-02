@@ -11,16 +11,16 @@ namespace QuizDesigner.Application.Services
     {
         private readonly IQuizDataService quizDataService;
         private readonly IQuizDataProvider quizDataProvider;
-        private readonly IOutboxService outboxService;
+        private readonly ChannelService<QuizCreated> channelService;
 
         public QuizService(
             IQuizDataService quizDataService,
             IQuizDataProvider quizDataProvider,
-            IOutboxService outboxService)
+            ChannelService<QuizCreated> channelService)
         {
             this.quizDataService = quizDataService ?? throw new ArgumentNullException(nameof(quizDataService));
             this.quizDataProvider = quizDataProvider ?? throw new ArgumentNullException(nameof(quizDataProvider));
-            this.outboxService = outboxService ?? throw new ArgumentNullException(nameof(outboxService));
+            this.channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
         }
 
         public async Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
@@ -65,7 +65,7 @@ namespace QuizDesigner.Application.Services
 
             var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Name, quiz.ExamName, questions);
 
-            await this.outboxService.PublishIntegrationEventAsync(quizCreated, CancellationToken.None).ConfigureAwait(true);
+            await this.channelService.Add(quizCreated, CancellationToken.None).ConfigureAwait(true);
         }
     }
 }

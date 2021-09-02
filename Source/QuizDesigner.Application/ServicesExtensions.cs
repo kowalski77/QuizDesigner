@@ -10,7 +10,7 @@ namespace QuizDesigner.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IQuizService, QuizService>();
-            services.AddScoped<IOutboxService, OutboxService>();
+            services.AddSingleton(typeof(ChannelService<>));
 
             services.AddMassTransit(x =>
             {
