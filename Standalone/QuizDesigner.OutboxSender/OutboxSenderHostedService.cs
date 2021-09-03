@@ -35,7 +35,7 @@ namespace QuizDesigner.OutboxSender
 
                 if(outboxMessageCollection.Count == 0)
                 {
-                    this.logger.LogDebug($"No pending outbox messages to publish.");
+                    this.logger.LogDebug("No pending outbox messages to publish.");
                 }
 
                 foreach (var outboxMessage in outboxMessageCollection)
