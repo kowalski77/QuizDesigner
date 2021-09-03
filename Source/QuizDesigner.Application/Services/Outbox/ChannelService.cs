@@ -2,16 +2,17 @@
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using QuizCreatedEvents;
 
 namespace QuizDesigner.Application.Services.Outbox
 {
-    public sealed class ChannelService<TMessage> where TMessage : class
+    public sealed class ChannelService : IChannelService
     {
-        private readonly Channel<TMessage> serviceChannel;
+        private readonly Channel<IIntegrationEvent> serviceChannel;
 
         public ChannelService()
         {
-            this.serviceChannel = Channel.CreateBounded<TMessage>(new BoundedChannelOptions(50)
+            this.serviceChannel = Channel.CreateBounded<IIntegrationEvent>(new BoundedChannelOptions(50)
             {
                 SingleReader = true,
                 SingleWriter = false,
@@ -19,12 +20,12 @@ namespace QuizDesigner.Application.Services.Outbox
             });
         }
 
-        public async Task Add(TMessage model, CancellationToken cancellationToken)
+        public async Task Add(IIntegrationEvent model, CancellationToken cancellationToken)
         {
             await this.serviceChannel.Writer.WriteAsync(model, cancellationToken).ConfigureAwait(true);
         }
 
-        public IAsyncEnumerable<TMessage> Get(CancellationToken cancellationToken)
+        public IAsyncEnumerable<IIntegrationEvent> Get(CancellationToken cancellationToken)
         {
             return this.serviceChannel.Reader.ReadAllAsync(cancellationToken);
         }

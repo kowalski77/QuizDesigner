@@ -11,13 +11,13 @@ namespace QuizDesigner.Application.Services.Outbox
 {
     public class OutboxSenderHostedService : BackgroundService
     {
-        private readonly ChannelService<QuizCreated> channelService;
+        private readonly IChannelService channelService;
         private readonly ILogger<OutboxSenderHostedService> logger;
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IOutboxDataService outboxDataService;
 
         public OutboxSenderHostedService(
-            ChannelService<QuizCreated> channelService, 
+            IChannelService channelService, 
             ILogger<OutboxSenderHostedService> logger, 
             IServiceScopeFactory factory)
         {
@@ -33,30 +33,31 @@ namespace QuizDesigner.Application.Services.Outbox
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await foreach (var quizCreated in this.channelService.Get(stoppingToken))
+                await foreach (var integrationEvent in this.channelService.Get(stoppingToken))
                 {
-                    await this.TryPublishAsync(quizCreated).ConfigureAwait(false);
+                    await this.TryPublishAsync(integrationEvent).ConfigureAwait(false);
                 }
             }
         }
 
-        private async Task TryPublishAsync(QuizCreated quizCreated)
+        private async Task TryPublishAsync(IIntegrationEvent integrationEvent)
         {
             try
             {
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
                 cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                await this.publishEndpoint.Publish(quizCreated, cancellationTokenSource.Token).ConfigureAwait(false);
+                var type = integrationEvent.GetType();
+                await this.publishEndpoint.Publish(integrationEvent, type, cancellationTokenSource.Token).ConfigureAwait(false);
             }
             catch (OperationCanceledException e)
             {
-                var outboxMessage = OutboxSerializer.Serialize(quizCreated);
+                var outboxMessage = OutboxSerializer.Serialize(integrationEvent);
                 outboxMessage.Set(EventState.PublishedFailed);
 
                 await this.outboxDataService.SaveMessageAsync(outboxMessage, CancellationToken.None).ConfigureAwait(true);
 
-                this.logger.LogError(e, $"Error publishing message {quizCreated.Id}, created new outbox message id: {outboxMessage.Id}");
+                this.logger.LogError(e, $"Error publishing message {integrationEvent.Id}, created new outbox message id: {outboxMessage.Id}");
             }
         }
     }

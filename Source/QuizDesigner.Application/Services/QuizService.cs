@@ -11,12 +11,12 @@ namespace QuizDesigner.Application.Services
     {
         private readonly IQuizDataService quizDataService;
         private readonly IQuizDataProvider quizDataProvider;
-        private readonly ChannelService<QuizCreated> channelService;
+        private readonly IChannelService channelService;
 
         public QuizService(
             IQuizDataService quizDataService,
             IQuizDataProvider quizDataProvider,
-            ChannelService<QuizCreated> channelService)
+            IChannelService channelService)
         {
             this.quizDataService = quizDataService ?? throw new ArgumentNullException(nameof(quizDataService));
             this.quizDataProvider = quizDataProvider ?? throw new ArgumentNullException(nameof(quizDataProvider));
