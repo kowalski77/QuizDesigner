@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Dapper;
+using Microsoft.Data.SqlClient;
+using QuizDesigner.Outbox;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Arch.Utils.Functional.Monads;
-using Dapper;
-using Microsoft.Data.SqlClient;
-using QuizDesigner.Outbox;
 
 namespace QuizDesigner.OutboxSender
 {
@@ -22,7 +21,7 @@ namespace QuizDesigner.OutboxSender
             this.connectionString = connectionString;
         }
 
-        public async Task<Maybe<IReadOnlyList<OutboxMessage>>> GetNotPublishedAsync()
+        public async Task<IReadOnlyList<OutboxMessage>> GetNotPublishedAsync()
         {
             await using var db = new SqlConnection(this.connectionString);
 

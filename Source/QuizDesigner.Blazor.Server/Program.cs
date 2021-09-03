@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using QuizDesigner.Application.Services;
 using QuizDesigner.Blazor.Server.Support;
 using QuizDesigner.Persistence;
+using QuizDesigner.Persistence.Outbox;
 
 namespace QuizDesigner.Blazor.Server
 {
@@ -13,6 +14,7 @@ namespace QuizDesigner.Blazor.Server
         {
             CreateHostBuilder(args)
                 .Build()
+                .MigrateDatabase<OutboxDbContext>()
                 .MigrateDatabase<QuizDesignerContext>()
                 .Run();
         }

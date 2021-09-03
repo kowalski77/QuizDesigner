@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuizDesigner.Events;
 using QuizDesigner.Outbox;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace QuizDesigner.OutboxSender
 {
@@ -30,18 +30,17 @@ namespace QuizDesigner.OutboxSender
             while (!stoppingToken.IsCancellationRequested)
             {
                 this.logger.LogDebug("Checking for pending outbox messages...");
-                var maybe = await this.outboxData.GetNotPublishedAsync().ConfigureAwait(false);
 
-                if (maybe.TryGetValue(out var outboxMessageCollection))
+                var outboxMessageCollection = await this.outboxData.GetNotPublishedAsync().ConfigureAwait(false);
+
+                if(outboxMessageCollection.Count == 0)
                 {
-                    foreach (var outboxMessage in outboxMessageCollection)
-                    {
-                        await this.TryPublishAsync(outboxMessage).ConfigureAwait(false);
-                    }
+                    this.logger.LogDebug($"No pending outbox messages to publish.");
                 }
-                else
+
+                foreach (var outboxMessage in outboxMessageCollection)
                 {
-                    this.logger.LogDebug("No pending outbox messages found.");
+                    await this.TryPublishAsync(outboxMessage).ConfigureAwait(false);
                 }
 
                 await Task.Delay(60 * 1000, stoppingToken).ConfigureAwait(false);
