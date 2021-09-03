@@ -29,6 +29,7 @@ namespace QuizDesigner.OutboxSender
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                this.logger.LogDebug("Checking for pending outbox messages...");
                 var maybe = await this.outboxData.GetNotPublishedAsync().ConfigureAwait(false);
 
                 if (maybe.TryGetValue(out var outboxMessageCollection))
@@ -37,6 +38,10 @@ namespace QuizDesigner.OutboxSender
                     {
                         await this.TryPublishAsync(outboxMessage).ConfigureAwait(false);
                     }
+                }
+                else
+                {
+                    this.logger.LogDebug("No pending outbox messages found.");
                 }
 
                 await Task.Delay(60 * 1000, stoppingToken).ConfigureAwait(false);

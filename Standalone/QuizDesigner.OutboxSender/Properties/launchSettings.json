@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "QuizDesigner.OutboxSender": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
