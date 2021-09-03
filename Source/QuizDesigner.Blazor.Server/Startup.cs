@@ -36,8 +36,6 @@ namespace QuizDesigner.Blazor.Server
             services.AddServerSideBlazor();
             services.AddApplicationServices();
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
-
-            services.AddHostedService<OutboxSenderHostedService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
