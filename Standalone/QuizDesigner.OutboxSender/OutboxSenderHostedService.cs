@@ -39,13 +39,13 @@ namespace QuizDesigner.OutboxSender
                     }
                 }
 
-                await Task.Delay(2 * 1000, stoppingToken).ConfigureAwait(false);
+                await Task.Delay(60 * 1000, stoppingToken).ConfigureAwait(false);
             }
         }
 
         private async Task TryPublishAsync(OutboxMessage outboxMessage)
         {
-            var integrationEvent = OutboxSerializer.Deserialize<QuizCreated>(outboxMessage);
+            var integrationEvent = OutboxSerializer.Deserialize(outboxMessage, typeof(QuizCreated).Assembly);
             try
             {
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
@@ -54,13 +54,13 @@ namespace QuizDesigner.OutboxSender
                 var type = integrationEvent.GetType();
                 await this.publishEndpoint.Publish(integrationEvent, type, cancellationTokenSource.Token).ConfigureAwait(false);
 
-                this.logger.LogInformation($"Integration event with id:{integrationEvent.Id} successfully published");
+                this.logger.LogInformation($"Outbox message with id:{outboxMessage.Id} successfully published");
 
                 await this.outboxData.SetMessageAsPublishedAsync(outboxMessage.Id).ConfigureAwait(true);
             }
             catch (OperationCanceledException e)
             {
-                this.logger.LogError(e, $"Error re-publishing message {integrationEvent.Id}, created new outbox message id: {outboxMessage.Id}");
+                this.logger.LogError(e, $"Error re-publishing outbox message with id: {outboxMessage.Id}");
             }
         }
     }
