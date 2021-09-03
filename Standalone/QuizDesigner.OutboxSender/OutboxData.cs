@@ -13,7 +13,7 @@ namespace QuizDesigner.OutboxSender
     public class OutboxData
     {
         private const string PublishFailedOutboxMessagesSql = "Select * from OutboxMessages where EventState = 2";
-        private const string UpdateOutboxMessageEventStateSql = "Update OutboxMessages set EventState = 2 where Id = {0}";
+        private const string UpdateOutboxMessageEventStateSql = "Update OutboxMessages set EventState = 1 where Id = '{0}'";
 
         private readonly string connectionString;
 
