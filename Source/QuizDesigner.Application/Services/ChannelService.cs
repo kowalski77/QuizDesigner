@@ -4,7 +4,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using QuizCreatedEvents;
 
-namespace QuizDesigner.Application.Services.Outbox
+namespace QuizDesigner.Application.Services
 {
     public sealed class ChannelService : IChannelService
     {
@@ -20,12 +20,12 @@ namespace QuizDesigner.Application.Services.Outbox
             });
         }
 
-        public async Task Add(IIntegrationEvent model, CancellationToken cancellationToken)
+        public async Task AddAsync(IIntegrationEvent model, CancellationToken cancellationToken)
         {
             await this.serviceChannel.Writer.WriteAsync(model, cancellationToken).ConfigureAwait(true);
         }
 
-        public IAsyncEnumerable<IIntegrationEvent> Get(CancellationToken cancellationToken)
+        public IAsyncEnumerable<IIntegrationEvent> GetAsync(CancellationToken cancellationToken)
         {
             return this.serviceChannel.Reader.ReadAllAsync(cancellationToken);
         }

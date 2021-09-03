@@ -27,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.Blazor.Compone
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestHarness", "TestHarness", "{55628343-AB7E-49A6-8B9B-8A0F26513280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.MessagesConsumer.TestHarness", "TestHarness\QuizDesigner.MessagesConsumer.TestHarness\QuizDesigner.MessagesConsumer.TestHarness.csproj", "{438539D3-A221-4979-9595-35AE4FA366EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.MessagesConsumer.TestHarness", "TestHarness\QuizDesigner.MessagesConsumer.TestHarness\QuizDesigner.MessagesConsumer.TestHarness.csproj", "{438539D3-A221-4979-9595-35AE4FA366EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building Blocks", "Building Blocks", "{9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.Outbox", "Source\QuizDesigner.Outbox\QuizDesigner.Outbox.csproj", "{6D10311A-4994-4D4A-93EF-C329DA9D89CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,10 @@ Global
 		{438539D3-A221-4979-9595-35AE4FA366EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{438539D3-A221-4979-9595-35AE4FA366EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{438539D3-A221-4979-9595-35AE4FA366EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D10311A-4994-4D4A-93EF-C329DA9D89CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D10311A-4994-4D4A-93EF-C329DA9D89CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D10311A-4994-4D4A-93EF-C329DA9D89CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D10311A-4994-4D4A-93EF-C329DA9D89CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +80,8 @@ Global
 		{CE61C4CE-6D81-4D73-8AB0-3D3216AFB461} = {CC49C626-8CAA-4641-8DC1-9FA02496F967}
 		{F3E4ED7C-E96B-4742-B9FA-598C2548CCD0} = {2F4A6DCA-92BA-4FDE-BF64-3D4A27DADABB}
 		{438539D3-A221-4979-9595-35AE4FA366EA} = {55628343-AB7E-49A6-8B9B-8A0F26513280}
+		{9FC61AC3-6A7D-4E14-9901-0AD9521D74FC} = {C3576A5A-F777-407C-8ECC-879366DDD182}
+		{6D10311A-4994-4D4A-93EF-C329DA9D89CB} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA415DAB-23AE-4E78-A4A7-337D72ED17D3}

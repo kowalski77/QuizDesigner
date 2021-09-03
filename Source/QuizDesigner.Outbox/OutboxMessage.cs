@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuizDesigner.Application.Services.Outbox
+namespace QuizDesigner.Outbox
 {
     public sealed class OutboxMessage
     {

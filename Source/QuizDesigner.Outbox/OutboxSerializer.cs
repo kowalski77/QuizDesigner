@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using QuizCreatedEvents;
 
-namespace QuizDesigner.Application.Services.Outbox
+namespace QuizDesigner.Outbox
 {
     public static class OutboxSerializer
     {

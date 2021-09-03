@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using QuizCreatedEvents;
-using QuizDesigner.Application.Services.Outbox;
 
 namespace QuizDesigner.Application.Services
 {
@@ -65,7 +64,7 @@ namespace QuizDesigner.Application.Services
 
             var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Name, quiz.ExamName, questions);
 
-            await this.channelService.Add(quizCreated, CancellationToken.None).ConfigureAwait(true);
+            await this.channelService.AddAsync(quizCreated, CancellationToken.None).ConfigureAwait(true);
         }
     }
 }

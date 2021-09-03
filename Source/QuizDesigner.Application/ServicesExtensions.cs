@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using QuizDesigner.Application.Services;
-using QuizDesigner.Application.Services.Outbox;
 
 namespace QuizDesigner.Application
 {

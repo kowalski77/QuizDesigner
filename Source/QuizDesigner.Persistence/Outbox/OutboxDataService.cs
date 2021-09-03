@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Monads;
 using Microsoft.EntityFrameworkCore;
-using QuizDesigner.Application.Services.Outbox;
+using QuizDesigner.Outbox;
 using QuizDesigner.Persistence.Support;
 
 namespace QuizDesigner.Persistence.Outbox

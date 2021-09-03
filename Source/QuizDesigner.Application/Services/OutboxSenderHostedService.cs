@@ -6,8 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuizCreatedEvents;
+using QuizDesigner.Outbox;
 
-namespace QuizDesigner.Application.Services.Outbox
+namespace QuizDesigner.Application.Services
 {
     public class OutboxSenderHostedService : BackgroundService
     {
@@ -33,7 +34,7 @@ namespace QuizDesigner.Application.Services.Outbox
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await foreach (var integrationEvent in this.channelService.Get(stoppingToken))
+                await foreach (var integrationEvent in this.channelService.GetAsync(stoppingToken))
                 {
                     await this.TryPublishAsync(integrationEvent).ConfigureAwait(false);
                 }

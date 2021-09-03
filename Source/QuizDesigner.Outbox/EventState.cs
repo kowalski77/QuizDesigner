@@ -1,4 +1,4 @@
-﻿namespace QuizDesigner.Application.Services.Outbox
+﻿namespace QuizDesigner.Outbox
 {
     public enum EventState
     {

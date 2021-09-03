@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Arch.Utils.Functional.Monads;
 
-namespace QuizDesigner.Application.Services.Outbox
+namespace QuizDesigner.Outbox
 {
     public interface IOutboxDataService
     {

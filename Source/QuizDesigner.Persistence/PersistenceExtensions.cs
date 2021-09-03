@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using QuizDesigner.Application;
-using QuizDesigner.Application.Services.Outbox;
+using QuizDesigner.Outbox;
 using QuizDesigner.Persistence.Outbox;
 
 namespace QuizDesigner.Persistence

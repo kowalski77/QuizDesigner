@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using QuizDesigner.Application.Services.Outbox;
+using QuizDesigner.Application.Services;
 using QuizDesigner.Blazor.Server.Support;
 using QuizDesigner.Persistence;
 

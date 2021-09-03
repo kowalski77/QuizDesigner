@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using QuizDesigner.Application.Services.Outbox;
+using QuizDesigner.Outbox;
 
 namespace QuizDesigner.Persistence.Outbox
 {
