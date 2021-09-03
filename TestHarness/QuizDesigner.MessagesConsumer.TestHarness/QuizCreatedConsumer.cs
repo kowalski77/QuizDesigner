@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MassTransit;
-using QuizCreatedEvents;
+using QuizDesigner.Events;
 
 namespace QuizDesigner.MessagesConsumer.TestHarness
 {

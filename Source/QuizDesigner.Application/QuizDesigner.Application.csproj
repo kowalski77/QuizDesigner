@@ -13,10 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationEvents\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\QuizDesigner.Events\QuizDesigner.Events.csproj" />
     <ProjectReference Include="..\QuizDesigner.Outbox\QuizDesigner.Outbox.csproj" />
   </ItemGroup>
 

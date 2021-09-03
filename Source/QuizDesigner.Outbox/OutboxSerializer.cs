@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Reflection;
 using System.Text.Json;
-using QuizCreatedEvents;
 
 namespace QuizDesigner.Outbox
 {
     public static class OutboxSerializer
     {
-        public static OutboxMessage Serialize(IIntegrationEvent message)
+        public static OutboxMessage Serialize<T>(T message)
+            where T : class
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
 
-            var type = message.GetType().FullName ??
-                       throw new InvalidOperationException("The type of the message cannot be null.");
+            var type = message.GetType();
+            var data = JsonSerializer.Serialize(message, type);
 
-            var data = JsonSerializer.Serialize(message);
-            var outboxMessage = new OutboxMessage(Guid.NewGuid(), DateTime.UtcNow, type, data);
-
-            return outboxMessage;
+            return new OutboxMessage(Guid.NewGuid(), DateTime.UtcNow, type.FullName ?? type.Name, data);
         }
 
-        public static IIntegrationEvent Deserialize(OutboxMessage outboxMessage)
+        public static T Deserialize<T>(OutboxMessage outboxMessage)
+            where T : class
         {
             if (outboxMessage == null) throw new ArgumentNullException(nameof(outboxMessage));
 
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = typeof(T).Assembly;
             var type = assembly.GetType(outboxMessage.Type) ?? 
                        throw new InvalidOperationException($"Could not find type {outboxMessage.Type}");
 
-            var result = JsonSerializer.Deserialize(outboxMessage.Data, type) as IIntegrationEvent;
+            var result = JsonSerializer.Deserialize(outboxMessage.Data, type) as T;
 
             return result ?? 
                    throw new InvalidOperationException($"Could not deserialize: {outboxMessage.Type}");

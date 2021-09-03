@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuizCreatedEvents;
 
-// ReSharper disable once CheckNamespace
-namespace QuizCreatedEvents
+namespace QuizDesigner.Events
 {
     public sealed record QuizCreated(Guid Id, string Name, string Exam, IEnumerable<ExamQuestion> ExamQuestionCollection) : IIntegrationEvent;
 

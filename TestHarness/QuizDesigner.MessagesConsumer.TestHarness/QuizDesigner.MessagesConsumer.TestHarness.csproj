@@ -10,4 +10,8 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\QuizDesigner.Events\QuizDesigner.Events.csproj" />
+  </ItemGroup>
+
 </Project>

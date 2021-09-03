@@ -10,16 +10,16 @@ using QuizDesigner.Outbox;
 
 namespace QuizDesigner.Application.Services
 {
-    public class OutboxSenderHostedService : BackgroundService
+    public class OutboxPublisherHostedService : BackgroundService
     {
         private readonly IChannelService channelService;
-        private readonly ILogger<OutboxSenderHostedService> logger;
+        private readonly ILogger<OutboxPublisherHostedService> logger;
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IOutboxDataService outboxDataService;
 
-        public OutboxSenderHostedService(
+        public OutboxPublisherHostedService(
             IChannelService channelService, 
-            ILogger<OutboxSenderHostedService> logger, 
+            ILogger<OutboxPublisherHostedService> logger, 
             IServiceScopeFactory factory)
         {
             this.channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
@@ -48,8 +48,7 @@ namespace QuizDesigner.Application.Services
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
                 cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                var type = integrationEvent.GetType();
-                await this.publishEndpoint.Publish(integrationEvent, type, cancellationTokenSource.Token).ConfigureAwait(false);
+                await this.publishEndpoint.Publish(integrationEvent, integrationEvent.GetType(), cancellationTokenSource.Token).ConfigureAwait(false);
             }
             catch (OperationCanceledException e)
             {

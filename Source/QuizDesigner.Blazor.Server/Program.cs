@@ -25,7 +25,7 @@ namespace QuizDesigner.Blazor.Server
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddHostedService<OutboxSenderHostedService>();
+                    services.AddHostedService<OutboxPublisherHostedService>();
                 });
     }
 }
