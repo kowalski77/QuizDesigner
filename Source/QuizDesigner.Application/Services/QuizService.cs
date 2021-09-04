@@ -39,8 +39,8 @@ namespace QuizDesigner.Application.Services
 
             var quiz = await this.quizDataProvider.GetAsync(updateQuizDto.QuizId, cancellationToken).ConfigureAwait(true);
 
-            quiz.Update(updateQuizDto.Name, updateQuizDto.ExamName);
-            quiz.UpdateQuestions(updateQuizDto.QuestionIdCollection);
+            quiz.SetNames(updateQuizDto.Name, updateQuizDto.ExamName);
+            quiz.SetQuestions(updateQuizDto.QuestionIdCollection);
 
             await this.quizDataService.Update(quiz, cancellationToken).ConfigureAwait(true);
             await this.quizDataService.UpdateQuestionsAsync(quiz, cancellationToken).ConfigureAwait(true);
