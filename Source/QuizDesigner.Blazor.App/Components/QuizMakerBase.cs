@@ -105,10 +105,16 @@ namespace QuizDesigner.Blazor.App.Components
             var draftQuiz = new CreateQuizDto(this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse));
             var result = await this.QuizService.CreateQuizAsync(draftQuiz, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.Success("Quiz successfully saved!").ConfigureAwait(true);
-
-            this.IsSaved = true;
-            this.quizId = result;
+            if (result.Success)
+            {
+                await this.NotificationService.Success("Quiz successfully saved!").ConfigureAwait(true);
+                this.IsSaved = true;
+                this.quizId = result.Value;
+            }
+            else
+            {
+                await this.NotificationService.Error(result.Error).ConfigureAwait(false);
+            }
         }
 
         private async Task UpdateQuizAsync()

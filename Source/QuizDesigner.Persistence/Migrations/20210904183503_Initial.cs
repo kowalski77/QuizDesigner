@@ -7,8 +7,6 @@ namespace QuizDesigner.Persistence.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            if (migrationBuilder == null) throw new ArgumentNullException(nameof(migrationBuilder));
-
             migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
@@ -29,7 +27,7 @@ namespace QuizDesigner.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ExamName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsPublished = table.Column<bool>(type: "bit", nullable: false),
@@ -94,12 +92,16 @@ namespace QuizDesigner.Persistence.Migrations
                 name: "IX_QuizQuestion_QuestionId",
                 table: "QuizQuestion",
                 column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quizzes_Name",
+                table: "Quizzes",
+                column: "Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            if (migrationBuilder == null) throw new ArgumentNullException(nameof(migrationBuilder));
-
             migrationBuilder.DropTable(
                 name: "Answer");
 

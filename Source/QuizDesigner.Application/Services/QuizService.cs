@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Arch.Utils.Functional.Results;
 using QuizDesigner.Events;
 
 namespace QuizDesigner.Application.Services
@@ -22,7 +23,7 @@ namespace QuizDesigner.Application.Services
             this.channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
         }
 
-        public async Task<Guid> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid>> CreateQuizAsync(CreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
         {
             if (createQuizDto == null) throw new ArgumentNullException(nameof(createQuizDto));
 
@@ -32,7 +33,6 @@ namespace QuizDesigner.Application.Services
             return await this.quizDataService.CreateAsync(quiz, cancellationToken).ConfigureAwait(true);
         }
 
-        // TODO: Result with success or not, maybe UNIQUE constraint with Quiz Name.
         public async Task UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {
             if (updateQuizDto == null) throw new ArgumentNullException(nameof(updateQuizDto));
