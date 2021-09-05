@@ -10,7 +10,10 @@ namespace QuizDesigner.Persistence.Support
     {
         public static async Task<Result> SaveAsync(this QuizDesignerContext context, CancellationToken cancellationToken)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             try
             {
@@ -18,13 +21,14 @@ namespace QuizDesigner.Persistence.Support
 
                 return Result.Ok();
             }
-            catch(DbUpdateException e)
+            catch (DbUpdateException e)
             {
-                if(e.InnerException is not null && 
-                   e.InnerException.Message.Contains("Cannot insert duplicate key row", StringComparison.InvariantCulture))
+                if (e.InnerException is not null &&
+                    e.InnerException.Message.Contains("Cannot insert duplicate key row", StringComparison.InvariantCulture))
                 {
                     return Result.Fail(string.Empty, string.Empty);
                 }
+
                 throw;
             }
         }

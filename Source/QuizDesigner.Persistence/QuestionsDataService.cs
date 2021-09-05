@@ -33,7 +33,7 @@ namespace QuizDesigner.Persistence
 
             await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
-            
+
             return Result.Ok();
         }
 
@@ -61,7 +61,10 @@ namespace QuizDesigner.Persistence
 
         public async Task<Result> UpdateAsync(UpdateQuestionDto questionUpdated, CancellationToken cancellationToken = default)
         {
-            if (questionUpdated == null) throw new ArgumentNullException(nameof(questionUpdated));
+            if (questionUpdated == null)
+            {
+                throw new ArgumentNullException(nameof(questionUpdated));
+            }
 
             await using var context = this.contextFactory.CreateDbContext();
             var question = await context.FindAsync<Question>(new object[] { questionUpdated.Id }, cancellationToken).ConfigureAwait(true);

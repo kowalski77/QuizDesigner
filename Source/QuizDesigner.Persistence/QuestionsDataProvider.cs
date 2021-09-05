@@ -22,7 +22,10 @@ namespace QuizDesigner.Persistence
 
         public async Task<IPaginatedModel<QuestionDto>> GetQuestionsAsync(QuestionsQuery questionsQuery, CancellationToken cancellationToken = default)
         {
-            if (questionsQuery == null) throw new ArgumentNullException(nameof(questionsQuery));
+            if (questionsQuery == null)
+            {
+                throw new ArgumentNullException(nameof(questionsQuery));
+            }
 
             await using var context = this.contextFactory.CreateDbContext();
             context.ActiveReadOnlyMode();
@@ -57,7 +60,7 @@ namespace QuizDesigner.Persistence
                 Id = question.Id,
                 Text = question.Text,
                 Tag = question.Tag,
-                AnswerCollection = question.Answers.Select(x=> new AnswerDto
+                AnswerCollection = question.Answers.Select(x => new AnswerDto
                 {
                     Text = x.Text,
                     IsCorrect = x.IsCorrect

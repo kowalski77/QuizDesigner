@@ -9,11 +9,14 @@ namespace QuizDesigner.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<QuizQuestion> builder)
         {
-            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             builder.HasKey(x => new
             {
-                x.QuizId, 
+                x.QuizId,
                 x.QuestionId
             });
         }

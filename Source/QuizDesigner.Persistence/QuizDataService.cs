@@ -20,21 +20,25 @@ namespace QuizDesigner.Persistence
 
         public async Task<Result<Guid>> CreateAsync(Quiz quiz, CancellationToken cancellationToken = default)
         {
-            if (quiz == null) throw new ArgumentNullException(nameof(quiz));
+            if (quiz == null)
+            {
+                throw new ArgumentNullException(nameof(quiz));
+            }
 
             await using var context = this.contextFactory.CreateDbContext();
             var quizEntry = context.Add(quiz);
 
             var result = await context.SaveAsync(cancellationToken).ConfigureAwait(true);
 
-            return result.Success ?
-                Result.Ok(quizEntry.Entity.Id) : 
-                Result.Fail<Guid>(nameof(quiz.Name), $"Name: {quiz.Name} already exist in the database");
+            return result.Success ? Result.Ok(quizEntry.Entity.Id) : Result.Fail<Guid>(nameof(quiz.Name), $"Name: {quiz.Name} already exist in the database");
         }
 
         public async Task<Result> Update(Quiz quiz, CancellationToken cancellationToken = default)
         {
-            if (quiz == null) throw new ArgumentNullException(nameof(quiz));
+            if (quiz == null)
+            {
+                throw new ArgumentNullException(nameof(quiz));
+            }
 
             await using var context = this.contextFactory.CreateDbContext();
 
@@ -45,14 +49,15 @@ namespace QuizDesigner.Persistence
 
             var result = await context.SaveAsync(cancellationToken).ConfigureAwait(true);
 
-            return result.Success ? 
-                Result.Ok() : 
-                Result.Fail<Guid>(nameof(quiz.Name), $"Name: {quiz.Name} already exist in the database");
+            return result.Success ? Result.Ok() : Result.Fail<Guid>(nameof(quiz.Name), $"Name: {quiz.Name} already exist in the database");
         }
 
         public async Task UpdateQuestionsAsync(Quiz quiz, CancellationToken cancellationToken = default)
         {
-            if (quiz == null) throw new ArgumentNullException(nameof(quiz));
+            if (quiz == null)
+            {
+                throw new ArgumentNullException(nameof(quiz));
+            }
 
             await using var context = this.contextFactory.CreateDbContext();
 
@@ -66,7 +71,7 @@ namespace QuizDesigner.Persistence
                 context.Remove(quizQuestion);
             }
 
-            currentQuiz.AddQuestions(quiz.QuizQuestionCollection.Select(x=>x.QuestionId));
+            currentQuiz.AddQuestions(quiz.QuizQuestionCollection.Select(x => x.QuestionId));
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }

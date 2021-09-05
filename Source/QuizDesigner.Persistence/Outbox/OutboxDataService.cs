@@ -21,7 +21,10 @@ namespace QuizDesigner.Persistence.Outbox
 
         public async Task SaveMessageAsync(OutboxMessage outboxMessage, CancellationToken cancellationToken = default)
         {
-            if (outboxMessage == null) throw new ArgumentNullException(nameof(outboxMessage));
+            if (outboxMessage == null)
+            {
+                throw new ArgumentNullException(nameof(outboxMessage));
+            }
 
             await using var context = this.contextFactory.CreateDbContext();
 
