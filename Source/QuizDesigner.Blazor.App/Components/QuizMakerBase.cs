@@ -126,12 +126,19 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            await this.QuizService.UpdateQuizAsync(
+            var result = await this.QuizService.UpdateQuizAsync(
                 new UpdateQuizDto(this.quizId, this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse)), 
                 this.tokenSource.Token)
                 .ConfigureAwait(true);
 
-            await this.NotificationService.Success("Quiz successfully updated!").ConfigureAwait(true);
+            if (result.Success)
+            {
+                await this.NotificationService.Success("Quiz successfully updated!").ConfigureAwait(true);
+            }
+            else
+            {
+                await this.NotificationService.Error(result.Error).ConfigureAwait(false);
+            }
         }
 
         public void Dispose()

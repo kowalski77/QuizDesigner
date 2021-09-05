@@ -33,7 +33,7 @@ namespace QuizDesigner.Application.Services
             return await this.quizDataService.CreateAsync(quiz, cancellationToken).ConfigureAwait(true);
         }
 
-        public async Task UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateQuizAsync(UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {
             if (updateQuizDto == null) throw new ArgumentNullException(nameof(updateQuizDto));
 
@@ -42,8 +42,13 @@ namespace QuizDesigner.Application.Services
             quiz.SetNames(updateQuizDto.Name, updateQuizDto.ExamName);
             quiz.SetQuestions(updateQuizDto.QuestionIdCollection);
 
-            await this.quizDataService.Update(quiz, cancellationToken).ConfigureAwait(true);
-            await this.quizDataService.UpdateQuestionsAsync(quiz, cancellationToken).ConfigureAwait(true);
+            var result = await this.quizDataService.Update(quiz, cancellationToken).ConfigureAwait(true);
+            if (result.Success)
+            {
+                await this.quizDataService.UpdateQuestionsAsync(quiz, cancellationToken).ConfigureAwait(true);
+            }
+
+            return result;
         }
 
         public async Task PublishQuizAsync(Guid id, CancellationToken cancellationToken = default)
