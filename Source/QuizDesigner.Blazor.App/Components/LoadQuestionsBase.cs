@@ -39,17 +39,12 @@ namespace QuizDesigner.Blazor.App.Components
         {
             this.MainLayout.ShowLoader(true);
 
-            var result = await this.QuestionsRepository.AddRangeAsync(this.QuestionViewModelCollection.ToQuestionCollection(), this.tokenSource.Token).ConfigureAwait(true);
-            if (result.Success)
-            {
-                this.QuestionViewModelCollection.Clear();
-                this.UpdateTotalQuestions();
-                await this.NotificationService.Success("Questions successfully saved!").ConfigureAwait(true);
-            }
-            else
-            {
-                await this.NotificationService.Error("An error occurred while sending questions to the storage system", result.Error).ConfigureAwait(true);
-            }
+            await this.QuestionsRepository.AddRangeAsync(this.QuestionViewModelCollection.ToQuestionCollection(), this.tokenSource.Token).ConfigureAwait(true);
+
+            this.QuestionViewModelCollection.Clear();
+            this.UpdateTotalQuestions();
+
+            await this.NotificationService.Success("Questions successfully saved!").ConfigureAwait(true);
 
             this.MainLayout.ShowLoader(false);
         }

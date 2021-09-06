@@ -42,9 +42,9 @@ namespace QuizDesigner.Blazor.App.Components
 
             var question = new Question(row.Item.Text, row.Item.Tag);
 
-            var result = await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
+            await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+            await this.NotificationService.Success("Question successfully saved!").ConfigureAwait(true);
         }
 
         protected async Task OnRowUpdated(SavedRowItem<QuestionViewModel, Dictionary<string, object>> row)
@@ -52,18 +52,18 @@ namespace QuizDesigner.Blazor.App.Components
             if (row == null) throw new ArgumentNullException(nameof(row));
 
             var questionUpdated = new UpdateQuestionDto(row.Item.Id, row.Item.Text, row.Item.Tag);
-            var result = await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
+             await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+             await this.NotificationService.Success("Question successfully updated!").ConfigureAwait(true);
         }
 
         protected async Task OnRowRemoved(QuestionViewModel questionViewModel)
         {
             if (questionViewModel == null) throw new ArgumentNullException(nameof(questionViewModel));
 
-            var result = await this.QuestionsRepository.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
+            await this.QuestionsRepository.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowRemoveQuestionFeedback(result).ConfigureAwait(true);
+            await this.NotificationService.Success("Question successfully removed!").ConfigureAwait(true);
         }
 
         protected async Task OnReadData(DataGridReadDataEventArgs<QuestionViewModel> arg)
