@@ -31,8 +31,7 @@ namespace QuizDesigner.AzureQueueStorage
             await queueClient.CreateIfNotExistsAsync(cancellationToken: CancellationToken.None).ConfigureAwait(true);
 
             var serializedIntegrationEvent = JsonSerializer.Serialize(integrationEvent, integrationEvent.GetType());
-            var response = await queueClient.SendMessageAsync(serializedIntegrationEvent, CancellationToken.None).ConfigureAwait(true);
-            
+            await queueClient.SendMessageAsync(serializedIntegrationEvent, CancellationToken.None).ConfigureAwait(true);
         }
     }
 }
