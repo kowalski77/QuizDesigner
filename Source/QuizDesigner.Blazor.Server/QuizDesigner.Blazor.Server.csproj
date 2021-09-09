@@ -3,11 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <UserSecretsId>0715957a-93c3-4894-8569-80229e314391</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QuizDesigner.AzureQueueStorage\QuizDesigner.AzureQueueStorage.csproj" />
     <ProjectReference Include="..\QuizDesigner.Blazor.App\QuizDesigner.Blazor.App.csproj" />
-    <ProjectReference Include="..\QuizDesigner.MassTransit\QuizDesigner.MassTransit.csproj" />
     <ProjectReference Include="..\QuizDesigner.Persistence\QuizDesigner.Persistence.csproj" />
     <ProjectReference Include="..\QuizDesigner.Application\QuizDesigner.Application.csproj" />
   </ItemGroup>
