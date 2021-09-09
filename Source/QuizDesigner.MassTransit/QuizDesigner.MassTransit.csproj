@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
+    <ItemGroup>
+	    <PackageReference Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
+	    <PackageReference Include="MassTransit.AspNetCore" Version="$(MassTransitVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\QuizDesigner.Application\QuizDesigner.Application.csproj" />
+    </ItemGroup>
+
+</Project>

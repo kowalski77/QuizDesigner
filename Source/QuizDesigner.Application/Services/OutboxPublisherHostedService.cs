@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuizCreatedEvents;
+using QuizDesigner.Application.Messaging;
 using QuizDesigner.Outbox;
 
 namespace QuizDesigner.Application.Services
@@ -14,7 +14,7 @@ namespace QuizDesigner.Application.Services
     {
         private readonly IChannelService channelService;
         private readonly ILogger<OutboxPublisherHostedService> logger;
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly IMessagePublisher messagePublisher;
         private readonly IOutboxDataService outboxDataService;
 
         public OutboxPublisherHostedService(
@@ -26,7 +26,7 @@ namespace QuizDesigner.Application.Services
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             if (factory == null) throw new ArgumentNullException(nameof(factory));
-            this.publishEndpoint = factory.CreateScope().ServiceProvider.GetRequiredService<IPublishEndpoint>();
+            this.messagePublisher = factory.CreateScope().ServiceProvider.GetRequiredService<IMessagePublisher>();
             this.outboxDataService = factory.CreateScope().ServiceProvider.GetRequiredService<IOutboxDataService>();
         }
 
@@ -48,7 +48,7 @@ namespace QuizDesigner.Application.Services
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
                 cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                await this.publishEndpoint.Publish(integrationEvent, integrationEvent.GetType(), cancellationTokenSource.Token).ConfigureAwait(false);
+                await this.messagePublisher.PublishAsync(integrationEvent, cancellationTokenSource.Token).ConfigureAwait(true);
             }
             catch (OperationCanceledException e)
             {

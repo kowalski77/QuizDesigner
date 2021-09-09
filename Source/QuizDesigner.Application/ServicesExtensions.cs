@@ -1,5 +1,4 @@
-﻿using MassTransit;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using QuizDesigner.Application.Services;
 
 namespace QuizDesigner.Application
@@ -10,12 +9,6 @@ namespace QuizDesigner.Application
         {
             services.AddScoped<IQuizService, QuizService>();
             services.AddSingleton<IChannelService, ChannelService>();
-
-            services.AddMassTransit(x =>
-            {
-                x.UsingRabbitMq();
-            });
-            services.AddMassTransitHostedService();
 
             return services;
         }

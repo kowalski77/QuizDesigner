@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuizDesigner.Blazor.App\QuizDesigner.Blazor.App.csproj" />
+    <ProjectReference Include="..\QuizDesigner.MassTransit\QuizDesigner.MassTransit.csproj" />
     <ProjectReference Include="..\QuizDesigner.Persistence\QuizDesigner.Persistence.csproj" />
     <ProjectReference Include="..\QuizDesigner.Application\QuizDesigner.Application.csproj" />
   </ItemGroup>

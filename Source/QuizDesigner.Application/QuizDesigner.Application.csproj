@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Arch.Utils.Functional" Version="$(ArchUtilsVersion)" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
-    <PackageReference Include="MassTransit.AspNetCore" Version="$(MassTransitVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(MicrosoftExtensionsVersions)" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsVersions)" />
+    <PackageReference Include="Azure.Core" Version="1.19.0" />
+    <PackageReference Include="Azure.Storage.Common" Version="12.9.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.8.0" />
   </ItemGroup>
 
   <ItemGroup>

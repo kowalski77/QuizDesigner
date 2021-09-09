@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizDesigner.Application;
+using QuizDesigner.MassTransit;
 using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
@@ -34,6 +35,7 @@ namespace QuizDesigner.Blazor.Server
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddApplicationServices();
+            services.AddMassTransit();
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
         }
 

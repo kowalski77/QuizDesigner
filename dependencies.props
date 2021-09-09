@@ -1,10 +1,11 @@
 ﻿<Project>
 
-  <PropertyGroup Label="Package Dependencies">
-    <BlazorizeVersion>0.9.4.1</BlazorizeVersion>
-    <ArchUtilsVersion>1.0.9-preview</ArchUtilsVersion>
-    <MassTransitVersion>7.2.2</MassTransitVersion>
-    <NetCoreVersion>5.0.8</NetCoreVersion>
-  </PropertyGroup>
+	<PropertyGroup Label="Package Dependencies">
+		<BlazorizeVersion>0.9.4.1</BlazorizeVersion>
+		<ArchUtilsVersion>1.0.9-preview</ArchUtilsVersion>
+		<MassTransitVersion>7.2.2</MassTransitVersion>
+		<NetCoreVersion>5.0.8</NetCoreVersion>
+		<MicrosoftExtensionsVersions>5.0.0</MicrosoftExtensionsVersions>
+	</PropertyGroup>
 
 </Project>
