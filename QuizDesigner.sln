@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.MassTransit", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.AzureQueueStorage", "Source\QuizDesigner.AzureQueueStorage\QuizDesigner.AzureQueueStorage.csproj", "{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.AzureQueueStorage.TestHarness", "TestHarness\QuizDesigner.AzureQueueStorage.TestHarness\QuizDesigner.AzureQueueStorage.TestHarness.csproj", "{2B516B58-60BA-4F0C-9255-0DD7F7C086E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B516B58-60BA-4F0C-9255-0DD7F7C086E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B516B58-60BA-4F0C-9255-0DD7F7C086E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B516B58-60BA-4F0C-9255-0DD7F7C086E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B516B58-60BA-4F0C-9255-0DD7F7C086E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +118,7 @@ Global
 		{18941812-C9C0-418C-A85F-E02E817CFD6D} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
 		{53CF04AC-B363-4620-94B4-949702F13A90} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
 		{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
+		{2B516B58-60BA-4F0C-9255-0DD7F7C086E7} = {55628343-AB7E-49A6-8B9B-8A0F26513280}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA415DAB-23AE-4E78-A4A7-337D72ED17D3}

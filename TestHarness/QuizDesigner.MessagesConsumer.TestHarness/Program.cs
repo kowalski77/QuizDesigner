@@ -8,6 +8,11 @@ namespace QuizDesigner.MessagesConsumer.TestHarness
     {
         private static async Task Main()
         {
+            await InitializeMassTransit();
+        }
+
+        private static async Task InitializeMassTransit()
+        {
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
                 cfg.ReceiveEndpoint("quiz-created-listener", e =>
