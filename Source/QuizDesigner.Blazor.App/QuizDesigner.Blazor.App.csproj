@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.9" />
     <PackageReference Include="Blazorise.Bootstrap" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Components" Version="$(BlazorizeVersion)" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="$(BlazorizeVersion)" />
@@ -26,7 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuizDesigner.Services\QuizDesigner.Services.csproj" />
+    <ProjectReference Include="..\QuizDesigner.Blazor.ComponentsLibrary\QuizDesigner.Blazor.ComponentsLibrary.csproj" />
+    <ProjectReference Include="..\QuizDesigner.Application\QuizDesigner.Application.csproj" />
   </ItemGroup>
 
 </Project>

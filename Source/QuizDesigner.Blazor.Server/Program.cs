@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuizDesigner.Application.Services;
 using QuizDesigner.Blazor.Server.Support;
 using QuizDesigner.Persistence;
+using QuizDesigner.Persistence.Outbox;
 
 namespace QuizDesigner.Blazor.Server
 {
@@ -11,6 +14,7 @@ namespace QuizDesigner.Blazor.Server
         {
             CreateHostBuilder(args)
                 .Build()
+                .MigrateDatabase<OutboxDbContext>()
                 .MigrateDatabase<QuizDesignerContext>()
                 .Run();
         }
@@ -20,6 +24,10 @@ namespace QuizDesigner.Blazor.Server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddHostedService<OutboxPublisherHostedService>();
                 });
     }
 }

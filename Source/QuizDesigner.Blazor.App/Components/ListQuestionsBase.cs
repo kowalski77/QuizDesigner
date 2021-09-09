@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
+using QuizDesigner.Application;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.App.Support;
 using QuizDesigner.Blazor.App.ViewModels;
-using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {
@@ -20,31 +20,15 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected AnswersModal AnswersModal { get; set; }
 
-        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
+        [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
-        [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
+        [Inject] private IQuestionsDataService QuestionsRepository { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
 
         protected int TotalQuestions { get; private set; }
 
         protected Collection<QuestionViewModel> QuestionViewModelCollection { get; private set; }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
-            this.tokenSource?.Cancel();
-            this.tokenSource?.Dispose();
-        }
 
         protected void RefreshQuestion(QuestionViewModel updatedQuestionViewModel)
         {
@@ -57,28 +41,29 @@ namespace QuizDesigner.Blazor.App.Components
             if (row == null) throw new ArgumentNullException(nameof(row));
 
             var question = new Question(row.Item.Text, row.Item.Tag);
-            var result = await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+            await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
+
+            await this.NotificationService.Success("Question successfully saved!").ConfigureAwait(true);
         }
 
         protected async Task OnRowUpdated(SavedRowItem<QuestionViewModel, Dictionary<string, object>> row)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var questionUpdated = new QuestionUpdatedDto(row.Item.Id, row.Item.Text, row.Item.Tag);
-            var result = await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
+            var questionUpdated = new UpdateQuestionDto(row.Item.Id, row.Item.Text, row.Item.Tag);
+             await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
+             await this.NotificationService.Success("Question successfully updated!").ConfigureAwait(true);
         }
 
         protected async Task OnRowRemoved(QuestionViewModel questionViewModel)
         {
             if (questionViewModel == null) throw new ArgumentNullException(nameof(questionViewModel));
 
-            var result = await this.QuestionsRepository.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
+            await this.QuestionsRepository.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
 
-            await this.NotificationService.ShowRemoveQuestionFeedback(result).ConfigureAwait(true);
+            await this.NotificationService.Success("Question successfully removed!").ConfigureAwait(true);
         }
 
         protected async Task OnReadData(DataGridReadDataEventArgs<QuestionViewModel> arg)
@@ -105,6 +90,19 @@ namespace QuizDesigner.Blazor.App.Components
                 "Tag" => 2,
                 _ => 0
             };
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
+            this.tokenSource?.Cancel();
+            this.tokenSource?.Dispose();
         }
     }
 }

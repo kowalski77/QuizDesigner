@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Arch.Utils.Functional" Version="$(ArchUtilsVersion)" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="$(MassTransitVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\QuizDesigner.Events\QuizDesigner.Events.csproj" />
+    <ProjectReference Include="..\QuizDesigner.Outbox\QuizDesigner.Outbox.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using QuizDesigner.Services;
+using QuizDesigner.Application;
 
 namespace QuizDesigner.Persistence.Configurations
 {
@@ -9,10 +9,14 @@ namespace QuizDesigner.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Question> builder)
         {
-            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Text).IsRequired();
+            builder.Property(x => x.Tag).IsRequired();
             builder.HasQueryFilter(x => !x.SoftDeleted);
         }
     }

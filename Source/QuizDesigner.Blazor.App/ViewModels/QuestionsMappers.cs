@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuizDesigner.Services;
+using QuizDesigner.Application;
 
 namespace QuizDesigner.Blazor.App.ViewModels
 {
@@ -18,7 +18,7 @@ namespace QuizDesigner.Blazor.App.ViewModels
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            return new(source.Text, source.Tag);
+            return new Question(source.Text, source.Tag);
         }
     }
 }

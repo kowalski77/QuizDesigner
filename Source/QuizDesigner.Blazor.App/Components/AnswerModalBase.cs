@@ -7,10 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
+using QuizDesigner.Application;
 using QuizDesigner.Blazor.App.Shared;
-using QuizDesigner.Blazor.App.Support;
 using QuizDesigner.Blazor.App.ViewModels;
-using QuizDesigner.Services;
 
 namespace QuizDesigner.Blazor.App.Components
 {
@@ -20,9 +19,9 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private INotificationService NotificationService { get; set; }
 
-        [Inject] private IQuestionsRepository QuestionsRepository { get; set; }
+        [Inject] private IQuestionsDataService QuestionsRepository { get; set; }
 
-        [Inject] private IQuestionsProvider QuestionsProvider { get; set; }
+        [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
         [Parameter]
         public EventCallback<QuestionViewModel> OnAnswersSet { get; set; }
@@ -72,11 +71,8 @@ namespace QuizDesigner.Blazor.App.Components
             if (isValid)
             {
                 this.MainLayout.ShowLoader(true);
-                var success = await this.SaveAnswersAsync().ConfigureAwait(true);
-                if (success)
-                {
-                    await this.InvokeOnAnswersSet().ConfigureAwait(true);
-                }
+                await this.SaveAnswersAsync().ConfigureAwait(true);
+                await this.InvokeOnAnswersSet().ConfigureAwait(true);
                 
                 this.MainLayout.ShowLoader(false);
                 this.ModalRef.Hide();
@@ -118,17 +114,15 @@ namespace QuizDesigner.Blazor.App.Components
             return answerViewModelCollection;
         }
 
-        private async Task<bool> SaveAnswersAsync()
+        private async Task SaveAnswersAsync()
         {
             var notEmptyAnswers = this.AnswerViewModelCollection.Where(x => !string.IsNullOrEmpty(x.Text)).ToList();
 
             var answerCollection = notEmptyAnswers.Select(x => new Answer(x.Text)).ToList();
             answerCollection[this.CorrectAnswer].SetAsCorrect(true);
 
-            var result = await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection).ConfigureAwait(true);
-            await this.NotificationService.ShowSaveQuestionFeedback(result).ConfigureAwait(true);
-
-            return result.Success;
+            await this.QuestionsRepository.AddAnswersAsync(this.questionId, answerCollection).ConfigureAwait(true);
+            await this.NotificationService.Success("Question successfully saved!").ConfigureAwait(true);
         }
 
         private async Task InvokeOnAnswersSet()

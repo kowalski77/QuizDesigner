@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using QuizDesigner.Services.Queries;
+using QuizDesigner.Application.Queries;
 
 namespace QuizDesigner.Persistence
 {
-    public sealed class PaginatedModel<T> : IPaginatedModel<T> 
+    public sealed class PaginatedModel<T> : IPaginatedModel<T>
         where T : class
     {
-        private readonly IQueryable<T> query;
         private readonly int pageNumber;
         private readonly int pageSize;
+        private readonly IQueryable<T> query;
 
         public PaginatedModel(
             IQueryable<T> query,

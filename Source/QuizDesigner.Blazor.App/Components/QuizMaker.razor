@@ -1,0 +1,63 @@
+﻿@page "/create-quiz"
+
+@inherits QuizMakerBase
+
+<div class="quiz-div">
+    <Row>
+            <Column ColumnSize="ColumnSize.Is5">
+                <SelectList TItem="string"
+                            ElementId="selectTag"
+                            TValue="string"
+                            Data="@this.TagCollection"
+                            TextField="@(s => s)"
+                            ValueField="@(s => s)"
+                            SelectedValueChanged="this.OnSelectedValueChanged"
+                            DefaultItemText="Select a Tag..." />
+            </Column>
+            <Validations @ref="Validations" Mode="ValidationMode.Manual">
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <TextEdit Placeholder="Name" @bind-text="this.QuizName">
+                                <Feedback>
+                                    <ValidationError>Enter a name for the quiz</ValidationError>
+                                </Feedback>
+                            </TextEdit>
+                        </Validation>
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is2">
+                    <Field>
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <TextEdit Placeholder="Exam Name" @bind-Text="this.ExamName">
+                                <Feedback>
+                                    <ValidationError>Enter the exam name</ValidationError>
+                                </Feedback>
+                            </TextEdit>
+                        </Validation>
+                    </Field>
+                </Column>
+            </Validations>
+        </Row>
+        <div style="margin-top: 30px;">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is5">
+                <div id="left" class="quiz-data-div"></div>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is5">
+                <div id="right" class="quiz-data-div"></div>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is2">
+                <div id="actions" class="quiz-data-div">
+                    <Button Color="Color.Success" Block="true" Clicked="OnSaveQuizAsync">Save</Button>
+                    <Condition Evaluation="this.IsSaved">
+                        <Match>
+                            <Button Color="Color.Warning" Block="true" Clicked="OnPublishAsync">Publish</Button>
+                        </Match>
+                    </Condition>
+                    <Button Color="Color.Info" Block="true" Clicked="OnResetAsync">Reset</Button>
+                </div>
+            </Column>
+        </Row>
+    </div>
+</div>
