@@ -11,7 +11,7 @@ using QuizDesigner.Application.Messaging;
 
 namespace QuizDesigner.AzureQueueStorage
 {
-    public class AzureStorageQueuePublisher : IMessagePublisher
+    public sealed class AzureStorageQueuePublisher : IMessagePublisher
     {
         private static readonly ConcurrentDictionary<Type, QueueClient> QueueClients = new();
 
