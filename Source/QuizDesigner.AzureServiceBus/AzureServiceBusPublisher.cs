@@ -35,6 +35,7 @@ namespace QuizDesigner.AzureServiceBus
             var serviceBusSender = ServiceBusSender.GetOrAdd(integrationEvent.GetType(), type => this.serviceBusClient.CreateSender(type.Name.ToLowerInvariant()));
 
             var serializedIntegrationEvent = JsonSerializer.Serialize(integrationEvent, integrationEvent.GetType());
+
             await serviceBusSender.SendMessageAsync(new ServiceBusMessage(serializedIntegrationEvent), cancellationToken).ConfigureAwait(true);
         }
     }
