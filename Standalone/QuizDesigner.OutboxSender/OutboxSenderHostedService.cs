@@ -1,27 +1,27 @@
-﻿using MassTransit;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuizDesigner.Events;
 using QuizDesigner.Outbox;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using QuizCreatedEvents;
 
 namespace QuizDesigner.OutboxSender
 {
     public class OutboxSenderHostedService : BackgroundService
     {
         private readonly OutboxData outboxData;
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly IMessagePublisher messagePublisher;
         private readonly ILogger<OutboxSenderHostedService> logger;
 
         public OutboxSenderHostedService(
             OutboxData outboxData, 
-            IPublishEndpoint publishEndpoint, 
+            IMessagePublisher messagePublisher, 
             ILogger<OutboxSenderHostedService> logger)
         {
             this.outboxData = outboxData ?? throw new ArgumentNullException(nameof(outboxData));
-            this.publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            this.messagePublisher = messagePublisher ?? throw new ArgumentNullException(nameof(messagePublisher));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -49,18 +49,17 @@ namespace QuizDesigner.OutboxSender
 
         private async Task TryPublishAsync(OutboxMessage outboxMessage)
         {
-            var integrationEvent = OutboxSerializer.Deserialize(outboxMessage, typeof(QuizCreated).Assembly);
+            var integrationEvent = (IIntegrationEvent)OutboxSerializer.Deserialize(outboxMessage, typeof(QuizCreated).Assembly);
             try
             {
                 using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
                 cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                var type = integrationEvent.GetType();
-                await this.publishEndpoint.Publish(integrationEvent, type, cancellationTokenSource.Token).ConfigureAwait(false);
+                await this.messagePublisher.PublishAsync(integrationEvent, cancellationTokenSource.Token).ConfigureAwait(false);
 
                 this.logger.LogInformation($"Outbox message with id:{outboxMessage.Id} successfully published");
 
-                await this.outboxData.SetMessageAsPublishedAsync(outboxMessage.Id).ConfigureAwait(true);
+                await this.outboxData.SetMessageAsPublishedAsync(outboxMessage.Id).ConfigureAwait(false);
             }
             catch (OperationCanceledException e)
             {

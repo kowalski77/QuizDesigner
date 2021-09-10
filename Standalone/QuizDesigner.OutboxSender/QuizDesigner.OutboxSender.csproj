@@ -7,6 +7,7 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <UserSecretsId>fc64a73f-e59d-47f2-af53-2b8b102daabc</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,10 +19,12 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
-    <PackageReference Include="MassTransit.AspNetCore" Version="$(MassTransitVersion)" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
+    <PackageReference Include="Azure.Core" Version="1.19.0" />
+    <PackageReference Include="Azure.Storage.Common" Version="12.9.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.8.0" />
   </ItemGroup>
 
   <ItemGroup>

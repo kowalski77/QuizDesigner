@@ -1,33 +1,33 @@
-﻿using MassTransit;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace QuizDesigner.OutboxSender
 {
-    internal static class Program
+    internal class Program
     {
         private static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostBuilder, services) =>
                 {
-                    services.AddMassTransit(x =>
-                    {
-                        x.UsingRabbitMq();
-                    });
-                    services.AddMassTransitHostedService();
+                    var storageConnectionString = hostBuilder.Configuration.GetValue<string>("StorageConnectionString");
+                    services.AddScoped<IMessagePublisher>(_ => new AzureStorageQueuePublisher(storageConnectionString));
 
-                    services.AddHostedService(sp => 
-                        new OutboxSenderHostedService(
-                            new OutboxData(hostBuilder.Configuration.GetConnectionString("DefaultConnection")),
-                            sp.GetRequiredService<IPublishEndpoint>(),
-                            sp.GetRequiredService<ILogger<OutboxSenderHostedService>>()));
+                    var sqlConnectionString = hostBuilder.Configuration.GetConnectionString("DefaultConnection");
+                    services.AddScoped(_ => new OutboxData(sqlConnectionString));
+
+                    services.AddHostedService<OutboxSenderHostedService>();
+                })
+                .ConfigureAppConfiguration(builder =>
+                {
+                    builder.AddUserSecrets<Program>();
                 });
+        }
     }
 }
