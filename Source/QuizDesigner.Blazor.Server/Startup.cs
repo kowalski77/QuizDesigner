@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizDesigner.Application;
 using QuizDesigner.Application.Messaging;
-using QuizDesigner.AzureServiceBus;
+using QuizDesigner.AzureQueueStorage;
 using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
@@ -37,8 +37,8 @@ namespace QuizDesigner.Blazor.Server
             services.AddServerSideBlazor();
             services.AddApplicationServices();
 
-            services.Configure<AzureServiceBusOptions>(this.Configuration.GetSection(nameof(AzureServiceBusOptions)));
-            services.AddScoped<IMessagePublisher, AzureServiceBusPublisher>();
+            services.Configure<AzureQueueStorageOptions>(this.Configuration.GetSection(nameof(AzureQueueStorageOptions)));
+            services.AddScoped<IMessagePublisher, AzureStorageQueuePublisher>();
 
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
         }
