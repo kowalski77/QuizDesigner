@@ -1,3 +1,7 @@
+using System;
+using Azure.Core;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -11,6 +15,7 @@ using QuizDesigner.Application;
 using QuizDesigner.Application.Messaging;
 using QuizDesigner.AzureQueueStorage;
 using QuizDesigner.Blazor.App.Services;
+using QuizDesigner.Blazor.Server.Support;
 using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
@@ -37,15 +42,16 @@ namespace QuizDesigner.Blazor.Server
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
             services.AddApplicationServices();
+            services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.AddScoped<TokenProvider>();
 
-            this.ConfigureApplicationUser(services);
-            this.ConfigureAzureQueueStorage(services);
+            services.AddAzureQueueStorage(this.Configuration);
 
-            services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
+            services.ConfigureApplicationUser(this.Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -73,20 +79,6 @@ namespace QuizDesigner.Blazor.Server
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
-        }
-
-        private void ConfigureApplicationUser(IServiceCollection services)
-        {
-            var applicationUser = new ApplicationUser();
-            this.Configuration.GetSection(nameof(ApplicationUser)).Bind(applicationUser);
-
-            services.AddSingleton(applicationUser);
-        }
-
-        private void ConfigureAzureQueueStorage(IServiceCollection services)
-        {
-            services.Configure<AzureQueueStorageOptions>(this.Configuration.GetSection(nameof(AzureQueueStorageOptions)));
-            services.AddScoped<IMessagePublisher, AzureStorageQueuePublisher>();
         }
     }
 }
