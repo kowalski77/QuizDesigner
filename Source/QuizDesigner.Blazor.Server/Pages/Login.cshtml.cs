@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -6,11 +7,19 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using QuizDesigner.Blazor.App.Services;
 
 namespace QuizDesigner.Blazor.Server.Pages
 {
     public class LoginModel : PageModel
     {
+        private readonly ApplicationUser applicationUser;
+
+        public LoginModel(ApplicationUser applicationUser)
+        {
+            this.applicationUser = applicationUser ?? throw new ArgumentNullException(nameof(applicationUser));
+        }
+
         [BindProperty] 
         public string Email { get; set; }
 
@@ -24,7 +33,7 @@ namespace QuizDesigner.Blazor.Server.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!(this.Email == "quizadmin@email.com" && this.Password == "Questions,21"))
+            if (!(this.Email == this.applicationUser.Email && this.Password == this.applicationUser.Password))
             {
                 return this.Page();
             }

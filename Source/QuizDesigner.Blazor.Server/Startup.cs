@@ -42,8 +42,8 @@ namespace QuizDesigner.Blazor.Server
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.AddScoped<TokenProvider>();
 
-            services.Configure<AzureQueueStorageOptions>(this.Configuration.GetSection(nameof(AzureQueueStorageOptions)));
-            services.AddScoped<IMessagePublisher, AzureStorageQueuePublisher>();
+            this.ConfigureApplicationUser(services);
+            this.ConfigureAzureQueueStorage(services);
 
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
         }
@@ -73,6 +73,20 @@ namespace QuizDesigner.Blazor.Server
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+        }
+
+        private void ConfigureApplicationUser(IServiceCollection services)
+        {
+            var applicationUser = new ApplicationUser();
+            this.Configuration.GetSection(nameof(ApplicationUser)).Bind(applicationUser);
+
+            services.AddSingleton(applicationUser);
+        }
+
+        private void ConfigureAzureQueueStorage(IServiceCollection services)
+        {
+            services.Configure<AzureQueueStorageOptions>(this.Configuration.GetSection(nameof(AzureQueueStorageOptions)));
+            services.AddScoped<IMessagePublisher, AzureStorageQueuePublisher>();
         }
     }
 }
