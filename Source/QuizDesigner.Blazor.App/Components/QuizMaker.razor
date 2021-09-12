@@ -1,45 +1,46 @@
 ﻿@page "/create-quiz"
+@attribute [Authorize]
 
 @inherits QuizMakerBase
 
 <div class="quiz-div">
     <Row>
-            <Column ColumnSize="ColumnSize.Is5">
-                <SelectList TItem="string"
-                            ElementId="selectTag"
-                            TValue="string"
-                            Data="@this.TagCollection"
-                            TextField="@(s => s)"
-                            ValueField="@(s => s)"
-                            SelectedValueChanged="this.OnSelectedValueChanged"
-                            DefaultItemText="Select a Tag..." />
+        <Column ColumnSize="ColumnSize.Is5">
+            <SelectList TItem="string"
+                        ElementId="selectTag"
+                        TValue="string"
+                        Data="@this.TagCollection"
+                        TextField="@(s => s)"
+                        ValueField="@(s => s)"
+                        SelectedValueChanged="this.OnSelectedValueChanged"
+                        DefaultItemText="Select a Tag..." />
+        </Column>
+        <Validations @ref="Validations" Mode="ValidationMode.Manual">
+            <Column ColumnSize="ColumnSize.Is3">
+                <Field>
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <TextEdit Placeholder="Name" @bind-text="this.QuizName">
+                            <Feedback>
+                                <ValidationError>Enter a name for the quiz</ValidationError>
+                            </Feedback>
+                        </TextEdit>
+                    </Validation>
+                </Field>
             </Column>
-            <Validations @ref="Validations" Mode="ValidationMode.Manual">
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <Validation Validator="@ValidationRule.IsNotEmpty">
-                            <TextEdit Placeholder="Name" @bind-text="this.QuizName">
-                                <Feedback>
-                                    <ValidationError>Enter a name for the quiz</ValidationError>
-                                </Feedback>
-                            </TextEdit>
-                        </Validation>
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is2">
-                    <Field>
-                        <Validation Validator="@ValidationRule.IsNotEmpty">
-                            <TextEdit Placeholder="Exam Name" @bind-Text="this.ExamName">
-                                <Feedback>
-                                    <ValidationError>Enter the exam name</ValidationError>
-                                </Feedback>
-                            </TextEdit>
-                        </Validation>
-                    </Field>
-                </Column>
-            </Validations>
-        </Row>
-        <div style="margin-top: 30px;">
+            <Column ColumnSize="ColumnSize.Is2">
+                <Field>
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <TextEdit Placeholder="Exam Name" @bind-Text="this.ExamName">
+                            <Feedback>
+                                <ValidationError>Enter the exam name</ValidationError>
+                            </Feedback>
+                        </TextEdit>
+                    </Validation>
+                </Field>
+            </Column>
+        </Validations>
+    </Row>
+    <div style="margin-top: 30px;">
         <Row>
             <Column ColumnSize="ColumnSize.Is5">
                 <div id="left" class="quiz-data-div"></div>

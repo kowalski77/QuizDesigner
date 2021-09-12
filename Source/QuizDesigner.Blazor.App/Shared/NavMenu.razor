@@ -1,4 +1,7 @@
-﻿<Sidebar @ref="sidebar">
+﻿@using QuizDesigner.Blazor.App.Services
+@inject TokenProvider tokenProvider
+
+<Sidebar @ref="sidebar">
     <SidebarContent>
         <SidebarBrand>
             <a href="">Quiz Creator</a>
@@ -9,26 +12,42 @@
                     <Icon Name="IconName.Home" Margin="Margin.Is3.FromRight" />Home
                 </SidebarLink>
             </SidebarItem>
-            <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> mailSidebarSubItems.Toggle(isOpen)" IsShow="true">
-                    <Icon Name="IconName.QuestionCircle" Margin="Margin.Is3.FromRight" />Questions
-                </SidebarLink>
-                <SidebarSubItem @ref="mailSidebarSubItems" IsShow="true">
+            <AuthorizeView>
+                <Authorized>
                     <SidebarItem>
-                        <SidebarLink To="list-questions">List</SidebarLink>
+                        <SidebarLink Toggled="(isOpen) => mailSidebarSubItems.Toggle(isOpen)" IsShow="true">
+                            <Icon Name="IconName.QuestionCircle" Margin="Margin.Is3.FromRight"/>Questions
+                        </SidebarLink>
+                        <SidebarSubItem @ref="mailSidebarSubItems" IsShow="true">
+                            <SidebarItem>
+                                <SidebarLink To="list-questions">List</SidebarLink>
+                            </SidebarItem>
+                        </SidebarSubItem>
                     </SidebarItem>
-                </SidebarSubItem>
-            </SidebarItem>
-            <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> appsSidebarSubItems.Toggle(isOpen)" IsShow="true">
-                    <Icon Name="IconName.List" Margin="Margin.Is3.FromRight" />Quiz
-                </SidebarLink>
-                <SidebarSubItem @ref="appsSidebarSubItems" IsShow="true">
                     <SidebarItem>
-                        <SidebarLink To="create-quiz">Create</SidebarLink>
+                        <SidebarLink Toggled="(isOpen) => appsSidebarSubItems.Toggle(isOpen)" IsShow="true">
+                            <Icon Name="IconName.List" Margin="Margin.Is3.FromRight"/>Quiz
+                        </SidebarLink>
+                        <SidebarSubItem @ref="appsSidebarSubItems" IsShow="true">
+                            <SidebarItem>
+                                <SidebarLink To="create-quiz">Create</SidebarLink>
+                            </SidebarItem>
+                        </SidebarSubItem>
                     </SidebarItem>
-                </SidebarSubItem>
-            </SidebarItem>
+                    <form action="/Logout" method="post">
+                        <button class="nav-link btn btn-link" type="submit">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
+                        </button>
+                        <input name="__RequestVerificationToken" type="hidden"
+                               value="@tokenProvider.XsrfToken">
+                    </form>
+                </Authorized>
+                <NotAuthorized>
+                    <NavLink class="list-group-item list-group-item-action bg-light" href="Login">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
+                    </NavLink>
+                </NotAuthorized>
+            </AuthorizeView>
         </SidebarNavigation>
     </SidebarContent>
 </Sidebar>

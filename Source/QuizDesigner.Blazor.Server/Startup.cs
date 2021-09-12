@@ -1,6 +1,7 @@
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using QuizDesigner.Application;
 using QuizDesigner.Application.Messaging;
 using QuizDesigner.AzureQueueStorage;
+using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Persistence;
 
 namespace QuizDesigner.Blazor.Server
@@ -37,6 +39,9 @@ namespace QuizDesigner.Blazor.Server
             services.AddServerSideBlazor();
             services.AddApplicationServices();
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddScoped<TokenProvider>();
+
             services.Configure<AzureQueueStorageOptions>(this.Configuration.GetSection(nameof(AzureQueueStorageOptions)));
             services.AddScoped<IMessagePublisher, AzureStorageQueuePublisher>();
 
@@ -59,6 +64,9 @@ namespace QuizDesigner.Blazor.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

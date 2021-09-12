@@ -1,4 +1,5 @@
 ﻿@page "/list-questions"
+@attribute [Authorize]
 
 @inherits ListQuestionsBase
 
@@ -19,7 +20,7 @@
               RowUpdated="this.OnRowUpdated"
               RowRemoved="this.OnRowRemoved">
         <ChildContent>
-            <DataGridCommandColumn TItem="QuestionViewModel"/>
+            <DataGridCommandColumn TItem="QuestionViewModel" />
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Text)" Caption="Text" Editable="true">
                 <DisplayTemplate>
                     <Condition Evaluation="context.HasAnswers">
@@ -51,5 +52,5 @@
             No questions are found!
         </EmptyTemplate>
     </DataGrid>
-    <AnswersModal @ref="AnswersModal" OnAnswersSet="RefreshQuestion"/>
+    <AnswersModal @ref="AnswersModal" OnAnswersSet="RefreshQuestion" />
 </div>
