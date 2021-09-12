@@ -3,9 +3,6 @@
 
 <Sidebar @ref="sidebar">
     <SidebarContent>
-        <SidebarBrand>
-            <a href="">Quiz Creator</a>
-        </SidebarBrand>
         <SidebarNavigation>
             <SidebarItem>
                 <SidebarLink To="/" Title="Home">
@@ -16,7 +13,7 @@
                 <Authorized>
                     <SidebarItem>
                         <SidebarLink Toggled="(isOpen) => mailSidebarSubItems.Toggle(isOpen)" IsShow="true">
-                            <Icon Name="IconName.QuestionCircle" Margin="Margin.Is3.FromRight"/>Questions
+                            <Icon Name="IconName.QuestionCircle" Margin="Margin.Is3.FromRight" />Questions
                         </SidebarLink>
                         <SidebarSubItem @ref="mailSidebarSubItems" IsShow="true">
                             <SidebarItem>
@@ -26,7 +23,7 @@
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink Toggled="(isOpen) => appsSidebarSubItems.Toggle(isOpen)" IsShow="true">
-                            <Icon Name="IconName.List" Margin="Margin.Is3.FromRight"/>Quiz
+                            <Icon Name="IconName.List" Margin="Margin.Is3.FromRight" />Quiz
                         </SidebarLink>
                         <SidebarSubItem @ref="appsSidebarSubItems" IsShow="true">
                             <SidebarItem>
@@ -34,17 +31,19 @@
                             </SidebarItem>
                         </SidebarSubItem>
                     </SidebarItem>
-                    <form action="/Logout" method="post">
-                        <button class="nav-link btn btn-link" type="submit">
-                            <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
-                        </button>
-                        <input name="__RequestVerificationToken" type="hidden"
-                               value="@tokenProvider.XsrfToken">
-                    </form>
+                    <SidebarItem>
+                        <form action="/Logout" method="post">
+                            <button class="nav-link btn btn-link" type="submit">
+                                <Icon Name="@("fa fa-sign-out-alt")" Margin="Margin.Is3.FromRight" />Log out
+                            </button>
+                            <input name="__RequestVerificationToken" type="hidden"
+                                   value="@tokenProvider.XsrfToken">
+                        </form>
+                    </SidebarItem>
                 </Authorized>
                 <NotAuthorized>
                     <NavLink class="list-group-item list-group-item-action bg-light" href="Login">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
+                        <Icon Name="@("fa fa-sign-in-alt")" Margin="Margin.Is3.FromRight" />Log in
                     </NavLink>
                 </NotAuthorized>
             </AuthorizeView>
