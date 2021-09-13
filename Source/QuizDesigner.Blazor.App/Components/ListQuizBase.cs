@@ -17,6 +17,8 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IQuizDataProvider QuizDataProvider { get; set; }
 
+        [Inject] private NavigationManager NavigationManager { get; set; }
+
         protected Collection<QuizViewModel> QuizViewModelsCollection { get; private set; }
 
         protected int TotalQuizzes { get; private set; }
@@ -38,6 +40,11 @@ namespace QuizDesigner.Blazor.App.Components
             this.TotalQuizzes = paginatedModel.Total;
 
             this.StateHasChanged();
+        }
+
+        protected void OnNewClick()
+        {
+            this.NavigationManager.NavigateTo("/create-quiz");
         }
 
         protected virtual void Dispose(bool disposing)

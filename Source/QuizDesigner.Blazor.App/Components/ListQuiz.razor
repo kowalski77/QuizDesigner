@@ -17,7 +17,17 @@
               Editable="true"
               EditMode="DataGridEditMode.Inline">
         <ChildContent>
-            <DataGridCommandColumn TItem="QuizViewModel" />
+            <DataGridCommandColumn TItem="QuizViewModel">
+                <NewCommandTemplate>
+                    <Button Color="Color.Primary" Clicked="@this.OnNewClick">New</Button>
+                </NewCommandTemplate>
+                <EditCommandTemplate>
+                    <Button Color="Color.Secondary">Edit</Button>
+                </EditCommandTemplate>
+                <DeleteCommandTemplate>
+                    <Button Color="Color.Danger">Delete</Button>
+                </DeleteCommandTemplate>
+            </DataGridCommandColumn>
             <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Name)" Caption="Name"/>
             <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.ExamName)" Caption="ExamName"/>
             <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Published)" Caption="Published" Filterable="false"/>
