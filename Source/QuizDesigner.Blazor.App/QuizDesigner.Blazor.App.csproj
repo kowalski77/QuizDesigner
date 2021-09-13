@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuizDesigner.Blazor.ComponentsLibrary\QuizDesigner.Blazor.ComponentsLibrary.csproj" />
     <ProjectReference Include="..\QuizDesigner.Application\QuizDesigner.Application.csproj" />
   </ItemGroup>
 
