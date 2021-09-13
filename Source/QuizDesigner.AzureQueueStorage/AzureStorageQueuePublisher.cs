@@ -30,7 +30,13 @@ namespace QuizDesigner.AzureQueueStorage
                 throw new ArgumentNullException(nameof(integrationEvent));
             }
 
-            var queueClient = QueueClients.GetOrAdd(integrationEvent.GetType(), type => new QueueClient(this.options.StorageConnectionString, type.Name.ToLowerInvariant()));
+            var queueClientOptions = new QueueClientOptions
+            {
+                MessageEncoding = QueueMessageEncoding.Base64
+            };
+
+            var queueClient = QueueClients.GetOrAdd(integrationEvent.GetType(), type => 
+                new QueueClient(this.options.StorageConnectionString, type.Name.ToLowerInvariant(), queueClientOptions));
 
             await queueClient.CreateIfNotExistsAsync(cancellationToken: CancellationToken.None).ConfigureAwait(true);
 
