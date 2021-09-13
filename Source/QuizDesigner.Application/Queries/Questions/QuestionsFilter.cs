@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 
-namespace QuizDesigner.Application.Queries
+namespace QuizDesigner.Application.Queries.Questions
 {
     public static class QuestionsFilter
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison for clarity", Justification = "EF Core  client evaluation exception")]
         public static IQueryable<QuestionDto> FilterQuestionsBy(this IQueryable<QuestionDto> query,
             FilterByOptions filterBy, string value)
         {

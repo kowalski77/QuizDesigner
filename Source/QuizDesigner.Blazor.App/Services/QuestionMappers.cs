@@ -2,12 +2,14 @@
 using System.Linq;
 using QuizDesigner.Application;
 using QuizDesigner.Application.Queries;
+using QuizDesigner.Application.Queries.Questions;
 using QuizDesigner.Blazor.App.ViewModels;
 
 namespace QuizDesigner.Blazor.App.Services
 {
-    public static class QueryMappers
+    public static class QuestionMappers
     {
+        // TODO: DRY with ToQuizzesQuery
         public static QuestionsQuery ToQuestionsQuery(this QueryData<QuestionViewModel> queryData)
         {
             if (queryData == null) throw new ArgumentNullException(nameof(queryData));

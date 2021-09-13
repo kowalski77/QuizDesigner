@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace QuizDesigner.Application.Queries
+namespace QuizDesigner.Application.Queries.Questions
 {
     public static class QuestionsSorter
     {

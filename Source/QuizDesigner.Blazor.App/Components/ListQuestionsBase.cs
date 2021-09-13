@@ -81,6 +81,7 @@ namespace QuizDesigner.Blazor.App.Components
             await this.AnswersModal.ShowModalAsync(questionId).ConfigureAwait(true);
         }
 
+        //TODO: maybe to enum directly?
         private static int GetFieldValue(string searchValue)
         {
             return searchValue switch

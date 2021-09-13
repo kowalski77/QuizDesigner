@@ -1,6 +1,6 @@
-﻿namespace QuizDesigner.Application.Queries
+﻿namespace QuizDesigner.Application.Queries.Quizzes
 {
-    public sealed class QuestionsQuery
+    public class QuizzesQuery
     {
         public FilterByOptions FilterByOptions { get; init; }
 
