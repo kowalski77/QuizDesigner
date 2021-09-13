@@ -1,7 +1,4 @@
 using System;
-using Azure.Core;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -12,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuizDesigner.Application;
-using QuizDesigner.Application.Messaging;
-using QuizDesigner.AzureQueueStorage;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.Server.Support;
 using QuizDesigner.Persistence;
@@ -32,11 +27,11 @@ namespace QuizDesigner.Blazor.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBlazorise(options =>
-            {
-                options.ChangeTextOnKeyPress = true;
-                options.DelayTextOnKeyPress = true;
-                options.DelayTextOnKeyPressInterval = 1000;
-            })
+                {
+                    options.ChangeTextOnKeyPress = true;
+                    options.DelayTextOnKeyPress = true;
+                    options.DelayTextOnKeyPressInterval = 1000;
+                })
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
@@ -46,7 +41,9 @@ namespace QuizDesigner.Blazor.Server
             services.AddApplicationServices();
             services.AddPersistence(this.Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt => opt.ExpireTimeSpan = TimeSpan.FromMinutes(10));
+
             services.AddScoped<TokenProvider>();
 
             services.AddAzureQueueStorage(this.Configuration);
