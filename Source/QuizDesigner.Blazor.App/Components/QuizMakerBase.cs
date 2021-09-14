@@ -42,10 +42,6 @@ namespace QuizDesigner.Blazor.App.Components
         protected override async Task OnInitializedAsync()
         {
             this.TagCollection = await this.QuestionsProvider.GetTags().ConfigureAwait(true);
-            if (this.ParsedId != Guid.Empty)
-            {
-                await this.LoadQuizAsync().ConfigureAwait(true);
-            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -53,6 +49,11 @@ namespace QuizDesigner.Blazor.App.Components
             if (firstRender)
             {
                 await this.JsRuntime.InvokeVoidAsync("blazorColumnData.initialize").ConfigureAwait(true);
+
+                if (this.ParsedId != Guid.Empty)
+                {
+                    await this.LoadQuizAsync().ConfigureAwait(true);
+                }
             }
         }
 
