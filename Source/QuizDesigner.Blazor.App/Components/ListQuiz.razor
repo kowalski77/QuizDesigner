@@ -18,14 +18,12 @@
               EditMode="DataGridEditMode.Inline">
         <ChildContent>
             <DataGridCommandColumn TItem="QuizViewModel">
-                <NewCommandTemplate>
-                    <Button Color="Color.Primary" Clicked="@this.OnNewClick">New</Button>
-                </NewCommandTemplate>
+                <NewCommandTemplate/>
                 <EditCommandTemplate>
-                    <Button Color="Color.Secondary" Clicked="() => this.OnEditClick(context.Item.Id)">Edit</Button>
+                    <Icon Name="@("far fa-edit")" IconSize="IconSize.Large" Clicked="() => this.OnEditClick(context.Item.Id)" Class="grid-btn" />
                 </EditCommandTemplate>
                 <DeleteCommandTemplate>
-                    <Button Color="Color.Danger">Delete</Button>
+                    <Icon Name="@("far fa-trash-alt")" IconSize="IconSize.Large" Class="grid-btn" />
                 </DeleteCommandTemplate>
             </DataGridCommandColumn>
             <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Name)" Caption="Name" />

@@ -38,6 +38,10 @@
     min-height: 50px;
 }
 
+.grid-btn {
+    margin-left: 10px;
+}
+
 #loading {
     background: url('../spinner.gif') no-repeat center center;
     position: absolute;
