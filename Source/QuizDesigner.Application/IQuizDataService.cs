@@ -12,5 +12,7 @@ namespace QuizDesigner.Application
         Task<Result> Update(Quiz quiz, CancellationToken cancellationToken = default);
 
         Task UpdateQuestionsAsync(Quiz quiz, CancellationToken cancellationToken = default);
+
+        Task RemoveAsync(Guid quizId, CancellationToken cancellationToken = default);
     }
 }

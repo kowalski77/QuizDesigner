@@ -75,5 +75,14 @@ namespace QuizDesigner.Persistence
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
+
+        public async Task RemoveAsync(Guid quizId, CancellationToken cancellationToken = default)
+        {
+            await using var context = this.contextFactory.CreateDbContext();
+            var question = await context.Quizzes!.FirstAsync(x => x.Id == quizId, cancellationToken).ConfigureAwait(true);
+
+            question.SoftDeleted = true;
+            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+        }
     }
 }

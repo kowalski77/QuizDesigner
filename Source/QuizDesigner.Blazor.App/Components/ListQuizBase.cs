@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using QuizDesigner.Application;
@@ -16,6 +17,10 @@ namespace QuizDesigner.Blazor.App.Components
         private readonly CancellationTokenSource tokenSource = new();
 
         [Inject] private IQuizDataProvider QuizDataProvider { get; set; }
+
+        [Inject] private IQuizDataService QuizDataService { get; set; }
+
+        [Inject] private INotificationService NotificationService { get; set; }
 
         [Inject] private NavigationManager NavigationManager { get; set; }
 
@@ -42,14 +47,17 @@ namespace QuizDesigner.Blazor.App.Components
             this.StateHasChanged();
         }
 
-        protected void OnNewClick()
-        {
-            this.NavigationManager.NavigateTo("/create-quiz");
-        }
-
         protected void OnEditClick(Guid id)
         {
             this.NavigationManager.NavigateTo($"/create-quiz/{id}");
+        }
+
+        protected async Task OnDeletedClick(Guid id)
+        {
+            await this.QuizDataService.RemoveAsync(id, this.tokenSource.Token).ConfigureAwait(true);
+            this.QuizViewModelsCollection.Remove(this.QuizViewModelsCollection.First(x => x.Id == id));
+
+            await this.NotificationService.Success("Quiz successfully removed!").ConfigureAwait(true);
         }
 
         protected virtual void Dispose(bool disposing)
