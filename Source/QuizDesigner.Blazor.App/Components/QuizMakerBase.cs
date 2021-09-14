@@ -15,11 +15,13 @@ namespace QuizDesigner.Blazor.App.Components
     {
         private readonly CancellationTokenSource tokenSource = new();
 
-        private Guid quizId;
+        [Parameter] public string Id { get; set; }
 
         [Inject] private IQuizService QuizService { get; set; }
 
         [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
+
+        [Inject] private IQuizDataProvider QuizDataProvider { get; set; }
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
@@ -35,9 +37,15 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected bool IsSaved { get; private set; }
 
+        private Guid ParsedId => this.Id != null ? Guid.Parse(this.Id) : Guid.Empty;
+
         protected override async Task OnInitializedAsync()
         {
             this.TagCollection = await this.QuestionsProvider.GetTags().ConfigureAwait(true);
+            if (this.ParsedId != Guid.Empty)
+            {
+                await this.LoadQuizAsync().ConfigureAwait(true);
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -55,13 +63,13 @@ namespace QuizDesigner.Blazor.App.Components
             {
                 await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", key.ToString(), value, tag).ConfigureAwait(true);
             }
-            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestions", tag).ConfigureAwait(true);
+            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestionsByTag", tag).ConfigureAwait(true);
         }
 
         protected async Task OnResetAsync()
         {
             await this.JsRuntime.InvokeVoidAsync("blazorColumnData.reset").ConfigureAwait(true);
-            this.quizId = Guid.Empty;
+            this.Id = Guid.Empty.ToString();
             this.QuizName = string.Empty;
             this.ExamName = string.Empty;
             this.IsSaved = false;
@@ -76,7 +84,7 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            if (this.quizId == Guid.Empty)
+            if (this.ParsedId == Guid.Empty)
             {
                 await this.SaveQuizAsync().ConfigureAwait(true);
             }
@@ -88,9 +96,25 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected async Task OnPublishAsync()
         {
-            await this.QuizService.PublishQuizAsync(this.quizId, this.tokenSource.Token).ConfigureAwait(true);
+            await this.QuizService.PublishQuizAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
             await this.NotificationService.Success("Quiz successfully published!").ConfigureAwait(true);
             await this.OnResetAsync().ConfigureAwait(true);
+        }
+
+        private async Task LoadQuizAsync()
+        {
+            var quiz = await this.QuizDataProvider.GetQuizAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
+
+            this.QuizName = quiz.Name;
+            this.ExamName = quiz.ExamName;
+            foreach (var question in quiz.QuizQuestionCollection)
+            {
+                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", 
+                    question.Question!.Id.ToString(), question.Question.Text, question.Question.Tag)
+                    .ConfigureAwait(true);
+            }
+
+            await this.JsRuntime.InvokeVoidAsync("blazorColumnData.showQuestions", string.Empty).ConfigureAwait(true);
         }
 
         private async Task SaveQuizAsync()
@@ -109,7 +133,7 @@ namespace QuizDesigner.Blazor.App.Components
             {
                 await this.NotificationService.Success("Quiz successfully saved!").ConfigureAwait(true);
                 this.IsSaved = true;
-                this.quizId = result.Value;
+                this.Id = result.Value.ToString();
             }
             else
             {
@@ -127,7 +151,7 @@ namespace QuizDesigner.Blazor.App.Components
             }
 
             var result = await this.QuizService.UpdateQuizAsync(
-                new UpdateQuizDto(this.quizId, this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse)), 
+                new UpdateQuizDto(this.ParsedId, this.QuizName, this.ExamName, questionIdCollection.Select(Guid.Parse)),
                 this.tokenSource.Token)
                 .ConfigureAwait(true);
 

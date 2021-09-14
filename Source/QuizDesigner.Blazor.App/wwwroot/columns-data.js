@@ -20,11 +20,17 @@
                 questions.push(question);
             }
         },
-        showQuestions: function (tag) {
+        showQuestions: function() {
+            questions.forEach(question => {
+                question.dropped = true;
+                createDivQuestion(question, rightDivId);
+            });
+        },
+        showQuestionsByTag: function (tag) {
             document.getElementById(leftDivId).innerHTML = '';
             const questionsByTag = questions.filter(x => x.tag === tag && !x.dropped);
             questionsByTag.forEach(question => {
-                createDivQuestion(question);
+                createDivQuestion(question, leftDivId);
             });
         },
         getSelectedQuestions: function () {
@@ -38,12 +44,12 @@
         }
     };
 
-    function createDivQuestion(question) {
+    function createDivQuestion(question, parentDiv) {
         const element = document.createElement("div");
         element.id = question.id;
         element.appendChild(document.createTextNode(question.text));
         element.classList.add(innerDivClass);
-        const div = document.getElementById(leftDivId);
+        const div = document.getElementById(parentDiv);
         div.appendChild(element);
     }
 

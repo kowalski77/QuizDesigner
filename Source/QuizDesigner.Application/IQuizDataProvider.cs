@@ -12,6 +12,8 @@ namespace QuizDesigner.Application
 
         Task<Quiz> GetQuizWithQuestionsAndAnswersAsync(Guid id, CancellationToken cancellationToken = default);
 
+        Task<Quiz> GetQuizAsync(Guid id, CancellationToken cancellationToken = default);
+
         Task<IPaginatedModel<QuizDto>> GetQuizzesAsync(QuizzesQuery query, CancellationToken cancellationToken = default);
     }
 }
