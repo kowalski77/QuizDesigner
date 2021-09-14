@@ -22,15 +22,15 @@
                     <Button Color="Color.Primary" Clicked="@this.OnNewClick">New</Button>
                 </NewCommandTemplate>
                 <EditCommandTemplate>
-                    <Button Color="Color.Secondary">Edit</Button>
+                    <Button Color="Color.Secondary" Clicked="() => this.OnEditClick(context.Item.Id)">Edit</Button>
                 </EditCommandTemplate>
                 <DeleteCommandTemplate>
                     <Button Color="Color.Danger">Delete</Button>
                 </DeleteCommandTemplate>
             </DataGridCommandColumn>
-            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Name)" Caption="Name"/>
-            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.ExamName)" Caption="ExamName"/>
-            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Published)" Caption="Published" Filterable="false"/>
+            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Name)" Caption="Name" />
+            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.ExamName)" Caption="ExamName" />
+            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Published)" Caption="Published" Filterable="false" />
         </ChildContent>
         <EmptyTemplate>
             <p>No quizzes found!</p>

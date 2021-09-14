@@ -47,6 +47,11 @@ namespace QuizDesigner.Blazor.App.Components
             this.NavigationManager.NavigateTo("/create-quiz");
         }
 
+        protected void OnEditClick(Guid id)
+        {
+            this.NavigationManager.NavigateTo($"/create-quiz/{id}");
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing) return;
