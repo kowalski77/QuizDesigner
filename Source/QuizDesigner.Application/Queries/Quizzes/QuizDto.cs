@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuizDesigner.Application
+namespace QuizDesigner.Application.Queries.Quizzes
 {
     public class QuizDto
     {

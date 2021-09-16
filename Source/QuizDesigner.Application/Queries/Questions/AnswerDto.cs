@@ -1,4 +1,4 @@
-﻿namespace QuizDesigner.Application
+﻿namespace QuizDesigner.Application.Queries.Questions
 {
     public class AnswerDto
     {
