@@ -12,21 +12,19 @@ namespace QuizDesigner.Blazor.Server.Support
 {
     public static class BlazorServerExtensions
     {
-        public static void ConfigureApplicationUser(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureApplicationUser(this IServiceCollection services)
         {
-            if (configuration == null)
+            services.AddSingleton(sp =>
             {
-                throw new ArgumentNullException(nameof(configuration));
-            }
+                var secretClient = ConfigureAzureKeyVault(sp.GetRequiredService<IConfiguration>());
+                var applicationUser = new ApplicationUser
+                {
+                    Email = secretClient.GetSecret("app-user-email").Value.Value,
+                    Password = secretClient.GetSecret("app-user-password").Value.Value
+                };
 
-            var secretClient = ConfigureAzureKeyVault(configuration);
-            var applicationUser = new ApplicationUser
-            {
-                Email = secretClient.GetSecret("app-user-email").Value.Value,
-                Password = secretClient.GetSecret("app-user-password").Value.Value
-            };
-
-            services.AddSingleton(applicationUser);
+                return applicationUser;
+            });
         }
 
         public static void AddAzureQueueStorage(this IServiceCollection services, IConfiguration configuration)

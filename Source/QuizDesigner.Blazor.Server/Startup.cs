@@ -48,7 +48,7 @@ namespace QuizDesigner.Blazor.Server
 
             services.AddAzureQueueStorage(this.Configuration);
 
-            services.ConfigureApplicationUser(this.Configuration);
+            services.ConfigureApplicationUser();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
