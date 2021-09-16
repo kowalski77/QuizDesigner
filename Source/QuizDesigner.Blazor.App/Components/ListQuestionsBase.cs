@@ -39,7 +39,7 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var question = new Question(row.Item.Text, row.Item.Tag);
+            var question = new CreateQuestionDto(row.Item.Text, row.Item.Tag);
 
             await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
 

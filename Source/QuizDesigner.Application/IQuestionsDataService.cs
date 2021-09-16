@@ -7,9 +7,7 @@ namespace QuizDesigner.Application
 {
     public interface IQuestionsDataService
     {
-        Task AddAsync(Question question, CancellationToken cancellationToken = default);
-
-        Task AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default);
+        Task AddAsync(CreateQuestionDto question, CancellationToken cancellationToken = default);
 
         Task AddAnswersAsync(Guid questionId, IEnumerable<Answer> answerCollection, CancellationToken cancellationToken = default);
 

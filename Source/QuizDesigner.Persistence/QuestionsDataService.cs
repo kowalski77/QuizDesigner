@@ -16,19 +16,18 @@ namespace QuizDesigner.Persistence
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public async Task AddAsync(Question question, CancellationToken cancellationToken = default)
+        public async Task AddAsync(CreateQuestionDto question, CancellationToken cancellationToken = default)
         {
+            if (question == null)
+            {
+                throw new ArgumentNullException(nameof(question));
+            }
+
             await using var context = this.contextFactory.CreateDbContext();
 
-            context.Add(question);
-            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
-        }
+            var newlyQuestion = new Question(question.Text, question.Tag);
+            context.Add(newlyQuestion);
 
-        public async Task AddRangeAsync(IEnumerable<Question> questions, CancellationToken cancellationToken = default)
-        {
-            await using var context = this.contextFactory.CreateDbContext();
-
-            await context.AddRangeAsync(questions, cancellationToken).ConfigureAwait(true);
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
 
