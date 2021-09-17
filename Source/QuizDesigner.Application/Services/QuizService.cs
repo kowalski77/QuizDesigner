@@ -64,7 +64,7 @@ namespace QuizDesigner.Application.Services
         private async Task PublishQuizCreatedIntegrationEventAsync(Quiz quiz)
         {
             var questions = quiz.QuizQuestionCollection.Select(x =>
-                new ExamQuestion(x.Question!.Text, x.Question.Answers.Select(y =>
+                new ExamQuestion(x.Question!.Text, x.Question!.Tag, (int)x.Question!.Difficulty, x.Question.Answers.Select(y =>
                     new ExamAnswer(y.Text, y.IsCorrect))));
 
             var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Name, quiz.ExamName, questions);
