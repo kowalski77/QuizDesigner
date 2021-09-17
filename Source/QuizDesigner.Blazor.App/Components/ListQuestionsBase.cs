@@ -29,6 +29,8 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected Collection<QuestionViewModel> QuestionViewModelCollection { get; private set; }
 
+        protected DifficultyType DifficultyTypeSelected { get; set; }
+
         protected void RefreshQuestion(QuestionViewModel updatedQuestionViewModel)
         {
             var question = this.QuestionViewModelCollection.First(x => x.Id == updatedQuestionViewModel.Id);
@@ -39,7 +41,7 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var question = new CreateQuestionDto(row.Item.Text, row.Item.Tag);
+            var question = new CreateQuestionDto(row.Item.Text, row.Item.Tag, this.DifficultyTypeSelected);
 
             await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
 
@@ -50,10 +52,10 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var questionUpdated = new UpdateQuestionDto(row.Item.Id, row.Item.Text, row.Item.Tag);
-             await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
+            var questionUpdated = new UpdateQuestionDto(row.Item.Id, row.Item.Text, row.Item.Tag, this.DifficultyTypeSelected);
+            await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
 
-             await this.NotificationService.Success("Question successfully updated!").ConfigureAwait(true);
+            await this.NotificationService.Success("Question successfully updated!").ConfigureAwait(true);
         }
 
         protected async Task OnRowRemoved(QuestionViewModel questionViewModel)
@@ -88,6 +90,7 @@ namespace QuizDesigner.Blazor.App.Components
             {
                 "Text" => 1,
                 "Tag" => 2,
+                "Difficulty" => 3,
                 _ => 0
             };
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using QuizDesigner.Application;
 using QuizDesigner.Application.Queries;
 using QuizDesigner.Application.Queries.Questions;
 using QuizDesigner.Blazor.App.ViewModels;
@@ -41,7 +40,8 @@ namespace QuizDesigner.Blazor.App.Services
                     {
                         Text = y.Text,
                         IsCorrect = y.IsCorrect
-                    })
+                    }),
+                    Difficulty = x.DifficultyType
                 })
             };
         }

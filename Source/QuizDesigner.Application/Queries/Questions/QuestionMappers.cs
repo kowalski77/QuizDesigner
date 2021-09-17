@@ -9,8 +9,9 @@ namespace QuizDesigner.Application.Queries.Questions
             return source.Select(x => new QuestionDto
             {
                 Id = x.Id,
-                Text = x.Text, 
+                Text = x.Text,
                 Tag = x.Tag,
+                DifficultyType = (DifficultyType)x.Difficulty,
                 CreatedOn = x.CreatedOn,
                 AnswerCollection = x.Answers.Select(y => new AnswerDto
                 {

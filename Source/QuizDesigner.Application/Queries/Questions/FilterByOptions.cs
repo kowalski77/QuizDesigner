@@ -4,6 +4,7 @@
     {
         NoFilter,
         ByText,
-        ByTag
+        ByTag,
+        ByDifficulty,
     }
 }

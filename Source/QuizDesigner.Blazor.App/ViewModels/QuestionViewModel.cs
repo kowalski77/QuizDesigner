@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using QuizDesigner.Application;
 
 namespace QuizDesigner.Blazor.App.ViewModels
 {
@@ -15,6 +16,8 @@ namespace QuizDesigner.Blazor.App.ViewModels
         [Required]
         public string Tag { get; init; }
 
+        [Required] 
+        public DifficultyType Difficulty { get; set; }
 
         public bool HasAnswers => this.AnswerViewModelCollection.Any();
 

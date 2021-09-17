@@ -1,6 +1,7 @@
 ﻿@page "/list-questions"
 @attribute [Authorize]
 
+@using QuizDesigner.Application
 @inherits ListQuestionsBase
 
 <div class="quiz-div">
@@ -38,6 +39,18 @@
                 </DisplayTemplate>
             </DataGridColumn>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Tag)" Caption="Tag" Editable="true" />
+            <DataGridSelectColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Difficulty)" Caption="Difficulty" Editable="true" Filterable="false">
+                @*//TODO: select is not working properly*@
+                <EditTemplate>
+                    <Select TValue="DifficultyType" SelectedValueChanged="value => { this.DifficultyTypeSelected = value; }">
+                        <SelectItem TValue="DifficultyType" Value="@(DifficultyType.None)">None</SelectItem>
+                        <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Easy)">Easy</SelectItem>
+                        <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Medium)">Medium</SelectItem>
+                        <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Hard)">Hard</SelectItem>
+                        <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Max)">Max</SelectItem>
+                    </Select>
+                </EditTemplate>
+            </DataGridSelectColumn>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Id)" Editable="false" Filterable="false">
                 <DisplayTemplate>
                     <Condition Evaluation="context.Id == Guid.Empty">

@@ -11,6 +11,8 @@ namespace QuizDesigner.Application.Queries.Questions
 
         public string? Tag { get; init; }
 
+        public DifficultyType DifficultyType { get; init; }
+
         public DateTime? CreatedOn { get; init; }
 
         public IEnumerable<AnswerDto> AnswerCollection { get; init; } = new List<AnswerDto>();

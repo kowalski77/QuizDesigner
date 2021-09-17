@@ -5,6 +5,7 @@
         NoSort,
         ByText,
         ByTag,
+        ByDifficulty,
         ByCreation
     }
 }

@@ -15,6 +15,8 @@ namespace QuizDesigner.Application.Queries.Questions
                 (SortByOptions.ByTag, false) => query.OrderByDescending(x => x.Tag),
                 (SortByOptions.ByText, true) => query.OrderBy(x => x.Text),
                 (SortByOptions.ByText, false) => query.OrderByDescending(x => x.Text),
+                (SortByOptions.ByDifficulty, true) => query.OrderBy(x => x.DifficultyType),
+                (SortByOptions.ByDifficulty, false) => query.OrderByDescending(x => x.DifficultyType),
                 (SortByOptions.ByCreation, true) => query.OrderBy(x => x.CreatedOn),
                 _ => query.OrderByDescending(x => x.CreatedOn)
             };

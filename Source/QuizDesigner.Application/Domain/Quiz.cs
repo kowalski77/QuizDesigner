@@ -28,7 +28,7 @@ namespace QuizDesigner.Application
 
         public IEnumerable<QuizQuestion> QuizQuestionCollection => this.quizQuestionCollection;
 
-        public void SetNames(string name, string examName)
+        public void Update(string name, string examName)
         {
             if(string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             if(string.IsNullOrEmpty(examName)) throw new ArgumentNullException(nameof(examName));

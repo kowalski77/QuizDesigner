@@ -25,7 +25,8 @@ namespace QuizDesigner.Persistence
 
             await using var context = this.contextFactory.CreateDbContext();
 
-            var newlyQuestion = new Question(question.Text, question.Tag);
+            var newlyQuestion = new Question(question.Text, question.Tag, (Difficulty)question.DifficultyType);
+
             context.Add(newlyQuestion);
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
@@ -57,8 +58,7 @@ namespace QuizDesigner.Persistence
             await using var context = this.contextFactory.CreateDbContext();
             var question = await context.Questions!.FirstAsync(x => x.Id == questionUpdated.Id, cancellationToken).ConfigureAwait(true);
 
-            question.SetText(questionUpdated.Text);
-            question.SetTag(questionUpdated.Tag);
+            question.Update(questionUpdated.Text, questionUpdated.Tag, (Difficulty)questionUpdated.DifficultyType);
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }

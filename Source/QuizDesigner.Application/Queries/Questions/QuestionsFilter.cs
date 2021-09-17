@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace QuizDesigner.Application.Queries.Questions
 {
@@ -16,6 +17,7 @@ namespace QuizDesigner.Application.Queries.Questions
             {
                 FilterByOptions.ByTag => query.Where(x => x.Tag!.Contains(value)),
                 FilterByOptions.ByText => query.Where(x => x.Text!.Contains(value)),
+                FilterByOptions.ByDifficulty => query.Where(x=>(int)x.DifficultyType == Convert.ToInt32(value)),
                 _ => query
             };
         }
