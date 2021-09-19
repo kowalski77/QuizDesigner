@@ -18,7 +18,9 @@
               EditMode="DataGridEditMode.Inline">
         <ChildContent>
             <DataGridCommandColumn TItem="QuizViewModel">
-                <NewCommandTemplate/>
+                <NewCommandTemplate>
+                    <Icon Name="@("far fa-plus-square")" IconSize="IconSize.Large" Clicked="this.OnNewClick"></Icon>
+                </NewCommandTemplate>
                 <EditCommandTemplate>
                     <Icon Name="@("far fa-edit")" IconSize="IconSize.Large" Clicked="() => this.OnEditClick(context.Item.Id)" Class="grid-btn" />
                 </EditCommandTemplate>
