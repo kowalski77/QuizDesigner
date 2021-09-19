@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using QuizDesigner.Application;
+using QuizDesigner.Application.Services;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.App.ViewModels;
 
@@ -19,6 +21,8 @@ namespace QuizDesigner.Blazor.App.Components
         [Inject] private IQuizDataProvider QuizDataProvider { get; set; }
 
         [Inject] private IQuizDataService QuizDataService { get; set; }
+
+        [Inject] private IQuizService QuizService { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
 
@@ -63,6 +67,11 @@ namespace QuizDesigner.Blazor.App.Components
             this.QuizViewModelsCollection.Remove(this.QuizViewModelsCollection.First(x => x.Id == id));
 
             await this.NotificationService.Success("Quiz successfully removed!").ConfigureAwait(true);
+        }
+
+        protected async Task OnPublishAsync(Guid id)
+        {
+            await this.QuizService.PublishQuizAsync(id, this.tokenSource.Token).ConfigureAwait(true);
         }
 
         protected virtual void Dispose(bool disposing)

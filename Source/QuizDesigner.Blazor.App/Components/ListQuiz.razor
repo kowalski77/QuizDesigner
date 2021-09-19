@@ -30,7 +30,18 @@
             </DataGridCommandColumn>
             <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Name)" Caption="Name" />
             <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.ExamName)" Caption="ExamName" />
-            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Published)" Caption="Published" Filterable="false" />
+            <DataGridColumn TItem="QuizViewModel" Field="@nameof(QuizViewModel.Published)" Filterable="false">
+                <DisplayTemplate>
+                    <Condition Evaluation="context.Published">
+                        <Match>
+                            <Button Color="Color.Warning" Clicked="() => this.OnPublishAsync(context.Id)">Re-Publish</Button>
+                        </Match>
+                        <NotMatch>
+                            <Button Color="Color.Warning" Clicked="() => this.OnPublishAsync(context.Id)">Publish</Button>
+                        </NotMatch>
+                    </Condition>
+                </DisplayTemplate>
+            </DataGridColumn>
         </ChildContent>
         <EmptyTemplate>
             <p>No quizzes found!</p>
