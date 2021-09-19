@@ -7,7 +7,6 @@ namespace QuizDesigner.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IQuizService, QuizService>();
             services.AddSingleton<IChannelService, ChannelService>();
 
             return services;
