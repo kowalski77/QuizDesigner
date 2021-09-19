@@ -99,6 +99,8 @@ namespace QuizDesigner.Blazor.App.Components
             this.QuizName = quiz.Name;
             this.ExamName = quiz.ExamName;
 
+            this.StateHasChanged();
+
             foreach (var question in quiz.QuizQuestionCollection)
             {
                 await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", 
