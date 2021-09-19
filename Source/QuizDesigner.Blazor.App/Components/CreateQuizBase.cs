@@ -11,7 +11,7 @@ using QuizDesigner.Blazor.App.Support;
 
 namespace QuizDesigner.Blazor.App.Components
 {
-    public class QuizMakerBase : ComponentBase, IDisposable
+    public class CreateQuizBase : ComponentBase, IDisposable
     {
         private readonly CancellationTokenSource tokenSource = new();
 
