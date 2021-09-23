@@ -72,6 +72,7 @@ namespace QuizDesigner.Blazor.App.Components
         protected async Task OnPublishAsync(Guid id)
         {
             await this.QuizService.PublishQuizAsync(id, this.tokenSource.Token).ConfigureAwait(true);
+            await this.NotificationService.Success("Quiz successfully published!").ConfigureAwait(true);
         }
 
         protected virtual void Dispose(bool disposing)
