@@ -10,7 +10,7 @@ namespace QuizDesigner.Application.Queries.Quizzes
             {
                 Id = x.Id,
                 Name = x.Name,
-                ExamName = x.ExamName,
+                ExamName = x.Category,
                 IsPublished = x.IsPublished
             });
         }

@@ -42,7 +42,7 @@ namespace QuizDesigner.Blazor.App.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    ExamName = x.ExamName,
+                    Category = x.ExamName,
                     Published = x.IsPublished
                 })
             };

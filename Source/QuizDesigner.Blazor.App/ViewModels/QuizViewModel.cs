@@ -8,7 +8,7 @@ namespace QuizDesigner.Blazor.App.ViewModels
 
         public string Name { get; set; }
 
-        public string ExamName { get; set; }
+        public string Category { get; set; }
 
         public bool Published { get; set; }
     }

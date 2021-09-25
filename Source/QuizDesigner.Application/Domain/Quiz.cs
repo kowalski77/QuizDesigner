@@ -8,19 +8,19 @@ namespace QuizDesigner.Application
     {
         private readonly List<QuizQuestion> quizQuestionCollection = new();
 
-        public Quiz(string name, string examName)
+        public Quiz(string name, string category)
         {
             if(string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            if(string.IsNullOrEmpty(examName)) throw new ArgumentNullException(nameof(examName));
+            if(string.IsNullOrEmpty(category)) throw new ArgumentNullException(nameof(category));
 
             this.Id = Guid.NewGuid();
             this.Name = name;
-            this.ExamName = examName;
+            this.Category = category;
         }
 
         public string Name { get; private set; }
 
-        public string ExamName { get; private set; }
+        public string Category { get; private set; }
 
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
@@ -34,7 +34,7 @@ namespace QuizDesigner.Application
             if(string.IsNullOrEmpty(examName)) throw new ArgumentNullException(nameof(examName));
 
             this.Name = name;
-            this.ExamName = examName;
+            this.Category = examName;
         }
 
         public void AddQuestions(IEnumerable<Guid> questionIdCollection)

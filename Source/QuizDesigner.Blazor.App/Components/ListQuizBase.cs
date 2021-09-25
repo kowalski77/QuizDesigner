@@ -88,7 +88,7 @@ namespace QuizDesigner.Blazor.App.Components
             return searchValue switch
             {
                 "Name" => 1,
-                "ExamName" => 2,
+                "Category" => 2,
                 _ => 0
             };
         }

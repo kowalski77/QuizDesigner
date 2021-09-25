@@ -97,7 +97,7 @@ namespace QuizDesigner.Blazor.App.Components
             var quiz = await this.QuizDataProvider.GetQuizAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
 
             this.QuizName = quiz.Name;
-            this.ExamName = quiz.ExamName;
+            this.ExamName = quiz.Category;
 
             this.StateHasChanged();
 
