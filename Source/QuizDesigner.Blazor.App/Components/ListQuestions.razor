@@ -37,6 +37,9 @@
                         </NotMatch>
                     </Condition>
                 </DisplayTemplate>
+                <EditTemplate>
+                    <MemoEdit Rows="5" Text="@((string)context.CellValue)" TextChanged="@(t => context.CellValue = t)"/>
+                </EditTemplate>
             </DataGridColumn>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Tag)" Caption="Tag" Editable="true" />
             <DataGridSelectColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Difficulty)" Caption="Difficulty" Editable="true" Filterable="false">
