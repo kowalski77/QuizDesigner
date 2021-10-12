@@ -44,7 +44,7 @@
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Tag)" Caption="Tag" Editable="true" />
             <DataGridSelectColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Difficulty)" Caption="Difficulty" Editable="true" Filterable="false">
                 <EditTemplate>
-                    <Select TValue="DifficultyType" SelectedValue="@((DifficultyType)context.CellValue)" SelectedValueChanged="value =>  context.CellValue = value">
+                    <Select TValue="DifficultyType" SelectedValue="@((DifficultyType)context.CellValue)" SelectedValueChanged="@(value =>  context.CellValue = value)">
                         <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Easy)">Easy</SelectItem>
                         <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Medium)">Medium</SelectItem>
                         <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Hard)">Hard</SelectItem>
