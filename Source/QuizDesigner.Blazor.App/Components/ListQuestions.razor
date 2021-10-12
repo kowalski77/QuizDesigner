@@ -43,10 +43,8 @@
             </DataGridColumn>
             <DataGridColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Tag)" Caption="Tag" Editable="true" />
             <DataGridSelectColumn TItem="QuestionViewModel" Field="@nameof(QuestionViewModel.Difficulty)" Caption="Difficulty" Editable="true" Filterable="false">
-                @*//TODO: select is not working properly*@
                 <EditTemplate>
-                    <Select TValue="DifficultyType" SelectedValueChanged="value => { this.DifficultyTypeSelected = value; }">
-                        <SelectItem TValue="DifficultyType" Value="@(DifficultyType.None)">None</SelectItem>
+                    <Select TValue="DifficultyType" SelectedValue="@((DifficultyType)context.CellValue)" SelectedValueChanged="value =>  context.CellValue = value">
                         <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Easy)">Easy</SelectItem>
                         <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Medium)">Medium</SelectItem>
                         <SelectItem TValue="DifficultyType" Value="@(DifficultyType.Hard)">Hard</SelectItem>
