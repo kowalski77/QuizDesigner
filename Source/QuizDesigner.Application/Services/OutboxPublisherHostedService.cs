@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using QuizCreatedEvents;
 using QuizDesigner.Application.Messaging;
+using QuizDesigner.Events;
 using QuizDesigner.Outbox;
 
 namespace QuizDesigner.Application.Services

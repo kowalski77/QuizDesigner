@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using QuizCreatedEvents;
+using QuizDesigner.Events;
 
 namespace QuizDesigner.Application.Services
 {

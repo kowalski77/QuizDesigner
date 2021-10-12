@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
-using QuizCreatedEvents;
+using QuizDesigner.Events;
 
 namespace QuizDesigner.OutboxSender
 {

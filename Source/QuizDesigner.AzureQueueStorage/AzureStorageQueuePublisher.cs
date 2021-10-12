@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
 using Microsoft.Extensions.Options;
-using QuizCreatedEvents;
 using QuizDesigner.Application.Messaging;
+using QuizDesigner.Events;
 
 namespace QuizDesigner.AzureQueueStorage
 {

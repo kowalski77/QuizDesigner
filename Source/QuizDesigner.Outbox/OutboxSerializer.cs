@@ -17,6 +17,7 @@ namespace QuizDesigner.Outbox
             return new OutboxMessage(Guid.NewGuid(), DateTime.UtcNow, type.FullName ?? type.Name, data);
         }
 
+        // TODO: review implementation
         public static object Deserialize(OutboxMessage outboxMessage, Assembly assembly)
         {
             if (outboxMessage == null) throw new ArgumentNullException(nameof(outboxMessage));
