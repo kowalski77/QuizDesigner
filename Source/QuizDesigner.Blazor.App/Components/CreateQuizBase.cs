@@ -35,6 +35,8 @@ namespace QuizDesigner.Blazor.App.Components
 
         protected string Category { get; set; }
 
+        protected string Email { get; set; }
+
         private Guid ParsedId => this.Id != null ? Guid.Parse(this.Id) : Guid.Empty;
 
         protected override async Task OnInitializedAsync()
@@ -98,12 +100,13 @@ namespace QuizDesigner.Blazor.App.Components
 
             this.QuizName = quiz.Name;
             this.Category = quiz.Category;
+            this.Email = quiz.Email;
 
             this.StateHasChanged();
 
             foreach (var question in quiz.QuizQuestionCollection)
             {
-                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion", 
+                await this.JsRuntime.InvokeVoidAsync("blazorColumnData.addQuestion",
                     question.Question!.Id.ToString(), question.Question.Text, question.Question.Tag)
                     .ConfigureAwait(true);
             }
@@ -120,7 +123,7 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            var quiz = new Quiz(this.QuizName, this.Category);
+            var quiz = new Quiz(this.QuizName, this.Category, this.Email);
             quiz.AddQuestions(questionIdCollection.Select(Guid.Parse));
 
             var result = await this.QuizDataService.CreateAsync(quiz).ConfigureAwait(true);
@@ -145,7 +148,7 @@ namespace QuizDesigner.Blazor.App.Components
             }
 
             var quiz = await this.QuizDataProvider.GetAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
-            quiz.Update(this.QuizName, this.Category);
+            quiz.Update(this.QuizName, this.Category, this.Email);
             quiz.SetQuestions(questionIdCollection.Select(Guid.Parse));
 
             var result = await this.QuizDataService.Update(quiz, this.tokenSource.Token).ConfigureAwait(true);

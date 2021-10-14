@@ -5,6 +5,7 @@
 @inherits CreateQuizBase
 
 <div class="quiz-div">
+    <Validations @ref="Validations" Mode="ValidationMode.Manual">
     <Row>
         <Column ColumnSize="ColumnSize.Is5">
             <SelectList TItem="string"
@@ -16,32 +17,46 @@
                         SelectedValueChanged="this.OnSelectedValueChanged"
                         DefaultItemText="Select a Tag..." />
         </Column>
-        <Validations @ref="Validations" Mode="ValidationMode.Manual">
-            <Column ColumnSize="ColumnSize.Is3">
+        <Column ColumnSize="ColumnSize.Is2">
                 <Field>
                     <Validation Validator="@ValidationRule.IsNotEmpty">
                         <TextEdit Placeholder="Name" @bind-text="this.QuizName">
                             <Feedback>
-                                <ValidationError>Enter a name for the quiz</ValidationError>
+                                <ValidationError>Enter a name for the exam</ValidationError>
                             </Feedback>
                         </TextEdit>
                     </Validation>
                 </Field>
             </Column>
-            <Column ColumnSize="ColumnSize.Is2">
+            <Column ColumnSize="ColumnSize.Is3">
                 <Field>
                     <Validation Validator="@ValidationRule.IsNotEmpty">
                         <TextEdit Placeholder="Category" @bind-Text="this.Category">
                             <Feedback>
-                                <ValidationError>Enter the exam name</ValidationError>
+                                <ValidationError>Enter an exam category</ValidationError>
                             </Feedback>
                         </TextEdit>
                     </Validation>
                 </Field>
             </Column>
-        </Validations>
     </Row>
-    <div style="margin-top: 30px;">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is5"/>
+        <Column ColumnSize="ColumnSize.Is5">
+            <Field>
+                <Validation Validator="@ValidationRule.IsEmail">
+                    <TextEdit Placeholder="E-mail" @bind-Text="this.Email">
+                        <Feedback>
+                            <ValidationError>Enter valid e-mail to receive exams attempts</ValidationError>
+                        </Feedback>
+                    </TextEdit>
+                </Validation>
+            </Field>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is2"/>
+    </Row>
+    </Validations>
+    <div style="margin-top: 20px;">
         <Row>
             <Column ColumnSize="ColumnSize.Is5">
                 <div id="left" class="quiz-data-div"></div>

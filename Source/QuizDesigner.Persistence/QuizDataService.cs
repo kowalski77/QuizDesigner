@@ -46,6 +46,7 @@ namespace QuizDesigner.Persistence
             context.Entry(quiz).Property(x => x.IsPublished).IsModified = true;
             context.Entry(quiz).Property(x => x.Name).IsModified = true;
             context.Entry(quiz).Property(x => x.Category).IsModified = true;
+            context.Entry(quiz).Property(x => x.Email).IsModified = true;
 
             var result = await context.SaveAsync(cancellationToken).ConfigureAwait(true);
 

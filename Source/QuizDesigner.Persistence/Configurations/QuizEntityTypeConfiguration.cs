@@ -18,6 +18,7 @@ namespace QuizDesigner.Persistence.Configurations
             builder.Property(x => x.Name).IsRequired();
             builder.HasIndex(x => x.Name).IsUnique();
             builder.Property(x => x.Category).IsRequired();
+            builder.Property(x => x.Email).IsRequired();
             builder.HasQueryFilter(x => !x.SoftDeleted);
         }
     }
