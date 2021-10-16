@@ -29,7 +29,7 @@ namespace QuizDesigner.AzureServiceBus
                 return messageReceiverEndPoint;
             });
 
-            services.AddHostedService<ServiceBusReceiverService>();
+            services.AddHostedService<ServiceBusReceiverHostedService>();
 
             return services;
         }

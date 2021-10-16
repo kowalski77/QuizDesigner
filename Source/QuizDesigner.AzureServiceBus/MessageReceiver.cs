@@ -20,7 +20,6 @@ namespace QuizDesigner.AzureServiceBus
         {
             foreach (var processor in this.serviceBusProcessors)
             {
-                await processor.StopProcessingAsync().ConfigureAwait(false);
                 await processor.DisposeAsync().ConfigureAwait(false);
             }
         }
@@ -41,6 +40,14 @@ namespace QuizDesigner.AzureServiceBus
             foreach (var processor in this.serviceBusProcessors)
             {
                 await processor.StartProcessingAsync().ConfigureAwait(false);
+            }
+        }
+
+        public async Task StopAsync()
+        {
+            foreach (var processor in this.serviceBusProcessors)
+            {
+                await processor.StopProcessingAsync().ConfigureAwait(false);
             }
         }
 

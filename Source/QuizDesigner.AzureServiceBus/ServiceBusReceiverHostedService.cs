@@ -5,11 +5,11 @@ using Microsoft.Extensions.Hosting;
 
 namespace QuizDesigner.AzureServiceBus
 {
-    public class ServiceBusReceiverService : IHostedService
+    public class ServiceBusReceiverHostedService : IHostedService
     {
         private readonly MessageReceiver messageReceiver;
 
-        public ServiceBusReceiverService(MessageReceiver messageReceiver)
+        public ServiceBusReceiverHostedService(MessageReceiver messageReceiver)
         {
             this.messageReceiver = messageReceiver ?? throw new ArgumentNullException(nameof(messageReceiver));
         }
@@ -19,9 +19,9 @@ namespace QuizDesigner.AzureServiceBus
             await this.messageReceiver.StartAsync().ConfigureAwait(false);
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            await this.messageReceiver.StopAsync().ConfigureAwait(false);
         }
     }
 }
