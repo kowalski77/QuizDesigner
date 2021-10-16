@@ -19,8 +19,6 @@ namespace QuizDesigner.Blazor.Server
 {
     public class Startup
     {
-        private const string ConnectionString = "Endpoint=sb://quiz-service-bus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=decoAv8J5F4YrtNpMvwIPbqITdHhnuF9KlNU15rSzh8=";
-
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -53,7 +51,7 @@ namespace QuizDesigner.Blazor.Server
             services.AddAzureQueueStorage(this.Configuration);
             services.AddAzureServiceBusReceiver(cfg =>
             {
-                cfg.ConnectionString = ConnectionString;
+                cfg.ConnectionString = this.Configuration["AzureServiceBus:ConnectionString"];
                 cfg.MessageProcessors = new[]
                 {
                     new MessageProcessor("examfinished", typeof(ExamFinished))
