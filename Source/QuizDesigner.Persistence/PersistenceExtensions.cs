@@ -19,6 +19,7 @@ namespace QuizDesigner.Persistence
             services.AddScoped<IQuizDataService, QuizDataService>();
             services.AddScoped<IQuizDataProvider, QuizDataProvider>();
             services.AddScoped<IOutboxDataService, OutboxDataService>();
+            services.AddScoped<IExamDataService, ExamDataService>();
 
             return services;
         }

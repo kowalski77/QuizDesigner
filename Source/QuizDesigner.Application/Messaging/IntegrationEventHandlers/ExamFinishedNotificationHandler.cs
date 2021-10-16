@@ -9,17 +9,24 @@ namespace QuizDesigner.Application.Messaging.IntegrationEventHandlers
     public sealed class ExamFinishedNotificationHandler : INotificationHandler<ExamFinishedNotification>
     {
         private readonly ILogger<ExamFinishedNotificationHandler> logger;
+        private readonly IExamDataService examDataService;
 
-        public ExamFinishedNotificationHandler(ILogger<ExamFinishedNotificationHandler> logger)
+        public ExamFinishedNotificationHandler(ILogger<ExamFinishedNotificationHandler> logger, IExamDataService examDataService)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.examDataService = examDataService ?? throw new ArgumentNullException(nameof(examDataService));
         }
 
-        public Task Handle(ExamFinishedNotification notification, CancellationToken cancellationToken)
+        public async Task Handle(ExamFinishedNotification notification, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation($"{notification}");
+            if (notification == null)
+            {
+                throw new ArgumentNullException(nameof(notification));
+            }
 
-            return Task.CompletedTask;
+            this.logger.LogInformation($"Notification received of type: {nameof(ExamFinishedNotification)}");
+
+            await this.examDataService.AddAsync(notification, cancellationToken).ConfigureAwait(false);
         }
     }
 }

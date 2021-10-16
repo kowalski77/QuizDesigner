@@ -54,9 +54,8 @@ namespace QuizDesigner.AzureServiceBus
         private ProcessorFactoryWrapper? GetProcessorFactoryWrapper(Type type)
         {
             var processorFactoryWrapper = Activator.CreateInstance(
-                    typeof(ProcessorFactory<>).MakeGenericType(type),
-                    this.serviceProvider.GetRequiredService<IServiceBusClientFactory>(),
-                    this.serviceProvider.GetRequiredService(typeof(IConsumer<>).MakeGenericType(type)))
+                    typeof(ProcessorFactory<>).MakeGenericType(type), 
+                    this.serviceProvider)
                 as ProcessorFactoryWrapper;
 
             return processorFactoryWrapper;

@@ -10,8 +10,8 @@ using QuizDesigner.Persistence;
 namespace QuizDesigner.Persistence.Migrations
 {
     [DbContext(typeof(QuizDesignerContext))]
-    [Migration("20211014150930_AddEmailToQuiz")]
-    partial class AddEmailToQuiz
+    [Migration("20211016174416_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,54 @@ namespace QuizDesigner.Persistence.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answer");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Application.Exam", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("SummaryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SummaryId");
+
+                    b.ToTable("Exam");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Application.ExamQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("SummaryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SummaryId");
+
+                    b.ToTable("ExamQuestion");
                 });
 
             modelBuilder.Entity("QuizDesigner.Application.Question", b =>
@@ -125,11 +173,51 @@ namespace QuizDesigner.Persistence.Migrations
                     b.ToTable("QuizQuestion");
                 });
 
+            modelBuilder.Entity("QuizDesigner.Application.Summary", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Candidate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Passed")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("QuizId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Summary");
+                });
+
             modelBuilder.Entity("QuizDesigner.Application.Answer", b =>
                 {
                     b.HasOne("QuizDesigner.Application.Question", null)
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Application.Exam", b =>
+                {
+                    b.HasOne("QuizDesigner.Application.Summary", "Summary")
+                        .WithMany()
+                        .HasForeignKey("SummaryId");
+
+                    b.Navigation("Summary");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Application.ExamQuestion", b =>
+                {
+                    b.HasOne("QuizDesigner.Application.Summary", null)
+                        .WithMany("ExamQuestions")
+                        .HasForeignKey("SummaryId");
                 });
 
             modelBuilder.Entity("QuizDesigner.Application.QuizQuestion", b =>
@@ -159,6 +247,11 @@ namespace QuizDesigner.Persistence.Migrations
             modelBuilder.Entity("QuizDesigner.Application.Quiz", b =>
                 {
                     b.Navigation("QuizQuestionCollection");
+                });
+
+            modelBuilder.Entity("QuizDesigner.Application.Summary", b =>
+                {
+                    b.Navigation("ExamQuestions");
                 });
 #pragma warning restore 612, 618
         }

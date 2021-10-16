@@ -16,7 +16,7 @@ namespace QuizDesigner.AzureServiceBus
             configure.Invoke(options);
 
             services.AddSingleton<IServiceBusClientFactory, ServiceBusClientFactory>(_ => new ServiceBusClientFactory(options.ConnectionString));
-            services.AddSingleton(typeof(IConsumer<>), typeof(Consumer<>));
+            services.AddScoped(typeof(IConsumer<>), typeof(Consumer<>));
 
             services.AddSingleton(sp =>
             {
