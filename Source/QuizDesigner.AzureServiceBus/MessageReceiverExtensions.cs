@@ -33,5 +33,13 @@ namespace QuizDesigner.AzureServiceBus
 
             return services;
         }
+
+        public static IServiceCollection AddTranslator<TEvent, TTranslator>(this IServiceCollection services)
+            where TTranslator : class, ITranslator<TEvent>
+        {
+            services.AddSingleton<ITranslator<TEvent>, TTranslator>();
+
+            return services;
+        }
     }
 }

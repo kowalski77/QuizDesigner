@@ -15,7 +15,7 @@ namespace QuizDesigner.Application
             services.AddSingleton<IChannelService, ChannelService>();
 
             services.AddMediatR(typeof(ExamFinishedNotification).Assembly);
-            services.AddSingleton<ITranslator<ExamFinished>, ExamFinishedTranslator>();
+            services.AddTranslator<ExamFinished, ExamFinishedTranslator>();
 
             return services;
         }
