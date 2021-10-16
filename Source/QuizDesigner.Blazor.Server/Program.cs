@@ -29,7 +29,6 @@ namespace QuizDesigner.Blazor.Server
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<OutboxPublisherHostedService>();
-                    services.UseAzureServiceBusReceiver();
                 });
     }
 }

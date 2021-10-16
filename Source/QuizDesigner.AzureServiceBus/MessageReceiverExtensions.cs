@@ -29,11 +29,6 @@ namespace QuizDesigner.AzureServiceBus
                 return messageReceiverEndPoint;
             });
 
-            return services;
-        }
-
-        public static IServiceCollection UseAzureServiceBusReceiver(this IServiceCollection services)
-        {
             services.AddHostedService<ServiceBusReceiverService>();
 
             return services;

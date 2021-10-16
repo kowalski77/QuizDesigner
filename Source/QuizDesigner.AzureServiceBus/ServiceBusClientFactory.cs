@@ -8,6 +8,11 @@ namespace QuizDesigner.AzureServiceBus
     {
         public ServiceBusClientFactory(string connectionString)
         {
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentException("The Azure Service Bus connection string cannot be empty");
+            }
+
             this.Client = new ServiceBusClient(connectionString);
         }
 
