@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using QuizDesigner.Application.Messaging.IntegrationEventHandlers;
 using QuizDesigner.Application.Services;
+using QuizDesigner.AzureServiceBus;
+using QuizDesigner.Events;
 
 namespace QuizDesigner.Application
 {
@@ -9,6 +13,9 @@ namespace QuizDesigner.Application
         {
             services.AddScoped<IQuizService, QuizService>();
             services.AddSingleton<IChannelService, ChannelService>();
+
+            services.AddMediatR(typeof(ExamFinishedNotification).Assembly);
+            services.AddSingleton<ITranslator<ExamFinished>, ExamFinishedTranslator>();
 
             return services;
         }

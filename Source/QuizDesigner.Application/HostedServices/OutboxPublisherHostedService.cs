@@ -5,10 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuizDesigner.Application.Messaging;
+using QuizDesigner.Application.Services;
 using QuizDesigner.Events;
 using QuizDesigner.Outbox;
 
-namespace QuizDesigner.Application.Services
+namespace QuizDesigner.Application.HostedServices
 {
     public class OutboxPublisherHostedService : BackgroundService
     {
