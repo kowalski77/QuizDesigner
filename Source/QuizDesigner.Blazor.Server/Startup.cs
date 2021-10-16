@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using QuizDesigner.Application;
+using QuizDesigner.Application.Services;
 using QuizDesigner.AzureServiceBus;
 using QuizDesigner.Blazor.App.Services;
 using QuizDesigner.Blazor.Server.Support;
 using QuizDesigner.Events;
 using QuizDesigner.Persistence;
+using QuizDesigner.SendEmail;
 
 namespace QuizDesigner.Blazor.Server
 {
@@ -57,6 +60,10 @@ namespace QuizDesigner.Blazor.Server
                     new MessageProcessor("examfinished", typeof(ExamFinished))
                 };
             });
+
+            services.Configure<EmailSenderSettings>(this.Configuration.GetSection(nameof(EmailSenderSettings)));
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailSenderSettings>>().Value);
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             services.ConfigureApplicationUser();
         }

@@ -4,7 +4,7 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QuizDesigner.Application.Messaging;
+using QuizDesigner.Application.Services;
 using QuizDesigner.AzureQueueStorage;
 using QuizDesigner.Blazor.App.Services;
 

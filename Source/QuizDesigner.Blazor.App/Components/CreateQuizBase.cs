@@ -96,7 +96,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         private async Task LoadQuizAsync()
         {
-            var quiz = await this.QuizDataProvider.GetQuizAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
+            var quiz = await this.QuizDataProvider.GetQuizWithQuestionsAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
 
             this.QuizName = quiz.Name;
             this.Category = quiz.Category;

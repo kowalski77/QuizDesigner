@@ -3,7 +3,7 @@ using MediatR;
 using QuizDesigner.AzureServiceBus;
 using QuizDesigner.Events;
 
-namespace QuizDesigner.Application.Messaging.IntegrationEventHandlers
+namespace QuizDesigner.Application.Services.ExamFinishedIntegrationEvent
 {
     public sealed class ExamFinishedTranslator : ITranslator<ExamFinished>
     {

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QuizDesigner.Application;
-using QuizDesigner.Application.Messaging.IntegrationEventHandlers;
 
 namespace QuizDesigner.Persistence
 {
@@ -16,24 +15,19 @@ namespace QuizDesigner.Persistence
             this.contextFactory = contextFactory;
         }
 
-        public async Task AddAsync(ExamFinishedNotification examFinished, CancellationToken cancellationToken = default)
+        public async Task<Exam> AddAsync(Exam exam, CancellationToken cancellationToken = default)
         {
-            if (examFinished == null)
+            if (exam == null)
             {
-                throw new ArgumentNullException(nameof(examFinished));
+                throw new ArgumentNullException(nameof(exam));
             }
 
             await using var context = this.contextFactory.CreateDbContext();
 
-            var exam = new Exam(
-                examFinished.Id, 
-                new Summary(
-                    examFinished.QuizId, examFinished.Passed, examFinished.Candidate, 
-                    examFinished.CorrectQuestionsCollection, examFinished.WrongQuestionsCollection));
-
             context.Add(exam);
-
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+            return exam;
         }
     }
 }

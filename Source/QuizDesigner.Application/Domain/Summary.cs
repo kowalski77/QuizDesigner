@@ -12,13 +12,13 @@ namespace QuizDesigner.Application
         private Summary() { }
 
         public Summary(
-            Guid quizId, 
-            bool passed, 
-            string candidate, 
-            IEnumerable<string> correctQuestions, 
+            Guid quizId,
+            bool passed,
+            string candidate,
+            IEnumerable<string> correctQuestions,
             IEnumerable<string> wrongQuestions)
         {
-            if(string.IsNullOrEmpty(candidate)) throw new ArgumentNullException(nameof(candidate));
+            if (string.IsNullOrEmpty(candidate)) throw new ArgumentNullException(nameof(candidate));
 
             if (correctQuestions == null)
             {
@@ -34,8 +34,8 @@ namespace QuizDesigner.Application
             this.Passed = passed;
             this.Candidate = candidate;
 
-            this.questionsCollection.AddRange(correctQuestions.Select(x=> new ExamQuestion(x, true)));
-            this.questionsCollection.AddRange(wrongQuestions.Select(x=> new ExamQuestion(x, false)));
+            this.questionsCollection.AddRange(correctQuestions.Select(x => new ExamQuestion(x, true)));
+            this.questionsCollection.AddRange(wrongQuestions.Select(x => new ExamQuestion(x, false)));
         }
 
         public Guid QuizId { get; private set; }
@@ -45,5 +45,12 @@ namespace QuizDesigner.Application
         public string Candidate { get; private set; }
 
         public IReadOnlyList<ExamQuestion> ExamQuestions => this.questionsCollection;
+
+        public override string ToString()
+        {
+            return $"Candidate: {this.Candidate} - passed the exam: {this.Passed.ToString()} " +
+                   $"{Environment.NewLine}- Correct questions: {this.questionsCollection.Where(x => x.IsCorrect).Select(x => x.Text)} {Environment.NewLine}" +
+                   $"- Wrong questions: {this.questionsCollection.Where(x => !x.IsCorrect).Select(x => x.Text)}";
+        }
     }
 }

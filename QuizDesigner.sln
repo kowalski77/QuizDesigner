@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.Events", "Quiz
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.AzureQueueStorage", "Source\QuizDesigner.AzureQueueStorage\QuizDesigner.AzureQueueStorage.csproj", "{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.AzureServiceBus", "Source\QuizDesigner.AzureServiceBus\QuizDesigner.AzureServiceBus.csproj", "{4942239F-1333-4E48-B53A-54F96C15BC27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizDesigner.AzureServiceBus", "Source\QuizDesigner.AzureServiceBus\QuizDesigner.AzureServiceBus.csproj", "{4942239F-1333-4E48-B53A-54F96C15BC27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizDesigner.SendEmail", "Source\QuizDesigner.SendEmail\QuizDesigner.SendEmail.csproj", "{0E2F0304-2D32-4E1B-8589-C2F195572E60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{4942239F-1333-4E48-B53A-54F96C15BC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4942239F-1333-4E48-B53A-54F96C15BC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4942239F-1333-4E48-B53A-54F96C15BC27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2F0304-2D32-4E1B-8589-C2F195572E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2F0304-2D32-4E1B-8589-C2F195572E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2F0304-2D32-4E1B-8589-C2F195572E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2F0304-2D32-4E1B-8589-C2F195572E60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +102,7 @@ Global
 		{18941812-C9C0-418C-A85F-E02E817CFD6D} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
 		{FDC3EF5D-4F73-4B43-92E4-87DE630D7F03} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
 		{4942239F-1333-4E48-B53A-54F96C15BC27} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
+		{0E2F0304-2D32-4E1B-8589-C2F195572E60} = {9FC61AC3-6A7D-4E14-9901-0AD9521D74FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA415DAB-23AE-4E78-A4A7-337D72ED17D3}

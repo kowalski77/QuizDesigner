@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using QuizDesigner.Events;
 
-namespace QuizDesigner.Application.Messaging
+namespace QuizDesigner.Application.Services
 {
     public interface IMessagePublisher
     {
