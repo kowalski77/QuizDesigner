@@ -36,15 +36,15 @@ namespace QuizDesigner.Application.Services.ExamFinishedIntegrationEvent
 
             var exam = await this.examDataService.AddAsync(MapExam(notification), cancellationToken).ConfigureAwait(false);
 
-            await this.SendEmailAsync(notification.QuizId, exam, cancellationToken).ConfigureAwait(false);
+            await this.SendEmailAsync(notification, exam, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task SendEmailAsync(Guid quizId, Exam exam, CancellationToken cancellationToken)
+        private async Task SendEmailAsync(ExamFinishedNotification notification, Exam exam, CancellationToken cancellationToken)
         {
-            var quiz = await this.quizDataProvider.GetAsync(quizId, cancellationToken).ConfigureAwait(false);
+            var quiz = await this.quizDataProvider.GetAsync(notification.QuizId, cancellationToken).ConfigureAwait(false);
 
-            var emailOptions = new EmailOptions($"Exam result for: {exam.Summary.Candidate}", "c.aranda.diaz@avanade.com", exam.Summary.ToString());
-            await this.emailSender.SendAsync(emailOptions).ConfigureAwait(false);
+            var emailContents = new EmailContents(quiz.Email, quiz.Name, exam.Summary.ToString());
+            await this.emailSender.SendAsync(emailContents).ConfigureAwait(false);
         }
 
         private static Exam MapExam(ExamFinishedNotification notification)

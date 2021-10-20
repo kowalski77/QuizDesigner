@@ -21,17 +21,21 @@ namespace QuizDesigner.SendEmail
             this.sendGridClient = new SendGridClient(emailSenderSettings.ApiKey);
         }
 
-        public async Task SendAsync(EmailOptions emailOptions)
+        public async Task SendAsync(EmailContents emailContents)
         {
-            if (emailOptions == null)
+            if (emailContents == null)
             {
-                throw new ArgumentNullException(nameof(emailOptions));
+                throw new ArgumentNullException(nameof(emailContents));
             }
 
             var from = new EmailAddress(this.emailSenderSettings.Sender);
-            var to = new EmailAddress(emailOptions.To);
+            var to = new EmailAddress(emailContents.To);
 
-            var message = MailHelper.CreateSingleEmail(from, to, emailOptions.Subject, this.emailSenderSettings.PlainTextContent, this.emailSenderSettings.HtmlContent);
+            const string subject = "Quiz Topics: new exam result available!";
+            var content = $"Hello there. {Environment.NewLine}" +
+                          $"Check out the results for exam: {emailContents.Exam} {Environment.NewLine}{emailContents.Summary}";
+
+            var message = MailHelper.CreateSingleEmail(from, to, subject, content, string.Empty);
             var response = await this.sendGridClient.SendEmailAsync(message).ConfigureAwait(false);
 
             await this.LogResponseAsync(response).ConfigureAwait(false);

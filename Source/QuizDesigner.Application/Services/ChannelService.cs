@@ -15,7 +15,7 @@ namespace QuizDesigner.Application.Services
             this.serviceChannel = Channel.CreateBounded<IIntegrationEvent>(new BoundedChannelOptions(50)
             {
                 SingleReader = true,
-                SingleWriter = false,
+                SingleWriter = true,
                 FullMode = BoundedChannelFullMode.DropWrite
             });
         }

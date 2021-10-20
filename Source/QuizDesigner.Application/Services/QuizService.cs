@@ -38,7 +38,7 @@ namespace QuizDesigner.Application.Services
                 new Events.ExamQuestion(x.Question!.Text, x.Question!.Tag, (int)x.Question!.Difficulty, x.Question.Answers.Select(y =>
                     new ExamAnswer(y.Text, y.IsCorrect))));
 
-            var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Name, quiz.Category, questions);
+            var quizCreated = new QuizCreated(Guid.NewGuid(), quiz.Id, quiz.Name, quiz.Category, questions);
 
             await this.channelService.AddAsync(quizCreated, CancellationToken.None).ConfigureAwait(true);
         }

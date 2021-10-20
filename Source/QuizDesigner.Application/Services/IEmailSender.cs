@@ -4,6 +4,6 @@ namespace QuizDesigner.Application.Services
 {
     public interface IEmailSender
     {
-        Task SendAsync(EmailOptions emailOptions);
+        Task SendAsync(EmailContents emailContents);
     }
 }

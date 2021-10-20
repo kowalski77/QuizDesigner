@@ -48,9 +48,14 @@ namespace QuizDesigner.Application
 
         public override string ToString()
         {
+            string GetQuestions(bool isCorrect)
+            {
+                return string.Join(",", this.questionsCollection.Where(x => x.IsCorrect == isCorrect).Select(x => x.Text));
+            }
+
             return $"Candidate: {this.Candidate} - passed the exam: {this.Passed.ToString()} " +
-                   $"{Environment.NewLine}- Correct questions: {this.questionsCollection.Where(x => x.IsCorrect).Select(x => x.Text)} {Environment.NewLine}" +
-                   $"- Wrong questions: {this.questionsCollection.Where(x => !x.IsCorrect).Select(x => x.Text)}";
+                   $"{Environment.NewLine}- Correct questions: {GetQuestions(true)} {Environment.NewLine}" +
+                   $"- Wrong questions: {GetQuestions(false)}";
         }
     }
 }
