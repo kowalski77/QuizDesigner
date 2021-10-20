@@ -8,10 +8,7 @@ namespace QuizDesigner.Application
 {
     public interface IQuizDataProvider
     {
-        Task<Quiz> GetAsync(Guid id, CancellationToken cancellationToken = default);
-
-        Task<Quiz> GetQuizWithQuestionsAndAnswersAsync(Guid id, CancellationToken cancellationToken = default);
-
+        // TODO:  return dto
         Task<Quiz> GetQuizWithQuestionsAsync(Guid id, CancellationToken cancellationToken = default);
 
         Task<IPaginatedModel<QuizDto>> GetQuizzesAsync(QuizzesQuery query, CancellationToken cancellationToken = default);

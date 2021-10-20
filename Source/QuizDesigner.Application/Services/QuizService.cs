@@ -9,22 +9,19 @@ namespace QuizDesigner.Application.Services
     public class QuizService : IQuizService
     {
         private readonly IQuizDataService quizDataService;
-        private readonly IQuizDataProvider quizDataProvider;
         private readonly IChannelService channelService;
 
         public QuizService(
             IQuizDataService quizDataService,
-            IQuizDataProvider quizDataProvider,
             IChannelService channelService)
         {
             this.quizDataService = quizDataService ?? throw new ArgumentNullException(nameof(quizDataService));
-            this.quizDataProvider = quizDataProvider ?? throw new ArgumentNullException(nameof(quizDataProvider));
             this.channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
         }
 
         public async Task PublishQuizAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var quiz = await this.quizDataProvider.GetQuizWithQuestionsAndAnswersAsync(id, cancellationToken).ConfigureAwait(true);
+            var quiz = await this.quizDataService.GetQuizWithQuestionsAndAnswersAsync(id, cancellationToken).ConfigureAwait(true);
 
             quiz.SetAsPublished();
             await this.quizDataService.Update(quiz, cancellationToken).ConfigureAwait(true);

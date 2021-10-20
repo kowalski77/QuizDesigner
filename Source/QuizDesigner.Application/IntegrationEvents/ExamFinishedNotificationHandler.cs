@@ -11,18 +11,18 @@ namespace QuizDesigner.Application.IntegrationEvents
     {
         private readonly ILogger<ExamFinishedNotificationHandler> logger;
         private readonly IExamDataService examDataService;
-        private readonly IQuizDataProvider quizDataProvider;
+        private readonly IQuizDataService quizDataService;
         private readonly IEmailSender emailSender;
 
         public ExamFinishedNotificationHandler(
             ILogger<ExamFinishedNotificationHandler> logger,
             IExamDataService examDataService,
-            IQuizDataProvider quizDataProvider,
+            IQuizDataService quizDataService,
             IEmailSender emailSender)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.examDataService = examDataService ?? throw new ArgumentNullException(nameof(examDataService));
-            this.quizDataProvider = quizDataProvider ?? throw new ArgumentNullException(nameof(quizDataProvider));
+            this.quizDataService = quizDataService ?? throw new ArgumentNullException(nameof(quizDataService));
             this.emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
         }
 
@@ -42,7 +42,7 @@ namespace QuizDesigner.Application.IntegrationEvents
 
         private async Task SendEmailAsync(ExamFinishedNotification notification, Exam exam, CancellationToken cancellationToken)
         {
-            var quiz = await this.quizDataProvider.GetAsync(notification.QuizId, cancellationToken).ConfigureAwait(false);
+            var quiz = await this.quizDataService.GetAsync(notification.QuizId, cancellationToken).ConfigureAwait(false);
 
             var emailContents = new EmailContents(quiz.Email, quiz.Name, exam.Summary.ToString());
             await this.emailSender.SendAsync(emailContents).ConfigureAwait(false);

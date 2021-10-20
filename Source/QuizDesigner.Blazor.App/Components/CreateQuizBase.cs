@@ -147,7 +147,7 @@ namespace QuizDesigner.Blazor.App.Components
                 return;
             }
 
-            var quiz = await this.QuizDataProvider.GetAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
+            var quiz = await this.QuizDataService.GetAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
             quiz.Update(this.QuizName, this.Category, this.Email);
             quiz.SetQuestions(questionIdCollection.Select(Guid.Parse));
 
