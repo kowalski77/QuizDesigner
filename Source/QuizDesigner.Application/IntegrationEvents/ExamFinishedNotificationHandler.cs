@@ -3,8 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using QuizDesigner.Application.Services;
 
-namespace QuizDesigner.Application.Services.ExamFinishedIntegrationEvent
+namespace QuizDesigner.Application.IntegrationEvents
 {
     public sealed class ExamFinishedNotificationHandler : INotificationHandler<ExamFinishedNotification>
     {

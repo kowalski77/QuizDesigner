@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace QuizDesigner.Application.Services.ExamFinishedIntegrationEvent
+namespace QuizDesigner.Application.IntegrationEvents
 {
     public sealed record ExamFinishedNotification(
         Guid Id,

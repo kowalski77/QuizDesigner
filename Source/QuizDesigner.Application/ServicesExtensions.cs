@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using QuizDesigner.Application.IntegrationEvents;
 using QuizDesigner.Application.Services;
-using QuizDesigner.Application.Services.ExamFinishedIntegrationEvent;
 using QuizDesigner.AzureServiceBus;
 using QuizDesigner.Events;
 
