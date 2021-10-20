@@ -24,7 +24,7 @@ namespace QuizDesigner.Persistence
             context.ActiveReadOnlyMode();
 
             var quiz = await context.Quizzes!
-                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+                .FirstAsync(x => x.Id == id, cancellationToken)
                 .ConfigureAwait(true);
 
             return quiz;

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QuizDesigner.Application;
+using QuizDesigner.Persistence.Support;
 
 namespace QuizDesigner.Persistence
 {
@@ -16,7 +17,19 @@ namespace QuizDesigner.Persistence
             this.contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
         }
 
-        public async Task AddAsync(CreateQuestionDto question, CancellationToken cancellationToken = default)
+        public async Task<Question> GetAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            await using var context = this.contextFactory.CreateDbContext();
+            context.ActiveReadOnlyMode();
+
+            var question = await context.Questions!
+                .FirstAsync(x => x.Id == id, cancellationToken)
+                .ConfigureAwait(true);
+
+            return question;
+        }
+
+        public async Task AddAsync(Question question, CancellationToken cancellationToken = default)
         {
             if (question == null)
             {
@@ -24,10 +37,7 @@ namespace QuizDesigner.Persistence
             }
 
             await using var context = this.contextFactory.CreateDbContext();
-
-            var newlyQuestion = new Question(question.Text, question.Tag, (Difficulty)question.DifficultyType);
-
-            context.Add(newlyQuestion);
+            context.Add(question);
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
@@ -48,17 +58,18 @@ namespace QuizDesigner.Persistence
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
 
-        public async Task UpdateAsync(UpdateQuestionDto questionUpdated, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Question question, CancellationToken cancellationToken = default)
         {
-            if (questionUpdated == null)
+            if (question == null)
             {
-                throw new ArgumentNullException(nameof(questionUpdated));
+                throw new ArgumentNullException(nameof(question));
             }
 
             await using var context = this.contextFactory.CreateDbContext();
-            var question = await context.Questions!.FirstAsync(x => x.Id == questionUpdated.Id, cancellationToken).ConfigureAwait(true);
-
-            question.Update(questionUpdated.Text, questionUpdated.Tag, (Difficulty)questionUpdated.DifficultyType);
+            context.Attach(question);
+            context.Entry(question).Property(x => x.Text).IsModified = true;
+            context.Entry(question).Property(x => x.Tag).IsModified = true;
+            context.Entry(question).Property(x => x.Difficulty).IsModified = true;
 
             await context.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }

@@ -21,7 +21,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
-        [Inject] private IQuestionsDataService QuestionsRepository { get; set; }
+        [Inject] private IQuestionsDataService QuestionsDataService { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
 
@@ -39,9 +39,8 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var question = new CreateQuestionDto(row.Item.Text, row.Item.Tag, row.Item.Difficulty);
-
-            await this.QuestionsRepository.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
+            var question = new Question(row.Item.Text, row.Item.Tag, (Difficulty)row.Item.Difficulty);
+            await this.QuestionsDataService.AddAsync(question, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.Success("Question successfully saved!").ConfigureAwait(true);
         }
@@ -50,8 +49,10 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
-            var questionUpdated = new UpdateQuestionDto(row.Item.Id, row.Item.Text, row.Item.Tag, row.Item.Difficulty);
-            await this.QuestionsRepository.UpdateAsync(questionUpdated, this.tokenSource.Token).ConfigureAwait(true);
+            var question = await this.QuestionsDataService.GetAsync(row.Item.Id, this.tokenSource.Token).ConfigureAwait(true);
+            question.Update(row.Item.Text, row.Item.Tag, (Difficulty)row.Item.Difficulty);
+
+            await this.QuestionsDataService.UpdateAsync(question, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.Success("Question successfully updated!").ConfigureAwait(true);
         }
@@ -60,7 +61,7 @@ namespace QuizDesigner.Blazor.App.Components
         {
             if (questionViewModel == null) throw new ArgumentNullException(nameof(questionViewModel));
 
-            await this.QuestionsRepository.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
+            await this.QuestionsDataService.RemoveAsync(questionViewModel.Id, this.tokenSource.Token).ConfigureAwait(true);
 
             await this.NotificationService.Success("Question successfully removed!").ConfigureAwait(true);
         }
