@@ -30,6 +30,21 @@ namespace QuizDesigner.Persistence
             return quiz;
         }
 
+        public async Task<Quiz> GetQuizWithQuestionsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            await using var context = this.contextFactory.CreateDbContext();
+
+            var quiz = await context.Quizzes!
+                .Include(x=>x.QuizQuestionCollection)
+                .ThenInclude(x=>x.Question)
+                .IgnoreQueryFilters()
+                .AsSingleQuery()
+                .FirstAsync(x => x.Id == id, cancellationToken)
+                .ConfigureAwait(true);
+
+            return quiz;
+        }
+
         public async Task<Quiz> GetQuizWithQuestionsAndAnswersAsync(Guid id, CancellationToken cancellationToken = default)
         {
             await using var context = this.contextFactory.CreateDbContext();

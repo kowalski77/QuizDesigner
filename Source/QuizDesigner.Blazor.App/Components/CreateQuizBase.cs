@@ -21,8 +21,6 @@ namespace QuizDesigner.Blazor.App.Components
 
         [Inject] private IQuestionsDataProvider QuestionsProvider { get; set; }
 
-        [Inject] private IQuizDataProvider QuizDataProvider { get; set; }
-
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
         [Inject] private INotificationService NotificationService { get; set; }
@@ -96,7 +94,7 @@ namespace QuizDesigner.Blazor.App.Components
 
         private async Task LoadQuizAsync()
         {
-            var quiz = await this.QuizDataProvider.GetQuizWithQuestionsAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
+            var quiz = await this.QuizDataService.GetQuizWithQuestionsAsync(this.ParsedId, this.tokenSource.Token).ConfigureAwait(true);
 
             this.QuizName = quiz.Name;
             this.Category = quiz.Category;
