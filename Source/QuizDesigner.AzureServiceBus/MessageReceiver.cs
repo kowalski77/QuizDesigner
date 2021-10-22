@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace QuizDesigner.AzureServiceBus
 {

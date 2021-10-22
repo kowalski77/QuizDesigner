@@ -5,7 +5,5 @@
         public string ApiKey { get; set; } = string.Empty;
 
         public string Sender { get; set; } = string.Empty;
-
-        public string HtmlContent { get; set; } = string.Empty;
     }
 }
